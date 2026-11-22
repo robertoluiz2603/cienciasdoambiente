@@ -1,0 +1,11 @@
+via,logradouro,onibus_urbs_h,carros_sim_h,observado,simulado,geh,aprovado
+Av_Pres_Kennedy,Avenida Presidente Kennedy,312.1,1098.0,1390,1410.1,0.537,True
+Av_Mal_Floriano_Peixoto,Avenida Marechal Floriano Peixoto,386.3,348.0,750,734.3,0.576,True
+Rua_Mariano_Torres,Rua Mariano Torres,170.8,240.0,425,410.8,0.695,True
+Al_Dr_Muricy,Alameda Doutor Muricy,176.3,162.0,355,338.3,0.897,True
+Av_Pres_Getulio_Vargas,Avenida Presidente Getúlio Vargas,242.3,654.0,880,896.3,0.547,True
+Av_Arthur_Bernardes,Avenida Presidente Arthur da Silva Bernardes,334.5,786.0,1105,1120.5,0.465,True
+Rua_Mario_Tourinho,Rua General Mário Tourinho,346.5,792.0,1120,1138.5,0.551,True
+Rua_XV_de_Novembro,Rua XV de Novembro,118.7,48.0,175,166.7,0.635,True
+Av_Manoel_Ribas,Avenida Manoel Ribas,17.8,6.0,30,23.8,1.195,True
+Av_Republica_Argentina,Avenida República Argentina,516.3,426.0,955,942.3,0.412,True
