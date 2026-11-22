@@ -1,0 +1,327 @@
+avenida,edge_id,lane_prioritaria,num_faixas,comprimento_m,modo_to_be
+Avenida Manoel Ribas,-358151897#0,-358151897#0_0,2,33.9,prioritaria_compartilhada
+Avenida Manoel Ribas,-358151897#2,-358151897#2_0,2,130.0,prioritaria_compartilhada
+Avenida Manoel Ribas,-358151897#3,-358151897#3_0,2,9.8,prioritaria_compartilhada
+Avenida Manoel Ribas,-358151897#4,-358151897#4_0,2,94.6,prioritaria_compartilhada
+Avenida Presidente Getúlio Vargas,1024709877#0,1024709877#0_0,3,85.5,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,1024709877#1,1024709877#1_0,3,15.2,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,1024709877#2,1024709877#2_0,3,3.2,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,1024709877#3,1024709877#3_0,3,72.9,prioritaria_compartilhada
+Avenida Presidente Getúlio Vargas,1067300042#0,1067300042#0_0,3,118.0,prioritaria_compartilhada
+Avenida Presidente Getúlio Vargas,1067300042#1,1067300042#1_0,3,26.2,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,1067300042#10,1067300042#10_0,3,1.7,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,1067300042#11,1067300042#11_0,3,17.6,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,1067300042#12,1067300042#12_0,3,57.2,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,1067300042#15,1067300042#15_0,3,160.4,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,1067300042#16,1067300042#16_0,3,3.6,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,1067300042#17,1067300042#17_0,3,1.6,prioritaria_compartilhada
+Avenida Presidente Getúlio Vargas,1067300042#2,1067300042#2_0,3,148.5,prioritaria_compartilhada
+Avenida Presidente Getúlio Vargas,1067300042#3,1067300042#3_0,3,1.8,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,1067300042#4,1067300042#4_0,3,81.2,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,1067300042#5,1067300042#5_0,3,38.7,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,1067300042#6,1067300042#6_0,3,1.6,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,1067300042#7,1067300042#7_0,3,1.6,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,1067300042#8,1067300042#8_0,3,72.2,prioritaria_compartilhada
+Rua Mariano Torres,1098152907#0,1098152907#0_0,2,41.7,prioritaria_compartilhada
+Rua Mariano Torres,1098152907#1,1098152907#1_0,2,27.7,prioritaria_compartilhada
+Rua Mariano Torres,1098152907#2,1098152907#2_0,2,0.2,prioritaria_compartilhada
+Rua Mariano Torres,1101617479#0,1101617479#0_0,3,41.1,prioritaria_compartilhada
+Rua Mariano Torres,1101617479#1,1101617479#1_0,3,48.2,exclusiva_bus_emergencia_bike
+Avenida Presidente Arthur da Silva Bernardes,1107163518,1107163518_0,2,62.6,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,1107163538,1107163538_0,2,19.6,prioritaria_compartilhada
+Avenida Presidente Kennedy,1108070684#0,1108070684#0_0,2,66.8,prioritaria_compartilhada
+Avenida Presidente Kennedy,1108070684#1,1108070684#1_0,2,45.6,prioritaria_compartilhada
+Avenida Presidente Kennedy,1108070684#2,1108070684#2_0,2,114.3,prioritaria_compartilhada
+Avenida Presidente Kennedy,1108070684#3,1108070684#3_0,2,7.2,prioritaria_compartilhada
+Avenida Presidente Kennedy,1108070684#4,1108070684#4_0,2,44.8,prioritaria_compartilhada
+Avenida Presidente Kennedy,1108070684#6,1108070684#6_0,2,98.5,prioritaria_compartilhada
+Rua Mariano Torres,121848066#0,121848066#0_0,7,5.0,exclusiva_bus_emergencia_bike
+Rua Mariano Torres,121848066#1,121848066#1_0,7,0.2,prioritaria_compartilhada
+Rua Mariano Torres,121848066#2,121848066#2_0,7,36.2,exclusiva_bus_emergencia_bike
+Rua Mariano Torres,121848066#3,121848066#3_0,7,8.9,exclusiva_bus_emergencia_bike
+Rua Mariano Torres,121848066#4,121848066#4_0,7,0.2,exclusiva_bus_emergencia_bike
+Rua Mariano Torres,127724111#0,127724111#0_0,2,129.5,prioritaria_compartilhada
+Rua Mariano Torres,127724111#1,127724111#1_0,2,53.5,prioritaria_compartilhada
+Rua Mariano Torres,127724115,127724115_0,2,0.2,prioritaria_compartilhada
+Avenida Presidente Kennedy,1290021181#1,1290021181#1_0,4,71.2,exclusiva_bus_emergencia_bike
+Avenida Presidente Kennedy,1290021183#1,1290021183#1_0,4,31.1,exclusiva_bus_emergencia_bike
+Avenida Presidente Kennedy,1290021183#2,1290021183#2_0,4,53.8,prioritaria_compartilhada
+Avenida Presidente Kennedy,1290021183#3,1290021183#3_0,4,89.4,exclusiva_bus_emergencia_bike
+Avenida Presidente Kennedy,1290021183#4,1290021183#4_0,4,30.3,prioritaria_compartilhada
+Rua Mariano Torres,131490365#0,131490365#0_0,3,123.6,prioritaria_compartilhada
+Rua Mariano Torres,131490365#1,131490365#1_0,3,59.0,exclusiva_bus_emergencia_bike
+Avenida Presidente Arthur da Silva Bernardes,1332734448,1332734448_0,2,50.0,prioritaria_compartilhada
+Avenida Presidente Kennedy,1338768170,1338768170_0,2,1.5,prioritaria_compartilhada
+Avenida Presidente Kennedy,1338768171#1,1338768171#1_0,2,17.0,prioritaria_compartilhada
+Avenida Presidente Kennedy,1346157040#1,1346157040#1_0,2,57.7,prioritaria_compartilhada
+Avenida Presidente Kennedy,1346157040#2,1346157040#2_0,2,59.8,prioritaria_compartilhada
+Avenida Presidente Kennedy,1346157040#3,1346157040#3_0,2,142.4,prioritaria_compartilhada
+Avenida Presidente Kennedy,1346157041#0,1346157041#0_0,2,12.4,prioritaria_compartilhada
+Avenida Presidente Kennedy,1346157041#1,1346157041#1_0,2,86.7,prioritaria_compartilhada
+Avenida Presidente Kennedy,1346157041#2,1346157041#2_0,2,138.6,prioritaria_compartilhada
+Avenida Presidente Kennedy,1346157041#4,1346157041#4_0,2,0.2,prioritaria_compartilhada
+Avenida Presidente Kennedy,1346157041#6,1346157041#6_0,2,26.7,prioritaria_compartilhada
+Avenida Presidente Kennedy,1346157041#7,1346157041#7_0,2,11.4,prioritaria_compartilhada
+Avenida Presidente Kennedy,1346157041#8,1346157041#8_0,3,62.8,exclusiva_bus_emergencia_bike
+Avenida Presidente Arthur da Silva Bernardes,1356434780#0,1356434780#0_0,2,32.5,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,1356434780#1,1356434780#1_0,2,15.5,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,1356434780#3,1356434780#3_0,2,23.5,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,1356434783#0,1356434783#0_0,2,23.2,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,1356434783#1,1356434783#1_0,2,39.6,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,1356434783#2,1356434783#2_0,2,53.9,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,1373391429,1373391429_0,2,76.2,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,1373391446,1373391446_0,2,112.2,prioritaria_compartilhada
+Avenida Presidente Kennedy,1483460388#1,1483460388#1_0,2,79.9,prioritaria_compartilhada
+Avenida Presidente Kennedy,1483460388#2,1483460388#2_0,2,35.0,prioritaria_compartilhada
+Avenida Presidente Kennedy,1483460388#3,1483460388#3_0,2,47.2,prioritaria_compartilhada
+Avenida Presidente Kennedy,1483460388#4,1483460388#4_0,2,0.2,prioritaria_compartilhada
+Avenida Presidente Kennedy,1483460388#5,1483460388#5_0,2,0.2,prioritaria_compartilhada
+Avenida Presidente Kennedy,1490905202#1,1490905202#1_0,2,43.4,prioritaria_compartilhada
+Avenida Presidente Kennedy,1490905203#0,1490905203#0_0,2,18.7,prioritaria_compartilhada
+Avenida Presidente Kennedy,1490905203#1,1490905203#1_0,2,102.0,prioritaria_compartilhada
+Avenida Presidente Kennedy,1536533331#1,1536533331#1_0,2,5.4,prioritaria_compartilhada
+Avenida Presidente Kennedy,1536533332#1,1536533332#1_0,2,37.2,prioritaria_compartilhada
+Avenida Presidente Kennedy,1536533333,1536533333_0,2,41.2,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,1557512237#0,1557512237#0_0,2,10.9,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,1557512237#1,1557512237#1_0,2,88.2,prioritaria_compartilhada
+Avenida Presidente Getúlio Vargas,1564832278#0,1564832278#0_0,3,70.9,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,1564832278#1,1564832278#1_0,3,20.1,prioritaria_compartilhada
+Avenida Presidente Getúlio Vargas,1564832278#2,1564832278#2_0,3,5.4,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,1564832278#3,1564832278#3_0,3,86.4,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,1564832278#4,1564832278#4_0,3,4.7,prioritaria_compartilhada
+Avenida Presidente Getúlio Vargas,1564832278#5,1564832278#5_0,3,85.5,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,1564832279#1,1564832279#1_0,3,103.6,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,1564832279#2,1564832279#2_0,3,2.0,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,1564832279#3,1564832279#3_0,3,140.9,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,1566972015#1,1566972015#1_0,3,13.4,prioritaria_compartilhada
+Avenida Presidente Kennedy,186406391#0,186406391#0_0,2,98.5,prioritaria_compartilhada
+Avenida Presidente Kennedy,186406391#2,186406391#2_0,2,34.6,prioritaria_compartilhada
+Avenida Presidente Kennedy,186406391#3,186406391#3_0,2,139.1,prioritaria_compartilhada
+Avenida Presidente Kennedy,186406391#4,186406391#4_0,2,115.5,prioritaria_compartilhada
+Avenida Presidente Kennedy,186406391#6,186406391#6_0,2,125.0,prioritaria_compartilhada
+Avenida Presidente Kennedy,186406391#7,186406391#7_0,2,7.7,prioritaria_compartilhada
+Avenida Presidente Kennedy,186406391#8,186406391#8_0,2,107.3,prioritaria_compartilhada
+Avenida Presidente Kennedy,186406391#9,186406391#9_0,2,50.0,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,186776880,186776880_0,2,26.9,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,186776883#0,186776883#0_0,2,50.9,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,186776883#1,186776883#1_0,2,64.7,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,186776883#2,186776883#2_0,2,27.9,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,186776883#3,186776883#3_0,2,17.6,prioritaria_compartilhada
+Rua Mariano Torres,231090367#0,231090367#0_0,3,0.2,prioritaria_compartilhada
+Rua Mariano Torres,231091819#0,231091819#0_0,3,6.6,prioritaria_compartilhada
+Rua Mariano Torres,231091820#0,231091820#0_0,2,140.9,prioritaria_compartilhada
+Rua Mariano Torres,231094156#0,231094156#0_0,3,51.8,exclusiva_bus_emergencia_bike
+Rua Mariano Torres,231094156#1,231094156#1_0,3,20.7,exclusiva_bus_emergencia_bike
+Rua Mariano Torres,231094156#3,231094156#3_0,3,5.6,exclusiva_bus_emergencia_bike
+Rua Mariano Torres,231094156#4,231094156#4_0,3,62.4,prioritaria_compartilhada
+Rua Mariano Torres,231094157#0,231094157#0_0,2,46.9,prioritaria_compartilhada
+Rua Mariano Torres,231094157#1,231094157#1_0,2,22.1,prioritaria_compartilhada
+Rua Mariano Torres,231094157#2,231094157#2_0,2,0.2,prioritaria_compartilhada
+Rua Mariano Torres,231094162#0,231094162#0_0,2,50.4,prioritaria_compartilhada
+Rua Mariano Torres,231094162#1,231094162#1_0,2,40.9,prioritaria_compartilhada
+Avenida Presidente Kennedy,231807290#1,231807290#1_0,4,36.1,exclusiva_bus_emergencia_bike
+Avenida Presidente Kennedy,231807290#2,231807290#2_0,4,89.3,exclusiva_bus_emergencia_bike
+Avenida Presidente Kennedy,231807290#3,231807290#3_0,4,30.2,prioritaria_compartilhada
+Avenida Presidente Kennedy,231807292#1,231807292#1_0,2,30.2,prioritaria_compartilhada
+Avenida Presidente Kennedy,231807292#10,231807292#10_0,2,92.0,prioritaria_compartilhada
+Avenida Presidente Kennedy,231807292#2,231807292#2_0,2,131.3,prioritaria_compartilhada
+Avenida Presidente Kennedy,231807292#5,231807292#5_0,2,13.3,prioritaria_compartilhada
+Avenida Presidente Kennedy,231807292#6,231807292#6_0,2,12.4,prioritaria_compartilhada
+Avenida Presidente Kennedy,231807292#7,231807292#7_0,2,38.0,prioritaria_compartilhada
+Avenida Presidente Kennedy,231807292#8,231807292#8_0,2,93.3,prioritaria_compartilhada
+Avenida Presidente Kennedy,231807292#9,231807292#9_0,2,18.1,prioritaria_compartilhada
+Avenida Presidente Kennedy,231807293#0,231807293#0_0,2,51.6,prioritaria_compartilhada
+Avenida Presidente Kennedy,231807293#1,231807293#1_0,2,143.8,prioritaria_compartilhada
+Avenida Presidente Kennedy,231807293#11,231807293#11_0,4,0.3,exclusiva_bus_emergencia_bike
+Avenida Presidente Kennedy,231807293#2,231807293#2_0,2,71.7,prioritaria_compartilhada
+Avenida Presidente Kennedy,231807293#3,231807293#3_0,2,60.6,prioritaria_compartilhada
+Avenida Presidente Kennedy,231807293#4,231807293#4_0,2,61.7,prioritaria_compartilhada
+Avenida Presidente Kennedy,231807293#5,231807293#5_0,2,74.0,prioritaria_compartilhada
+Avenida Presidente Kennedy,231807293#6,231807293#6_0,2,35.9,prioritaria_compartilhada
+Avenida Presidente Kennedy,231807293#7,231807293#7_0,2,37.2,prioritaria_compartilhada
+Avenida Presidente Kennedy,231807293#8,231807293#8_0,2,53.4,prioritaria_compartilhada
+Avenida Presidente Kennedy,231807293#9,231807293#9_0,2,139.6,prioritaria_compartilhada
+Avenida Presidente Kennedy,231807303#0,231807303#0_0,2,59.3,prioritaria_compartilhada
+Avenida Presidente Kennedy,231807303#1,231807303#1_0,2,3.1,prioritaria_compartilhada
+Avenida Presidente Kennedy,231807303#3,231807303#3_0,2,128.3,prioritaria_compartilhada
+Avenida Presidente Kennedy,231807303#4,231807303#4_0,2,65.7,prioritaria_compartilhada
+Avenida Presidente Kennedy,231807303#5,231807303#5_0,2,7.7,prioritaria_compartilhada
+Avenida Presidente Getúlio Vargas,232888354#0,232888354#0_0,3,48.7,prioritaria_compartilhada
+Avenida Presidente Getúlio Vargas,232888354#1,232888354#1_0,3,30.3,prioritaria_compartilhada
+Avenida Presidente Getúlio Vargas,232888354#2,232888354#2_0,3,43.3,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,232888354#3,232888354#3_0,3,89.0,prioritaria_compartilhada
+Avenida Presidente Getúlio Vargas,232888354#4,232888354#4_0,3,25.7,prioritaria_compartilhada
+Avenida Presidente Getúlio Vargas,232888354#5,232888354#5_0,3,20.9,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,232888354#6,232888354#6_0,3,80.8,exclusiva_bus_emergencia_bike
+Rua Mariano Torres,24553767#0,24553767#0_0,5,11.8,exclusiva_bus_emergencia_bike
+Rua Mariano Torres,24553767#2,24553767#2_0,5,0.2,exclusiva_bus_emergencia_bike
+Rua Mariano Torres,24576673#0,24576673#0_0,3,140.8,exclusiva_bus_emergencia_bike
+Avenida Presidente Kennedy,24576758#0,24576758#0_0,2,112.3,prioritaria_compartilhada
+Avenida Presidente Kennedy,24576758#1,24576758#1_0,2,56.8,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,24775110#0,24775110#0_0,2,18.4,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,24775110#1,24775110#1_0,2,61.5,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,24775110#2,24775110#2_0,2,49.4,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,24775110#3,24775110#3_0,2,83.7,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,24775110#5,24775110#5_0,2,5.1,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,24775110#6,24775110#6_0,2,86.1,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,24775110#7,24775110#7_0,2,34.5,prioritaria_compartilhada
+Avenida Presidente Getúlio Vargas,24775740#1,24775740#1_0,3,106.5,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,24775740#2,24775740#2_0,3,26.0,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,24775740#3,24775740#3_0,3,94.7,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,24775740#4,24775740#4_0,3,2.3,exclusiva_bus_emergencia_bike
+Avenida Presidente Kennedy,277739817#1,277739817#1_0,2,130.9,prioritaria_compartilhada
+Avenida Presidente Kennedy,277739817#2,277739817#2_0,2,10.7,prioritaria_compartilhada
+Avenida Presidente Kennedy,277739817#3,277739817#3_0,2,47.3,prioritaria_compartilhada
+Avenida Presidente Kennedy,277739817#4,277739817#4_0,2,58.7,prioritaria_compartilhada
+Rua Mariano Torres,289957317#0,289957317#0_0,2,0.2,prioritaria_compartilhada
+Rua Mariano Torres,289957317#1,289957317#1_0,2,0.2,prioritaria_compartilhada
+Avenida Presidente Kennedy,317975007#1,317975007#1_0,2,52.6,prioritaria_compartilhada
+Avenida Presidente Kennedy,317975007#2,317975007#2_0,2,19.4,prioritaria_compartilhada
+Avenida Presidente Kennedy,317975007#3,317975007#3_0,2,55.2,prioritaria_compartilhada
+Avenida Presidente Kennedy,317975007#4,317975007#4_0,2,36.3,prioritaria_compartilhada
+Avenida Presidente Kennedy,317975007#7,317975007#7_0,2,71.2,prioritaria_compartilhada
+Avenida Presidente Kennedy,317977456#1,317977456#1_0,2,77.6,prioritaria_compartilhada
+Avenida Presidente Kennedy,317977456#2,317977456#2_0,2,52.8,prioritaria_compartilhada
+Avenida Presidente Kennedy,317977456#3,317977456#3_0,2,10.5,prioritaria_compartilhada
+Avenida Presidente Kennedy,317977456#4,317977456#4_0,2,6.4,prioritaria_compartilhada
+Avenida Presidente Kennedy,317977456#5,317977456#5_0,2,11.9,prioritaria_compartilhada
+Rua Mariano Torres,333093186,333093186_0,6,0.2,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,343540920#1,343540920#1_0,3,46.5,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,343540920#10,343540920#10_0,3,1.4,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,343540920#11,343540920#11_0,3,147.6,prioritaria_compartilhada
+Avenida Presidente Getúlio Vargas,343540920#13,343540920#13_0,3,0.2,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,343540920#14,343540920#14_0,3,44.8,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,343540920#15,343540920#15_0,3,4.0,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,343540920#2,343540920#2_0,3,2.9,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,343540920#3,343540920#3_0,3,2.6,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,343540920#4,343540920#4_0,3,53.0,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,343540920#7,343540920#7_0,3,91.7,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,343540920#8,343540920#8_0,3,2.5,exclusiva_bus_emergencia_bike
+Avenida Manoel Ribas,358151897#0,358151897#0_0,2,33.9,prioritaria_compartilhada
+Avenida Manoel Ribas,358151897#1,358151897#1_0,2,132.2,prioritaria_compartilhada
+Avenida Manoel Ribas,358151897#3,358151897#3_0,2,9.8,prioritaria_compartilhada
+Avenida Manoel Ribas,358151897#4,358151897#4_0,2,95.2,prioritaria_compartilhada
+Avenida Presidente Kennedy,358276737#0,358276737#0_0,2,21.4,prioritaria_compartilhada
+Avenida Presidente Kennedy,358276737#10,358276737#10_0,3,72.1,exclusiva_bus_emergencia_bike
+Avenida Presidente Kennedy,358276737#11,358276737#11_0,2,66.0,prioritaria_compartilhada
+Avenida Presidente Kennedy,358276737#12,358276737#12_0,2,59.3,prioritaria_compartilhada
+Avenida Presidente Kennedy,358276737#13,358276737#13_0,2,75.5,prioritaria_compartilhada
+Avenida Presidente Kennedy,358276737#14,358276737#14_0,2,92.9,prioritaria_compartilhada
+Avenida Presidente Kennedy,358276737#15,358276737#15_0,2,18.1,prioritaria_compartilhada
+Avenida Presidente Kennedy,358276737#16,358276737#16_0,2,4.3,prioritaria_compartilhada
+Avenida Presidente Kennedy,358276737#2,358276737#2_0,2,19.8,prioritaria_compartilhada
+Avenida Presidente Kennedy,358276737#3,358276737#3_0,2,98.8,prioritaria_compartilhada
+Avenida Presidente Kennedy,358276737#4,358276737#4_0,2,69.8,prioritaria_compartilhada
+Avenida Presidente Kennedy,358276737#5,358276737#5_0,2,31.0,prioritaria_compartilhada
+Avenida Presidente Kennedy,358276737#6,358276737#6_0,2,23.8,prioritaria_compartilhada
+Avenida Presidente Kennedy,358276737#7,358276737#7_0,2,40.0,prioritaria_compartilhada
+Avenida Presidente Kennedy,358276737#8,358276737#8_0,2,36.1,prioritaria_compartilhada
+Avenida Presidente Kennedy,358276737#9,358276737#9_0,2,51.0,prioritaria_compartilhada
+Rua Mariano Torres,386353438,386353438_0,2,131.8,prioritaria_compartilhada
+Rua Mariano Torres,386354760#0,386354760#0_0,2,0.2,prioritaria_compartilhada
+Rua Mariano Torres,386354760#1,386354760#1_0,2,5.3,prioritaria_compartilhada
+Rua Mariano Torres,386354760#2,386354760#2_0,2,38.4,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,39563507#0,39563507#0_0,2,7.1,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,39563507#1,39563507#1_0,2,45.8,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,39563507#2,39563507#2_0,2,0.2,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,39563507#3,39563507#3_0,2,19.8,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,39563511#0,39563511#0_0,2,0.2,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,39563511#1,39563511#1_0,2,108.1,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,39563511#2,39563511#2_0,2,33.0,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,39563511#3,39563511#3_0,2,33.4,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,39563511#4,39563511#4_0,2,45.6,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,39563511#5,39563511#5_0,2,43.4,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,396813944,396813944_0,2,85.0,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,396813945#0,396813945#0_0,2,84.3,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,396813945#1,396813945#1_0,2,12.0,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,396813945#2,396813945#2_0,2,17.8,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,396813945#3,396813945#3_0,2,57.7,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,397646581#1,397646581#1_0,2,35.8,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,397646581#2,397646581#2_0,2,13.6,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,397646581#3,397646581#3_0,2,130.2,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,397646581#5,397646581#5_0,2,95.6,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,397646581#6,397646581#6_0,2,0.9,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,397647520#0,397647520#0_0,2,23.7,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,397647520#1,397647520#1_0,2,11.6,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,397647521#0,397647521#0_0,2,74.4,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,397647521#2,397647521#2_0,2,39.8,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,397647521#3,397647521#3_0,2,51.7,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,397647521#4,397647521#4_0,2,5.1,prioritaria_compartilhada
+Avenida Presidente Getúlio Vargas,397647522#0,397647522#0_0,3,83.6,prioritaria_compartilhada
+Avenida Presidente Getúlio Vargas,397647522#1,397647522#1_0,3,152.0,prioritaria_compartilhada
+Avenida Presidente Kennedy,410044039,410044039_0,2,112.5,prioritaria_compartilhada
+Rua Mariano Torres,452336635,452336635_0,3,0.2,exclusiva_bus_emergencia_bike
+Rua Mariano Torres,452336636,452336636_0,6,12.6,exclusiva_bus_emergencia_bike
+Avenida Presidente Arthur da Silva Bernardes,486415692#0,486415692#0_0,2,141.1,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,486415692#1,486415692#1_0,2,131.0,prioritaria_compartilhada
+Avenida Presidente Getúlio Vargas,503876750#0,503876750#0_0,3,35.3,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,503876750#1,503876750#1_0,3,117.6,prioritaria_compartilhada
+Avenida Presidente Kennedy,524285757,524285757_0,3,31.2,exclusiva_bus_emergencia_bike
+Avenida Presidente Kennedy,524285758#1,524285758#1_0,2,19.4,prioritaria_compartilhada
+Avenida Presidente Kennedy,524285760,524285760_0,3,45.4,exclusiva_bus_emergencia_bike
+Avenida Presidente Kennedy,524285761#0,524285761#0_0,2,14.5,prioritaria_compartilhada
+Avenida Presidente Kennedy,524285761#1,524285761#1_0,2,28.9,prioritaria_compartilhada
+Avenida Presidente Kennedy,524285761#2,524285761#2_0,2,76.6,prioritaria_compartilhada
+Avenida Presidente Kennedy,524285763#0,524285763#0_0,3,0.2,exclusiva_bus_emergencia_bike
+Avenida Presidente Kennedy,524285763#1,524285763#1_0,3,0.2,exclusiva_bus_emergencia_bike
+Avenida Presidente Kennedy,524285763#2,524285763#2_0,3,70.4,exclusiva_bus_emergencia_bike
+Avenida Presidente Kennedy,524285764,524285764_0,3,29.8,exclusiva_bus_emergencia_bike
+Avenida Presidente Kennedy,524285768#1,524285768#1_0,2,21.5,prioritaria_compartilhada
+Avenida Presidente Kennedy,524285771,524285771_0,3,83.9,exclusiva_bus_emergencia_bike
+Avenida Presidente Kennedy,524285774#1,524285774#1_0,2,10.2,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,524285775,524285775_0,3,41.5,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,524285776#1,524285776#1_0,2,74.1,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,524285776#2,524285776#2_0,2,33.4,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,524285776#3,524285776#3_0,2,0.2,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,524285776#4,524285776#4_0,2,12.0,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,524285777,524285777_0,3,40.0,exclusiva_bus_emergencia_bike
+Avenida Presidente Arthur da Silva Bernardes,524285778#0,524285778#0_0,2,101.4,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,524285778#2,524285778#2_0,2,75.3,prioritaria_compartilhada
+Avenida Presidente Arthur da Silva Bernardes,524285778#3,524285778#3_0,2,16.2,prioritaria_compartilhada
+Rua Mariano Torres,55200757#0,55200757#0_0,2,2.5,prioritaria_compartilhada
+Rua Mariano Torres,55200757#1,55200757#1_0,2,38.5,prioritaria_compartilhada
+Rua Mariano Torres,55200757#2,55200757#2_0,2,18.4,prioritaria_compartilhada
+Rua Mariano Torres,56235459#0,56235459#0_0,3,57.4,exclusiva_bus_emergencia_bike
+Rua Mariano Torres,56235459#1,56235459#1_0,3,67.4,exclusiva_bus_emergencia_bike
+Rua Mariano Torres,61351202#0,61351202#0_0,3,3.2,exclusiva_bus_emergencia_bike
+Avenida Presidente Arthur da Silva Bernardes,629660074#1,629660074#1_0,2,0.2,prioritaria_compartilhada
+Rua Mariano Torres,659241098,659241098_0,6,0.2,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,660019012#0,660019012#0_0,4,30.1,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,660019012#2,660019012#2_0,4,61.3,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,664929060#0,664929060#0_0,4,36.0,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,664929060#1,664929060#1_0,4,19.4,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,664929060#2,664929060#2_0,4,2.6,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,664929060#3,664929060#3_0,4,18.3,prioritaria_compartilhada
+Avenida Presidente Getúlio Vargas,664929060#4,664929060#4_0,4,7.5,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,664929060#5,664929060#5_0,4,104.5,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,664929070#0,664929070#0_0,4,112.5,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,664929070#2,664929070#2_0,4,116.3,prioritaria_compartilhada
+Avenida Presidente Getúlio Vargas,700183100#1,700183100#1_0,3,19.3,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,700183100#2,700183100#2_0,3,57.1,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,700183100#3,700183100#3_0,3,2.5,prioritaria_compartilhada
+Avenida Presidente Getúlio Vargas,700183100#4,700183100#4_0,3,1.9,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,700183100#5,700183100#5_0,3,71.5,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,700183100#6,700183100#6_0,3,1.9,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,700183100#7,700183100#7_0,3,0.7,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,701173579#0,701173579#0_0,3,0.2,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,701173579#1,701173579#1_0,3,93.5,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,701173579#2,701173579#2_0,3,5.0,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,701173579#3,701173579#3_0,3,3.1,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,701173579#4,701173579#4_0,3,83.1,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,701173579#5,701173579#5_0,3,1.5,prioritaria_compartilhada
+Avenida Presidente Kennedy,715606125#1,715606125#1_0,2,26.9,prioritaria_compartilhada
+Avenida Presidente Kennedy,715606125#2,715606125#2_0,2,80.9,prioritaria_compartilhada
+Avenida Presidente Kennedy,715606125#3,715606125#3_0,2,103.4,prioritaria_compartilhada
+Rua Mariano Torres,720358229#0,720358229#0_0,2,41.0,prioritaria_compartilhada
+Rua Mariano Torres,720358229#1,720358229#1_0,2,37.5,prioritaria_compartilhada
+Rua Mariano Torres,720358229#2,720358229#2_0,2,0.2,prioritaria_compartilhada
+Avenida Presidente Kennedy,739461147#0,739461147#0_0,2,39.8,prioritaria_compartilhada
+Avenida Presidente Kennedy,739461147#1,739461147#1_0,2,51.9,prioritaria_compartilhada
+Avenida Presidente Getúlio Vargas,758177654#0,758177654#0_0,3,0.1,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,758177654#1,758177654#1_0,3,20.8,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,758177654#2,758177654#2_0,3,44.3,exclusiva_bus_emergencia_bike
+Avenida Presidente Getúlio Vargas,758177654#3,758177654#3_0,3,1.9,exclusiva_bus_emergencia_bike
+Avenida Presidente Kennedy,776123661#1,776123661#1_0,2,35.3,prioritaria_compartilhada
+Avenida Presidente Kennedy,776123661#2,776123661#2_0,2,48.0,prioritaria_compartilhada
+Avenida Presidente Kennedy,776123661#3,776123661#3_0,2,27.2,prioritaria_compartilhada
+Avenida Presidente Kennedy,776123661#4,776123661#4_0,2,52.6,prioritaria_compartilhada

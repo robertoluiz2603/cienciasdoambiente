@@ -1,0 +1,16 @@
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+    <input>
+        <net-file value="../network/curitiba.net.xml"/>
+        <route-files value="trips_cars_to_be.rou.xml,urbs_buses_to_be.rou.xml,special_to_be.rou.xml"/>
+    </input>
+    <time>
+        <begin value="0"/>
+        <end value="600"/>
+    </time>
+    <processing>
+        <ignore-route-errors value="true"/>
+    </processing>
+    <gui_only>
+        <gui-settings-file value="../as_is/view_settings.xml"/>
+    </gui_only>
+</configuration>

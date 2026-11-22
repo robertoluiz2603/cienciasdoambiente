@@ -1,0 +1,8 @@
+cenario,modal,veiculos,ocupacao_media_pax,passageiros_totais
+As-Is,Automóvel individual (car__passenger),1200,1.3,1560.0
+As-Is,Automóvel embarque escolar (car_school_dropoff),40,2.0,80.0
+To-Be,Automóvel individual remanescente (car__passenger),480,1.3,624.0
+To-Be,Automóvel em carona compartilhada (car_carpool),215,3.0,645.0
+To-Be,Automóvel Park & Ride até terminal (car_park_ride),144,1.3,187.2
+To-Be,Ciclistas e autopropelidos (micro_bike),60,1.0,60.0
+To-Be,Ônibus escolar em rotas dedicadas (bus_escolar),8,15.475,123.8

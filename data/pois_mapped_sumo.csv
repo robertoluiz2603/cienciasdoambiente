@@ -1,0 +1,14 @@
+nome_exibicao,poi_urbs_original,categoria_urbs,papel_projeto,lat,lon,edge_id,via_sumo,faixas,comprimento_m
+Terminal Campina do Siqueira,Terminal Campina do Siqueira,TERMINAL DE TRANSPORTE,Terminal,-25.435857,-49.307354,409612519#0,Rua São Vicente de Paulo,2,64.2
+Terminal Portão,Terminal Portão,TERMINAL DE TRANSPORTE,Terminal,-25.476273,-49.292509,24827424#1,Avenida República Argentina,1,41.2
+Terminal Guadalupe (Praça Guadalupe),Igreja N. Sra de Guadalupe,IGREJA,Terminal,-25.432379,-49.264587,1149795303,Rua Pedro Ivo,2,76.3
+EE Dom Pedro II,EE Dom Pedro II,EDUC ESCOLA ESTADUAL,Escola,-25.447073,-49.296712,1156852188#2,Rua Bispo Dom José,1,59.9
+EE Inst. Educação Prof. Erasmo Pilotto,EE Inst. Educação Prof. Erasmo Pilotto,EDUC ESCOLA ESTADUAL,Escola,-25.4333,-49.27365,24576603#0,Rua Emiliano Perneta,3,123.1
+EE Zacarias,EE Zacarias,EDUC ESCOLA ESTADUAL,Escola,-25.424356,-49.259516,343738679#2,Rua Itupava,3,66.9
+EE Gabriela Mistral,EE Gabriela Mistral,EDUC ESCOLA ESTADUAL,Escola,-25.462076,-49.298444,91878484#0,Rua Tabajaras,1,110.8
+EE Arthur de Macedo,EE Arthur de Macedo,EDUC ESCOLA ESTADUAL,Escola,-25.450129,-49.313541,-129141967#0,Rua Adolfo de Oliveira Franco,1,133.3
+EE Dom Áttico Eusébio da Rocha,EE Dom Áttico Eusébio da Rocha,EDUC ESCOLA ESTADUAL,Escola,-25.477117,-49.281598,700028181#2,Avenida Presidente Wenceslau Braz,4,51.9
+HP Iguaçú,HP Iguaçú,SAUDE HOSPITAL,Hospital,-25.451149,-49.291956,1566972016#4,Rua Cândido Xavier,2,174.0
+HP Muricy Ltda,HP Muricy Ltda,SAUDE HOSPITAL,Hospital,-25.455094,-49.297582,-52707385#7,Rua Coronel Ottoni Maciel,1,60.4
+HP Criança,HP Criança,SAUDE HOSPITAL,Hospital,-25.47219,-49.29495,375552626#1,Rua Francisco Frischmann,4,110.0
+HP Instituto de Medicina,HP Instituto de Medicina,SAUDE HOSPITAL,Hospital,-25.425884,-49.259688,406228784,Rua Ubaldino do Amaral,4,88.6
