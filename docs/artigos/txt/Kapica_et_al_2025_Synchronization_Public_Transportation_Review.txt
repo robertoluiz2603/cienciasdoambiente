@@ -1,0 +1,3370 @@
+Review
+
+Synchronization in Public Transportation: A Review of
+Challenges and Techniques
+Daniel Kapica 1 , Yulia Melnikova 2 and Vitalii Naumov 1, *
+1
+
+2
+
+*
+
+Faculty of Civil Engineering, Cracow University of Technology, Str. Warszawska 24, 31155 Kraków, Poland;
+daniel.kapica@doktorant.pk.edu.pl
+Faculty of Mechanical Engineering, Dnipro University of Technology, Dmytra Yavornytskoho 19,
+49005 Dnipro, Ukraine; melnikova.y.i@nmu.one
+Correspondence: vitalii.naumov@pk.edu.pl; Tel.: +48-123-743-083
+
+Abstract: Performing synchronization in public transport is one of the most challenging
+tasks that transport managers perform when organizing the processes of passenger servicing. Many variables characterizing existing public transport lines should be considered in
+the final timetable; in addition, the complexity of the transportation system, the variability
+in transport demand, and the stochasticity of the servicing process both in time and space
+have a significant influence on the result of synchronization. The synchronization problem
+in real-world applications does not have an exact solution, so in practice, a variety of
+techniques were developed to achieve a rational solution in a reasonable time. In our paper,
+we classify existing approaches to solving the problem of public transport synchronization,
+describe the essence of the most promising methods, and study their popularity based on
+the most recent scientific publications. As the result of our research, we show the most
+promising directions for the future development of synchronization methods and their
+application in public transportation.
+Keywords: transport scheduling; timetable synchronization; genetic algorithms; simulated
+annealing; integer programming
+
+1. Introduction
+Academic Editor: Luigi dell’Olio
+Received: 18 October 2024
+Revised: 26 December 2024
+Accepted: 3 January 2025
+Published: 10 January 2025
+Citation: Kapica, D.; Melnikova, Y.;
+Naumov, V. Synchronization in Public
+Transportation: A Review of
+Challenges and Techniques. Future
+Transp. 2025, 5, 6. https://doi.org/
+10.3390/futuretransp5010006
+Copyright: © 2025 by the authors.
+Licensee MDPI, Basel, Switzerland.
+This article is an open access article
+distributed under the terms and
+conditions of the Creative Commons
+Attribution (CC BY) license
+(https://creativecommons.org/
+
+The efficient coordination of arrival and departure times for public transport vehicles,
+known as timetable synchronization, is essential for the seamless movement of passengers
+within urban and regional transportation networks. This practice is crucial for the effective
+functioning of cities, agglomerations, and countries, as it enables passengers to conveniently
+transfer between different modes of transportation.
+The concept of transfer-focused timetables has been explored since before World War II.
+In 1932, the Dutch Railroad introduced a pioneering timetable that optimized connections
+at a specific hub, providing passengers with direct routes to their destinations [1]. However,
+the practical limitations imposed by geographical constraints and budgetary restrictions
+often necessitate compromises between the frequency of departures and the resources
+allocated to service provision.
+The planning process for public transportation operations can be divided into four
+primary stages [2]. The initial step involves designing the network of routes and stops.
+Subsequently, the timetable is developed, encompassing aspects such as the timing of
+the first and last trips, as well as the frequency and headways of services. The third and
+fourth stages focus on vehicle and crew scheduling, respectively. Transfer planning can
+
+licenses/by/4.0/).
+
+Future Transp. 2025, 5, 6
+
+https://doi.org/10.3390/futuretransp5010006
+
+Future Transp. 2025, 5, 6
+
+2 of 25
+
+be integrated between the first and second steps. The number of transit nodes and hubs
+within a network depends on the size and geographical characteristics of the city.
+Timetable synchronization is a computationally complex problem, classified as nonpolynomial hard (NP-hard) [3]. To address this complexity, researchers have proposed
+methods to identify significant transfer hubs and prioritize subsets of lines within these
+hubs for synchronization [4]. By focusing on these critical areas, it is possible to reduce the
+overall complexity of the synchronization problem.
+While transfers between vehicles may not always be preferred by passengers [5],
+transfer-based networks can often provide more efficient and comprehensive coverage,
+leading to increased satisfaction among users [6]. Case studies in Barcelona, Spain, have
+demonstrated the effectiveness of a new bus network that prioritizes frequent service and
+ubiquitous transfer points. This network has significantly reshaped passenger demand,
+with transfer percentages increasing from 1.5% to 16% in conventional networks to 26% in
+the new network. This percentage is projected to rise further to 44% with the expansion of
+lines [7].
+It is important to note that well-planned and efficient public transportation networks
+have a positive impact on various aspects of urban life. Such networks can contribute to reducing pollution [8], mitigating traffic congestion [9,10], and promoting a more sustainable
+mode of transportation. Furthermore, passengers often rely on the entire transportation
+system rather than using a single line, emphasizing the importance of effective synchronization [11].
+To ensure a satisfactory passenger experience, it is crucial to minimize waiting times
+between connecting vehicles. Research conducted in Auckland, New Zealand, has revealed
+that passengers are more likely to accept transfers if they result in a significant reduction
+in travel time and cost [12]. However, it is essential to maintain reliability and avoid
+disruptions in scheduled corridors to prevent passengers from becoming frustrated with
+the public transport system.
+The timetable synchronization problem, a cornerstone of efficient public transport
+operations, has been investigated for nearly a century. Despite this long history and
+extensive research, its inherent computational complexity and multifaceted formulations
+continue to pose significant challenges. This is particularly striking given the remarkable
+advancements in computing power over the past decades. While modern computers offer
+unprecedented capabilities, existing heuristics for transport synchronization often fail to
+fully leverage these advancements. Consequently, a constant stream of novel approaches
+emerges, seeking to address the issue of improving the quality of public transport services
+through synchronizing technological operations.
+This study aims to conduct a comprehensive and contemporary classification of
+existing approaches to timetable synchronization. By systematically analyzing the available
+literature, we seek to identify the most effective strategies based on diverse objective
+functions and applied methodologies.
+While previous research has explored aspects of this problem, our work distinguishes itself
+by focusing on the current state-of-the-art. We address the following key research questions:
+
+•
+•
+•
+
+Identify the most prevalent heuristics employed in solving the synchronization problem within the context of optimizing public transport operations;
+Investigate the applicability of existing approaches across varying problem scales,
+modes of transport, and geographic locations;
+Define the most promising directions for future research in the synchronization of
+public transport systems.
+
+The structure of this paper is as follows: Section 2 provides a general overview of
+existing heuristic approaches to solving the synchronization problem; Section 3 delves into
+
+Future Transp. 2025, 5, 6
+
+3 of 25
+
+the development of transport synchronization models over the past decades for distinctive
+types of optimization approaches at different locations; Section 4 discusses the findings and
+insights derived from the conducted literature review in terms of the use of the considered
+synchronization approaches for various types of the problem, and the last section offers
+concluding remarks and outlines potential directions for future research in the field of
+timetable synchronization.
+
+2. Review of the Existing Heuristics to Schedule Synchronization on
+Transport
+A thorough literature search was conducted using the Scopus, Web of Science, and
+Google Scholar databases, employing keywords such as timetable synchronization, schedule synchronization, transfer coordination, transfer optimization, and public transport
+coordination. Additionally, relevant papers were discovered by examining references cited
+in existing publications. The search concluded in April 2024, encompassing a wide range
+of studies published between 1988 and 2023. Notably, over half of the included papers
+(approximately 60%) were published in 2013 or later, reflecting the growing interest in this
+area of research.
+While some earlier studies focused on specific objectives, such as minimizing passenger waiting costs or maximizing transfer possibilities, recent research has increasingly
+emphasized the optimization of more complex and multifaceted goals. For instance, contemporary studies often balance passenger waiting time with operational costs or seek to
+minimize passenger waiting time, in-vehicle time, and the number of vehicles required, as
+well as maximize directed journeys.
+The identified papers were classified into four distinct groups based on their primary
+optimization techniques:
+
+•
+•
+•
+•
+
+Genetic Algorithms: this group, which is characterized by the highest number of
+publications, employs genetic algorithms to solve timetable synchronization problems.
+Integer Programming: this group utilizes various variants of integer programming to
+address the synchronization challenge.
+Simulated Annealing: a smaller group of papers adopts simulated annealing as the
+fundamental approach to solving the synchronization problem.
+Other methods: this category encompasses a diverse range of alternative techniques
+employed in the literature.
+
+The selection of heuristics significantly impacts the quality and computational efficiency of solutions for the synchronization problem. Different heuristics may yield varying
+levels of performance and require different computational times to converge. The optimal
+heuristic choice is highly dependent on the specific characteristics of the transportation
+system, including factors such as passenger demand, the number of lines and vehicles, the
+density of the stop network, and the stochastic nature of travel times.
+To account for this variability, the literature review meticulously examines the mode of
+transport, the geographic location of the applied synchronization method, and the specific
+objective function considered in each study. This analysis aims to provide insights into the
+applicability of different heuristics for various real-world scenarios.
+2.1. Genetic Algorithms
+Genetic algorithms (GAs), inspired by the theory of natural selection, are a class of
+evolutionary algorithms first proposed by J. Holland [13]. They have been widely applied
+to solve optimization problems and as a preprocessing technique.
+One of the significant advantages of GAs is their ability to effectively tackle complex
+problems. By employing a population-based approach, GAs can explore the search space in
+
+Future Transp. 2025, 5, x FOR PEER REVIEW
+
+4 of 25
+
+Future Transp. 2025, 5, 6
+
+4 of 25
+
+One of the significant advantages of GAs is their ability to eﬀectively tackle complex
+problems. By employing a population-based approach, GAs can explore the search space
+parallel,
+with
+individuals
+(or (or
+chromosomes)
+acting
+as as
+independent
+agents.
+This This
+enhances
+in
+parallel,
+with
+individuals
+chromosomes)
+acting
+independent
+agents.
+enthe
+algorithm’s
+efficiency
+and
+reduces
+the
+risk
+of
+becoming
+stuck
+in
+local
+optima.
+hances the algorithm’s eﬃciency and reduces the risk of becoming stuck in local optima.
+However, GAs also have certain limitations. The
+The careful
+careful selection
+selection of
+of parameters
+parameters is
+However,
+crucial
+to
+the
+algorithm’s
+success,
+as
+inappropriate
+choices
+can
+hinder
+convergence
+or
+crucial to the algorithm’s uccess, as inappropriate choices can hinder convergence or lead
+lead to
+meaningless
+results
+[14]. The
+terminology
+is borrowed
+from natural
+to
+meaningless
+results
+[14]. The
+terminology
+used inused
+GAsinisGAs
+borrowed
+from natural
+genetgenetics,
+where
+a
+solution
+is
+referred
+to
+as
+a
+chromosome.
+Chromosomes
+are
+composed
+ics, where a solution is referred to as a chromosome. Chromosomes are composed of
+of
+genes,
+each
+which
+can
+have
+specificvalue
+valueknown
+knownasasan
+anallele
+allele[15].
+[15]. A
+A collection
+collection of
+genes,
+each
+of of
+which
+can
+have
+a aspecific
+chromosomes
+forms
+a
+population,
+and
+these
+individuals
+can
+undergo
+genetic
+operations
+chromosomes forms a population, and these individuals can
+operations
+such as
+ascrossover
+crossover(mating)
+(mating)and
+andmutation.
+mutation.
+Each
+iteration
+of the
+GA is
+referred
+such
+Each
+iteration
+of the
+GA is
+referred
+to as to
+a as
+gen-a
+generation.
+A
+simplified
+visualization
+of
+the
+GA
+process
+is
+depicted
+in
+Figure
+1.
+eration. A simplified visualization of the GA process is depicted in Figure 1.
+
+Figure 1.
+1. Simplified
+Simplified visualization
+visualization of
+of the
+the GA
+GA routine.
+routine.
+Figure
+
+The genetic
+genetic algorithm
+iteratively
+refining
+thethe
+population
+The
+algorithm operates
+operatesininaacyclical
+cyclicalmanner,
+manner,
+iteratively
+refining
+populaof
+potential
+solutions.
+As
+illustrated
+in
+Figure
+1,
+the
+process
+begins
+with
+the
+random
+genertion of potential solutions. As illustrated in Figure 1, the process begins with the random
+ation
+of
+an
+initial
+population
+of
+individuals,
+each
+encoded
+as
+a
+chromosome
+representing
+generation of an initial population of individuals, each encoded as a chromosome repre-a
+solution to the optimization problem.
+senting
+a solution to the optimization problem.
+The fitness of each individual is then evaluated based on their performance in relation
+The fitness of each individual is then evaluated based on their performance in relato the objective function. This evaluation provides a measure of the individual’s suitability
+tion to the objective function. This evaluation provides a measure of the individual’s suitas a solution.
+ability as a solution.
+Following fitness evaluation, the GA proceeds to the selection phase, where individFollowing fitness evaluation, the GA proceeds to the selection phase, where individuals are chosen from the population to participate in the next generation. This selection
+uals are chosen from the population to participate in the next generation. This selection is
+is typically based on their fitness values, with individuals exhibiting higher fitness more
+typically based on their fitness values, with individuals exhibiting higher fitness more
+likely to be selected. Common selection methods include:
+likely to be selected. Common selection methods include:
+•
+Proportional roulette wheel selection: chromosomes with higher fitness values have a
+•
+Proportional roulette wheel selection: chromosomes with higher fitness values have
+greater probability of being selected [16];
+greater probability of being selected [16];
+• aRank
+selection: chromosomes are ranked according to their fitness values, and the
+•
+Rank
+selection:
+chromosomes
+are ranked
+according
+to [17].
+their fitness values, and the
+selection probabilities
+are assigned
+based on
+their rank
+selection probabilities are assigned based on their rank [17].
+The selected individuals undergo crossover, a genetic operation that involves exThe selected
+individuals
+undergo
+crossover,
+operation This
+that process
+involvesaims
+exchanging
+genetic material
+between
+pairs of
+parentsatogenetic
+create offspring.
+changing
+genetic
+material
+between
+pairs
+of
+parents
+to
+create
+oﬀspring.
+This
+process
+aims
+to generate new solutions by combining the desirable characteristics of the parents [18].
+Three common crossover methods include (see Figure 2):
+
+Future Transp. 2025, 5, x FOR PEER REVIEW
+
+Future Transp. 2025, 5, 6
+
+5 of 25
+
+to generate new solutions by combining the desirable characteristics of the parents [18].
+of 25
+to
+generate
+newcrossover
+solutions by
+combining
+desirable
+characteristics of the parents5[18].
+Three
+common
+methods
+includethe
+(see
+Figure 2):
+Three common crossover methods include (see Figure 2):
+•
+One-point crossover: each parent is cut at a single randomly selected point, and the
+•• genetic
+One-point
+crossover:
+each
+is
+at
+single
+randomly
+selected
+material
+is exchanged
+between
+two
+resulting
+segments;
+One-point
+crossover:
+each parent
+parent
+is cut
+cuthe
+at aa
+single
+randomly
+selected point,
+point, and
+and the
+the
+genetic
+material
+is
+exchanged
+between
+the
+two
+resulting selected
+segments;
+•
+Two-point
+crossover:
+parent
+is
+cut at
+points, and the gegenetic
+material
+is each
+exchanged
+between
+thetwo
+tworandomly
+resulting
+segments;
+•• netic
+Two-point
+crossover:
+each
+isiscut
+at
+two
+randomly
+selected
+points,
+andand
+the gematerial
+is
+exchanged
+between
+the
+two
+resulting
+segments;
+Two-point
+crossover:
+eachparent
+parent
+cut
+at
+two
+randomly
+selected
+points,
+the
+netic
+material
+is is the
+exchanged
+between
+the
+two
+resulting
+segments;
+•
+Random
+crossover:
+number
+and
+locations
+of
+crossover
+points
+are determined rangenetic
+material
+exchanged
+between
+the
+two
+resulting
+segments;
+•• domly
+Random
+number
+and
+locations
+of crossover
+points
+are determined
+ranforcrossover:
+each
+pair the
+ofthe
+parents.
+Random
+crossover:
+number
+and
+locations
+of crossover
+points
+are determined
+domly
+for for
+eacheach
+pairpair
+of of
+parents.
+randomly
+parents.
+
+Figure 2. Visualization of crossover methods.
+Figure 2. Visualization of crossover methods.
+Figure 2. Visualization of crossover methods.
+
+Genetic
+Geneticalgorithms
+algorithmsincorporate
+incorporateaamutation
+mutationprocess
+processto
+to introduce
+introduce diversity
+diversityinto
+into the
+the
+Genetic
+algorithms
+incorporate a
+mutationDuring
+process to
+introduce
+diversity
+into the
+population
+and
+prevent
+premature
+convergence.
+mutation,
+the
+genetic
+material
+of
+population and prevent premature convergence. During mutation, the genetic material
+population
+and
+prevent
+premature
+convergence.
+During
+mutation,
+the
+genetic
+material
+of
+oﬀspring
+is randomly
+modified,
+allowing
+for variations
+to arise.
+Mutations
+typically
+inof offspring
+is randomly
+modified,
+allowing
+for variations
+to arise.
+Mutations
+typically
+oﬀspring
+is
+randomly
+modified,
+allowing for
+variations to arise.
+Mutations typically
+involve
+one
+or or
+more
+changes
+inin
+chromosomes
+involve
+one
+more
+changes
+chromosomes[19].
+[19].AAsimple
+simplemutation
+mutationinvolves
+involvesaltering
+alteringaa
+volve
+one
+or
+more
+changes
+in
+chromosomes
+[19].
+A
+simple
+mutation
+involves
+altering
+a
+single
+singlegene
+genewithin
+withinaa chromosome.
+chromosome.Other
+Othermutation
+mutationmethods
+methodsinclude
+includeswap
+swapmutation
+mutationand
+and
+single
+gene withinInaswap
+chromosome. two
+Other mutation
+methods include and
+swap mutation
+and
+inverse
+inversemutation.
+mutation. In swapmutation,
+mutation, twogenes
+genesare
+arerandomly
+randomlyselected,
+selected, andtheir
+theirpositions
+positions
+inverse
+mutation.
+In
+swap
+mutation,
+two
+genes
+are
+randomly
+selected,
+and
+their
+positions
+are
+mutation,
+two
+gene
+positions
+are are
+chosen
+randomly,
+andand
+the seareexchanged.
+exchanged.InIninverse
+inverse
+mutation,
+two
+gene
+positions
+chosen
+randomly,
+the
+are
+exchanged.
+In
+inversethose
+mutation,
+twoisgene
+positions
+are chosen
+randomly,
+and
+the sequence
+of
+genes
+between
+positions
+reversed
+[20].
+Visualizations
+of
+these
+mutation
+sequence of genes between those positions is reversed [20]. Visualizations of these mutation
+quence ofare
+genes between
+those positions
+is reversed [20]. Visualizations of these mutation
+methods
+methods areprovided
+providedin
+inFigure
+Figure 3.
+3.
+methods are provided in Figure 3.
+
+Figure 3. Visualization of mutation methods.
+Figure 3. Visualization of mutation methods.
+continues
+iteratemethods.
+through these steps until a termination condition is met.
+FigureThe
+3. GA
+Visualization
+of to
+mutation
+
+Common termination criteria include:
+
+•
+
+A predefined number of generations: the algorithm may be stopped after a specified
+number of iterations;
+
+Future Transp. 2025, 5, 6
+
+6 of 25
+
+•
+•
+
+No improvement in fitness: if the algorithm fails to find a better solution within a
+certain number of generations, it may be terminated;
+Reaching a target fitness value: if a solution with a fitness value equal to or better than
+a predetermined threshold is found, the algorithm may terminate.
+
+The successful application of GAs often depends on the appropriate encoding of genetic information and the careful selection of GA parameters. These factors can significantly
+influence the algorithm’s performance and its ability to converge.
+2.2. Simulated Annealing
+The simulated annealing (SA) method draws inspiration from the metallurgical process
+of annealing, where a heated solid object is slowly cooled to improve its crystalline structure.
+In this process, a metal is initially heated to a high temperature, allowing its atoms to move
+freely in a molten state. As the temperature is gradually reduced, the atomic movements
+become restricted, leading to a more ordered and stable structure [21].
+The SA algorithm requires the specification of several key parameters:
+
+•
+•
+•
+•
+
+Initial temperature: the starting temperature at which the algorithm begins its search;
+Temperature reduction factor: the rate at which the temperature is decreased during
+the annealing process;
+Neighborhood range: the size of the search space explored at each temperature;
+Maximum iteration number: the maximum number of iterations allowed at each
+temperature.
+
+The SA algorithm operates iteratively, gradually refining its search for a near-optimal
+solution. The key steps of the algorithm involve:
+1.
+
+Initialization phase with two operations performed:
+
+•
+
+Setting the initial temperature, which controls the probability of accepting suboptimal
+solutions during the early stages of the search;
+An initial solution is randomly generated or selected from a predefined starting point.
+
+•
+2.
+
+3.
+
+4.
+
+•
+•
+
+5.
+
+The evaluation stage performs the calculation of the cost function, which quantifies
+the quality of the current solution, is evaluated. This function is typically designed to
+measure the objective of the optimization problem.
+Neighborhood search involves the solution perturbation: a new solution is generated
+by perturbing the current solution within a defined neighborhood. This neighborhood
+defines the range of potential moves that can be explored at each step.
+The acceptance step is where the cost of the new solution is compared to the cost of
+the current best solution. The following acceptance criteria are applied:
+If the new solution is better than the current best, it is automatically accepted as the
+new best solution.
+If the new solution is worse than the current best, it may still be accepted with a
+probability determined by the Boltzmann distribution; this probability depends on the
+temperature and the difference in cost between the two solutions; a higher temperature
+increases the likelihood of accepting suboptimal solutions, allowing the algorithm to
+explore a wider range of possibilities.
+Temperature reduction involves a cooling schedule: the temperature is gradually
+reduced according to a predefined cooling schedule; this typically involves multiplying the current temperature by a temperature reduction factor; as the temperature
+decreases, the probability of accepting suboptimal solutions also decreases, focusing
+the search on more promising regions of the solution space.
+
+Future Transp. 2025, 5, 6
+
+7 of 25
+
+6.
+
+The termination phase checks the stopping criteria: the algorithm continues to iterate
+through steps 2–5 until a termination condition is met; common stopping criteria
+include the following termination conditions: a predefined maximal number of iterations is reached, or the temperature reaches a minimum value (so-called temperature
+threshold); if the algorithm fails to find a better solution within a certain number of
+iterations, it may be considered to have converged.
+
+By following the described steps, the SA algorithm effectively explores the solution
+space, balancing exploration with exploitation to find near-optimal solutions.
+2.3. Other Methods
+In addition to genetic algorithms and simulated annealing, several other methods have
+been described in the scientific literature to address timetable synchronization problems.
+These include the ant colony system, particle swarm optimization, the deficit function, and
+tabu search.
+The ant colony system (ACS) is a heuristic optimization algorithm inspired by the
+behavior of ant colonies. Ants deposit pheromones along their paths, creating a trail
+that guides subsequent ants toward the most traveled routes [22–24]. The strength of the
+pheromone trail indicates the desirability of a particular path, with paths that have been
+frequently traversed by ants having higher pheromone levels.
+Particle swarm optimization (PSO) is a population-based metaheuristic algorithm
+that simulates the behavior of a flock of birds. Each particle, representing a potential
+solution, moves through the search space based on its own velocity and the influence of
+the best-known solutions found by itself and other particles in the swarm [25,26]. This
+collective intelligence enables PSO to efficiently explore the solution space and converge to
+promising regions.
+The deficit function (DF) is a mathematical tool used to measure the shortfall of
+vehicles at a particular terminal in a multi-terminal public transportation system. The DF
+increases with each departing trip and decreases with each arriving trip, providing a realtime assessment of the vehicle deficit. By analyzing the DF values at different terminals, it is
+possible to identify imbalances in the transportation network and adjust the timetable [27].
+Tabu search is a metaheuristic algorithm that extends local search by incorporating a
+memory-based mechanism to avoid revisiting previously explored solutions. This prevents
+the algorithm from becoming trapped in local optima. By maintaining a tabu list of recently
+visited solutions, the algorithm can explore new regions of the search space and potentially
+find better solutions [28,29].
+The Gray Wolf Optimizer (GWO) is a nature-inspired metaheuristic algorithm that
+mimics the social hierarchy and hunting behavior of gray wolves. The algorithm employs
+four types of wolves—alpha, beta, delta, and omega—to represent different leadership
+levels. The hunting process involves three main stages: searching for prey, encircling prey,
+and attacking prey [30,31]. These steps are implemented in the GWO algorithm to guide
+the search for optimal solutions.
+
+3. Applications of Synchronization Methods in Public Transport Systems
+3.1. Applications of Genetic Algorithms
+Before 2013, research papers on timetable synchronization primarily focused on optimizing a single objective, often centered on minimizing passenger waiting time or the
+total cost, which typically encompassed both operational costs and passenger waiting
+time. However, more recent studies have increasingly adopted a multi-criteria approach,
+considering a broader range of objectives. These objectives include minimizing passenger
+time (waiting time and travel time), reducing schedule deviations, minimizing the number
+
+Future Transp. 2025, 5, 6
+
+8 of 25
+
+of vehicles required, and maximizing transfer possibilities. This shift towards multi-criteria
+optimization reflects a growing recognition of the complex and interrelated nature of the
+timetable synchronization problem.
+In terms of GA parameters, the crossover rate, which determines the frequency of
+genetic recombination, is commonly set between 50% and 60%. A mutation probability of
+10% is also frequently selected, striking a balance between exploration and exploitation of
+the search space. Regarding population size, studies generally opt for populations smaller
+than 100 chromosomes. Larger populations can lead to increased computational time,
+potentially outweighing the benefits of greater diversity.
+A summary of selected approaches and their corresponding objective functions and
+GA parameters is presented in Table 1.
+Table 1. Classification of timetable synchronization by GAs.
+
+Authors (Year)
+
+Objective
+
+Network
+Type
+
+Problem Scale
+
+Problem
+Setting
+
+GA Parameters *
+
+Chakroborty, Deb,
+Subrahmanyam
+(1995) [32]
+
+Minimize transfer
+time and initial
+waiting time
+
+Bus
+
+Node (Test
+schedule)
+
+-
+
+Cr 95%, Mu 0.5%,
+Pop 350, Gen 200
+
+Nachtigall and Voget
+(1996) [33]
+
+Minimize
+passengers’
+waiting time
+
+Rail
+
+Test network
+
+-
+
+Not described
+
+Bielli, Caramia,
+Carotenuto (2002) [34]
+
+Minimize vehicle
+numbers
+
+Bus
+
+Network
+
+Parma
+
+Cr 80%, Mu 10%
+
+Shrivastava, Dhingra,
+Gundaliya (2002) [35]
+
+Minimize total
+cost
+
+Bus
+
+Selected lines
+
+Mumbai
+
+Cr 80%, Mu 1%,
+Pop 420%
+
+Shrivastava and
+Dhingra (2002) [36]
+
+Minimize total
+cost
+
+Bus
+
+Selected lines
+
+Mumbai
+
+Cr 80%, Mu 1%,
+Pop 420
+
+Ngamchai and Lovell
+(2003) [37]
+
+Minimize total
+cost
+
+Bus
+
+Test network
+
+-
+
+Not described
+
+Cevallos and Zhao
+(2006) [38]
+
+Minimize
+passengers’
+waiting time
+
+Bus
+
+Network
+
+Broward, USA
+
+Cr 50%, Mu 10%,
+Pop 20
+
+Cevallos and Zhao
+(2006) [39]
+
+Minimize
+passengers’
+waiting time
+
+Bus
+
+Network
+
+Broward, USA
+
+Cr 50%, Mu 10%,
+Pop 80, Gen 20
+
+Shrivastava and
+O’Mahony (2016) [40]
+
+Minimize total
+cost
+
+Bus
+
+Selected lines
+
+Dublin
+
+Cr 95%, Mu 10%
+
+Shafahi and Khani
+(2010) [41]
+
+Minimize
+passengers’
+waiting time
+
+Bus
+
+Network
+
+Mashhad
+
+Cr 50%, Mut 50%.
+Pop 20
+
+Yu, Yang and Yao
+(2010) [42]
+
+Minimize
+passengers’
+waiting time
+
+Bus
+
+Network
+
+Dalian
+
+Not described
+
+Niu and Zhou
+(2013) [43]
+
+Minimize
+passengers’
+waiting time
+
+Rail
+
+Line
+
+Guangzhou
+
+Cr 98%, Mu 15%,
+Pop 40
+
+Wu, Liu, Sun, Li, Gao,
+Wang (2014) [44]
+
+Minimize total
+cost
+
+Metro
+
+Network
+
+Pekin
+
+Cr 80%, Mu 10%,
+Pop 100
+
+Future Transp. 2025, 5, 6
+
+9 of 25
+
+Table 1. Cont.
+
+Authors (Year)
+
+Objective
+
+Network
+Type
+
+Problem Scale
+
+Problem
+Setting
+
+GA Parameters *
+
+Aksu and Yılmaz
+(2014) [45]
+
+Minimize total
+transfer waiting
+time and missed
+transfers
+
+Rail
+
+Network
+
+Istanbul
+
+Cr 90%, Mu 8%,
+Pop 2000
+
+Kang, Wu, Sun, Zhu,
+Gao (2015) [46]
+
+Maximize
+passenger transfer
+connection
+headways
+
+Last Train
+
+Network
+
+Pekin
+
+Not described
+
+Kang, Wu, Sun, Zhu,
+Wang (2015) [47]
+
+Minimize (total
+travel time
+without
+passengers’
+waiting time),
+minimize schedule
+deviation
+
+Last Train
+
+Network
+
+Pekin
+
+Not described
+
+Wu, Tang, Yu, Pan
+(2015) [48]
+
+Minimize
+passengers’
+waiting time
+
+Bus
+
+Test network
+
+-
+
+Cr 80%, Mu 5%,
+Pop 100, Elite 20%
+
+Wu, Yang, Tang, Yu
+(2016) [49]
+
+Maximize the total
+number of
+passengers and
+minimize the
+maximal deviation
+from the departure
+times
+
+Bus
+
+Network
+
+China
+
+Not described
+
+Naumov (2018) [50]
+
+Minimize
+passengers’
+waiting time
+
+Bus
+
+Network
+
+Bochnia
+
+Cr 50%, Mu 10%,
+Pop 50, Gen 30, SR
+20%
+
+Shang, Li, Liu, Xian,
+Guo (2019) [51]
+
+Minimize total
+travel time
+
+Metro
+
+Network
+
+Shenzhen
+
+Cr 80%, Mu 15%,
+Pop 2000, Elite 5%
+
+Naumov (2020) [52]
+
+Minimize
+passengers’
+waiting time
+
+Bus
+
+Node
+
+Krakow
+
+Cr 50%, Mu 10%,
+Pop 100, Gen 20,
+SR 20%
+
+Cao, Ceder, Li, Zhang
+(2019) [53]
+
+Maximize the
+number of
+synchronized
+meetings
+
+Rail
+
+Network
+
+Pekin
+
+Not described
+
+Yin, Wu, Sun, Kang,
+Liu (2019) [4]
+
+Maximize the
+social service
+efficiency and
+minimize the
+revenue loss for
+the operator
+
+Last Train
+
+Network
+
+Pekin
+
+Not described
+
+Chen, Mao, Bai, Ho,
+Li (2019) [54]
+
+Maximize
+transfers
+
+Last Train
+
+Network
+
+Shenzhen
+
+Pop 300, Gen 200
+
+Future Transp. 2025, 5, 6
+
+10 of 25
+
+Table 1. Cont.
+
+Authors (Year)
+
+Objective
+
+Network
+Type
+
+Problem Scale
+
+Problem
+Setting
+
+GA Parameters *
+
+Wang, Li, Cao (2020)
+[55]
+
+Minimize
+passenger waiting
+time at the original
+station, passenger
+actual transfer
+waiting time at the
+transfer station,
+and passenger
+penalty value
+
+Rail
+
+Selected lines
+
+Shenyang
+
+Cr 80%, Mu 15%,
+Pop 30
+
+Cao, Tang, Gao
+(2020) [56]
+
+Minimize
+passengers’
+waiting time
+
+Rail
+
+Node
+
+Pekin
+
+Cr 70%, Mu 0.5%
+
+Guo, Wu, Sun, Yang,
+Jin, Wang (2020) [57]
+
+Minimize
+passengers’
+waiting time
+
+Last Train
+
+Network
+
+Pekin
+
+Not described
+
+Ataeian, Solimanpur,
+Amiripour, Shankar
+(2021) [58]
+
+Maximize the
+number of
+simultaneous
+arrivals and min
+fleet size
+
+Bus
+
+Network
+
+Teheran
+
+Not described
+
+Naeini, Shafahi,
+Taherkhani (2022) [59]
+
+Minimize
+(passengers’
+waiting time at
+origin, passengers’
+transfer waiting
+time, transfer
+passengers’
+in-vehicle time,
+non-transfer
+passengers’
+in-vehicle time)
+and maximize the
+number of
+passengers who
+reach destinations
+
+Rail
+
+Node
+
+Teheran
+
+Cr 60%, Mu 35%,
+Pop 90
+
+Wang, Zhou, Yan
+(2022) [60]
+
+Maximize total
+transfers and
+minimize total
+travel time
+
+Bus (Autonomous)
+
+Selected lines
+
+Singapore
+
+Cr 80%, Mu 10%,
+Pop 100
+
+* Cr—crossover rate; Mu—mutation rate; Pop—number of populations; Gen—number of generations; SR—
+survivors rate.
+
+Chakroborty, Deb, and Subrahmanyam [32] employed GAs to minimize the combined
+transfer time and initial waiting time for passengers. Nachtigall and Voged [30] compared
+the performance of GAs initialized with random solutions and those initialized using
+a greedy algorithm, finding that the latter approach yielded better results in terms of
+minimizing passenger waiting time.
+Bielli, Caramia, and Carotenuto [34] utilized GAs to optimize the bus network in
+Parma, Italy, achieving a significant improvement of approximately 90% in the multicriteria fitness function. Shrivastava et al. [35,36] focused on synchronizing bus networks
+with train networks, incorporating a penalty for transfer times exceeding 10 min. Ngamchai
+
+Future Transp. 2025, 5, 6
+
+11 of 25
+
+and Lovell [37] addressed the problem of minimizing the combined cost of fleet operations,
+passenger in-vehicle time, and passenger waiting time.
+Shafahi and Khani [41] successfully synchronized the bus network in Mashad, Iran,
+demonstrating the superior performance of GAs compared to the Branch and Bound (B&B)
+algorithm. Yu, Yang, and Yao [42] optimized the public transportation network in Dalian,
+China, comprising three bus companies and one rail company while maintaining the
+existing fleet of buses and trains. Wu et al. [44] addressed the synchronization of the
+Beijing metro network, focusing on minimizing total passenger waiting times and ensuring
+equitable waiting times at all stations. Aksu and Yilmaz [45] formulated an objective
+function to minimize both passenger waiting times and missed transfers.
+Kang et al. [46] focused on the problem of last train synchronization in Beijing, China,
+aiming to minimize passenger transfer connection headways (PTCHs). PTCHs is defined
+as the difference between the departure time of the last connecting train and the arrival
+time of passengers on the last feeder train. Their research demonstrated that minimizing
+PTCHs can lead to more successful transfers compared to solely minimizing passenger
+waiting time while maintaining the same transfer waiting time. In a subsequent study [47],
+the researchers shifted their focus to minimizing passenger travel time (excluding transfer
+waiting time) while also minimizing deviations from the actual schedule in the Beijing
+metro network. By comparing SA, tabu search, B&B, and GAs, they found that GAs
+outperformed the other algorithms in terms of finding the highest value of the objective
+function, achieving the same or similar results in significantly less time (6 s compared to 5
+to 100 s for the others).
+Niu et al. [61] addressed the challenge of minimizing passenger waiting time while
+incorporating an in-train crowding factor to mitigate passenger discomfort and maximize
+operator profits. By including this factor in the objective function, the researchers aimed to
+balance the competing priorities of passenger satisfaction and operational efficiency.
+Cao et al. [53] addressed the problem of maximizing synchronized meetings at metro
+stations in Beijing, developing a synchronized and coordinated scheduling optimization
+genetic algorithm (SCSO-GA) that outperformed the CPLEX model in terms of both speed
+and solution quality.
+Yin and his colleagues [4] highlighted the trade-off between extending operating
+hours and associated costs. Public transportation systems often rely on subsidies from
+governments or local authorities and must carefully balance operational expenses with the
+level of service provided. They formulated an objective function that aimed to maintain this
+balance while reducing missed transfers, decreasing average waiting times, and increasing
+the number of transferred passengers in the last train schedule.
+Chen et al. [54] employed GAs to maximize the number of accessible origin-destination
+pairs using last trains, demonstrating the algorithm’s effectiveness in optimizing network
+connectivity. Wang, Li, and Cao [55] compared GAs and the Gray Wolf Optimizer (GWO)
+for timetable synchronization, considering an objective function that included minimizing
+passenger waiting time at origin stations, actual transfer waiting time, and a penalty for
+missed connections. GAs outperformed GWO in terms of solution quality but required
+three times more computational time.
+Ataeian et al. [58] utilized GAs to optimize the bus rapid transit network in Tehran,
+Iran, focusing on maximizing simultaneous arrivals and minimizing the number of vehicles
+required. Naeini, Shafahi, and Taherkhani [59] proposed a synchronization strategy for the
+Tehran subway network that incorporated skip-stop operations to reduce travel times and
+operating costs. Their objective function considered passenger waiting time at bus stops,
+in-vehicle travel time, and operating costs.
+
+Future Transp. 2025, 5, 6
+
+12 of 25
+
+Wang, Zhou, and Yan [60] applied GAs to synchronize timetables for autonomous
+buses in Singapore, integrating passenger assignment into the optimization process. This
+study demonstrated the potential of GAs for optimizing autonomous vehicles within the
+public transportation system.
+These case studies collectively illustrate the diverse applications of GAs in timetable
+synchronization, showcasing their ability to address various challenges and improve the
+efficiency and effectiveness of public transportation networks.
+3.2. Applications of Simulated Annealing
+While genetic algorithms (GAs) have been widely applied to timetable synchronization
+problems, simulated annealing (SA) has also emerged as a promising approach. Although
+the number of studies using SA for this purpose is relatively limited compared to GAs, the
+results obtained demonstrate its potential to effectively address synchronization challenges
+in both bus and metro networks.
+A summary of selected studies that have employed SA for timetable synchronization
+is provided in Table 2.
+Table 2. Classification of timetable synchronization by simulated annealing.
+
+Authors (Year)
+
+Objective
+
+Network Type
+
+Problem Scale
+
+Problem
+Setting
+
+Zhao and Zeng (2008) [62]
+
+Minimize total cost
+Minimize total transfer
+waiting time
+Maximize the number
+of synchronizations
+
+Bus
+
+Test network
+
+-
+
+Selected nodes
+
+Test network
+
+-
+
+Metro
+
+Network
+
+Beijing
+
+Poorjafari, Yue, Holyoak (2014) [63]
+Guo, Sun, Wu, Jin, Zhou, Gao (2017) [64]
+
+Zhao and Zeng [62] introduced a hybrid model combining simulated annealing (SA),
+the greedy algorithm, and tabu search to optimize the design of a transit network and
+timetable while maintaining a fixed number of vehicles. Their approach resulted in an
+increase in zero-transfer trips, a decrease in one-transfer trips, and the elimination of
+two-transfer trips, all without requiring additional buses or vehicles.
+Poorjafari, Yue, and Holyoak [63] applied SA to minimize total passenger waiting time
+in a smaller-scale public transportation network, demonstrating the effectiveness of the
+algorithm even in less complex scenarios.
+Guo et al. [64] focused on optimizing timetables during peak-to-off-peak transitions in
+a metro network. They employed a hybrid approach combining SA and PSO to maximize
+transfer possibilities. Their model outperformed the branch-and-bound algorithm and GA
+in terms of both solution quality and computational efficiency, achieving the exact value of
+the objective function while requiring less time.
+3.3. Application of Integer Programming and Its Variations
+Integer programming (IP) models have been widely employed to address timetable
+synchronization problems in both bus and rail networks. These models have been applied
+to various scales, ranging from single nodes to selected nodes within a network to the
+entire network as a whole.
+In recent years, there has been a notable increase in the use of IP methods for timetable
+synchronization. This trend reflects the growing recognition of IP’s ability to effectively
+handle the complex constraints and combinatorial nature of synchronization problems.
+A summary of selected studies that have utilized IP models for synchronization of
+timetables at public transport is provided in Table 3.
+
+Future Transp. 2025, 5, 6
+
+13 of 25
+
+Table 3. Classification of timetable synchronization by integer programming.
+
+Authors (Year)
+
+Objective
+
+Model
+Type *
+
+Network
+Type
+
+Problem
+Scale
+
+Problem
+Setting
+
+Ceder, Golany, Tal
+(2001) [65]
+
+Maximize the number
+of simultaneous
+arrivals
+
+MIP
+
+Bus
+
+Test network
+
+-
+
+Eranki (2004) [66]
+
+Maximize the number
+of simultaneous
+arrivals
+
+MIP
+
+Bus
+
+Test network
+
+-
+
+Vansteenwegen and van
+Oudheusden (2007) [67]
+
+Minimize passengers’
+waiting cost
+
+LP
+
+Rail
+
+Network
+
+Belgium
+
+Liebchen (2008) [68]
+
+Minimize passengers’
+waiting time
+
+IP
+
+Urban Rail
+
+Network
+
+Berlin
+
+Wong, Yuen, Fung,
+Leung (2008) [69]
+
+Minimize passengers’
+waiting time
+
+MIP
+
+Rail
+
+Network
+
+Hongkong
+
+Bruno, Improta,
+Sgalambro (2009) [70]
+
+Minimize operational
+costs and passengers’
+waiting time
+
+MIP
+
+Bus
+
+Node
+
+Italy
+
+Nesheli and Ceder
+(2014) [71]
+
+Minimize total transfer
+waiting time and
+missed transfers
+
+MIP
+
+Bus
+
+Selected lines
+
+Auckland
+
+Dou, Meng, Guo
+(2015) [72]
+
+Minimize transfers
+connections
+
+MILP
+
+Bus to Rail
+(Last Train)
+
+Selected lines
+
+Singapore
+
+Ibarra-Rojas,
+López-Irarragorri,
+Rios-Solis (2015) [73]
+
+Maximize the number
+of synchronizations
+
+MILP
+
+Bus
+
+Network
+
+Monterrey,
+Mexico
+
+Guo, Wu, Sun, Liu, Gao
+(2016) [74]
+
+Minimize transfer cost
+
+MILP
+
+First Train
+
+Network
+
+Beijing
+
+Wu, Liu, Jin (2016) [75]
+
+Minimize total cost
+
+MINLP
+
+Rail
+
+Test network
+
+-
+
+Gschwender, Jara-Díaz,
+Bravo (2016) [76]
+
+Minimize passengers’
+cost and vehicle cost
+
+MILP
+
+Bus Rapid
+Transit
+
+Test network
+
+-
+
+Dou and Guo (2017) [77]
+
+Minimize the number
+of transfer failures
+
+MILP
+
+Last Train
+
+Network
+
+Singapore
+
+Liu, Ceder, Chowdhury
+(2017) [78]
+
+Maximize the number
+of simultaneous
+arrivals and min fleet
+size
+
+MIP+DF
+
+Bus
+
+Selected lines
+
+Auckland
+
+Kang, Zhu, Sun, Wu,
+Gao, Hu (2019) [79]
+
+Maximize transfers
+
+MILP
+
+Last Train
+
+Network
+
+Vienna
+
+Shang, Huang, Wu
+(2019) [80]
+
+Balance of passenger
+satisfaction and bus
+transit efficiency
+
+NLIP
+
+Bus
+
+Corridor
+
+Beijing
+
+Wang, Wei, Zhang, Shi,
+Shang (2019) [81]
+
+Minimize total transfer
+waiting time and
+missed transfers
+
+MILP
+
+Last Train
+
+Network
+
+Beijing
+
+Takamatsu and Taguchi
+(2020) [82]
+
+Minimize passengers’
+cost
+
+MIP
+
+Bus to Rail
+
+Corridor
+
+Tohoku
+District, Japan
+
+Future Transp. 2025, 5, 6
+
+14 of 25
+
+Table 3. Cont.
+
+Model
+Type *
+
+Authors (Year)
+
+Objective
+
+Ke, Nie, Liebchen, Yuan,
+Wu (2020) [83]
+
+Maximize possible
+transfers
+
+MIP
+
+Lee, Jiang, Ceder,
+Dauwels, Su, Nielsen
+(2022) [84]
+
+Minimize passengers’
+waiting time and
+in-vehicle time
+
+MILP
+
+Network
+Type
+
+Problem
+Scale
+
+Problem
+Setting
+
+Rail to Air
+
+Line
+
+Shijiazhuang
+Zhengding
+International
+Airport
+
+Bus
+
+Selected lines
+
+Copenhagen
+
+* LP—linear programming; MIP—mixed integer programming; MILP—mixed integer linear programming;
+NLIP—nonlinear integer programming; MINLP—mixed integer nonlinear programming.
+
+Ceder, Golany, and Tal [65] introduced a synchronization approach focused on maximizing the number of simultaneous arrivals at transfer points. They defined simultaneous
+arrivals as the arrival of two buses within a specified time gap that does not exceed the
+required waiting time. By optimizing for simultaneous arrivals, this approach aims to
+improve transfer efficiency and reduce passenger inconvenience.
+Eranki [66] extended the model proposed by Ceder et al. to incorporate passenger
+waiting time. By considering the value of time (VOT), the model aimed to reduce overall
+passenger waiting costs. The VOT is a commonly used factor to express the relative importance of waiting time compared to in-vehicle travel time. A typical value for VOT is
+2.5, indicating that one minute of waiting is equivalent to 2.5 min of in-vehicle travel [85].
+To account for the increased disutility of longer waiting times, the model could be modified to assign a higher VOT for transfers exceeding 15 min or for passengers waiting in
+dwelling trains.
+Bruno, Importa, and Sgalambro [70] developed a model for transfer nodes in Italy that
+balanced operational costs with passenger waiting time. This approach recognized the
+importance of optimizing both efficiency and passenger satisfaction in public transportation systems.
+Nesheli and Ceder (2014) employed an MIP model to optimize timetable synchronization in Auckland, New Zealand, focusing on reducing total passenger travel time and
+maximizing direct transfers between selected bus lines [71]. Their model incorporated
+two tactics: holding, which involves delaying bus departures to improve connections, and
+skip-stop/segment, which allows buses to bypass certain stops to maintain schedules.
+By implementing these strategies, they achieved a significant increase in direct transfers
+(100–150%) and a reduction in total passenger travel time (2.14–4.1%) compared to a baseline scenario.
+Wu, Liu, and Jin (2016) proposed a two-step approach to timetable synchronization [75]. In the planning phase, they introduced safety control margins to incorporate
+flexibility into the schedules. Subsequently, they implemented real-time control mechanisms to adjust timetables in response to disruptions. Their model aimed to minimize total
+costs, including vehicle operating costs, passenger waiting costs, and costs associated with
+missed or delayed connections.
+Guo et al. (2016) applied a MIP model to coordinate train timetables in the Beijing
+urban railway network [74]. Their results demonstrated the superiority of MIP over genetic
+algorithms, simulated annealing, and PSO in terms of computational efficiency while
+achieving the same objective function value.
+Kang et al. (2016) addressed the problem of last-train optimization by introducing
+bus bridging, a strategy that involves creating temporary bus services and routes to restore
+
+Future Transp. 2025, 5, 6
+
+15 of 25
+
+connectivity in disrupted transit rail networks [79]. Their model successfully increased the
+number of transfer passengers by 20%.
+Shang, Huang, and Wu (2019) optimized bus timetables in a corridor between the
+Guomao Bridge and suburban zones in Beijing, China [80]. Their approach focused on balancing passenger satisfaction with transit efficiency. Passenger satisfaction was measured
+using a combination of waiting time and in-vehicle comfort indicators, while efficiency
+was assessed based on the load factor and bus capacity. This study highlights the importance of considering both passenger experience and operational performance when
+optimizing timetables.
+Takamatsu and Taguchi [82] focused on optimizing timetables in regions with limited
+public transport services. Their model aimed to increase transfer possibilities within
+the Tohoku District in Japan while minimizing disruptions to existing rail transfers. By
+introducing additional transfers in opposite directions, they sought to improve network
+connectivity and accessibility.
+Ke and his co-authors [83] developed a synchronization model for high-speed trains
+and flights, prioritizing the maximization of synchronized connections and coverage while
+minimizing missed transfer penalties. They redefined synchronization as the occurrence of
+a train and flight within a specified separation time window at a transfer node. Applying
+this model to Shijiazhuang Zhengding International Airport, they achieved a notable
+increase of 24% in the number of synchronized connections and a 3% increase in the
+coverage of synchronized flights.
+These studies demonstrate the adaptability of synchronization techniques to address
+specific challenges and optimize public transportation networks in diverse contexts. By
+tailoring solutions to the unique characteristics of different regions and modes of transportation, it is possible to enhance connectivity, improve passenger experience, and maximize
+the efficiency of public transport systems.
+3.4. Other Approaches to Synchronize Public Transport
+Beyond the methods discussed previously, researchers have explored a variety of other
+approaches to timetable synchronization (see Table 4).
+Klemt and Stemme [86] developed a heuristic algorithm to optimize the U-Bahn
+network in West Berlin, successfully synchronizing 1000 transfer relations within a minute.
+Daduna and Voß [87] focused on minimizing waiting time at transfer stops, formulating
+a mathematical model based on quadratic semi-assignment, and employing simulated
+annealing and various versions of tabu search to improve solutions.
+Teodorović and Lučić [88] combined the ant colony system with fuzzy logic, resulting in the fuzzy ant system (FAS), to minimize total waiting time at transfer nodes.
+In their numerical experiments, FAS consistently outperformed the standard ant colony
+system, achieving objective function values approximately 2% better. Schröder and Solchenbach [89] utilized quadratic semi-assignment to enhance transfer quality in Kaiserslautern,
+Germany. They classified transfers based on the time gap between arriving and departing
+vehicles, optimizing a selected set of nodes by eliminating tight transfers.
+Chowdhury and Chien [90] addressed the problem of minimizing total costs associated
+with bus-to-rail transfers in a single node in New Jersey. Their model considered both
+operator costs (fleet size and trip cost) and passenger costs (waiting time and in-vehicle
+time). By applying Powell’s method, they demonstrated the potential for extending this
+approach to larger networks while increasing transfers and reducing costs.
+Hadas and Ceder [91] employed dynamic programming to optimize timetable synchronization in Auckland, New Zealand, focusing on minimizing both transfer times and
+average waiting times. They introduced several real-time tactics to achieve their objectives,
+
+Future Transp. 2025, 5, 6
+
+16 of 25
+
+including holding vehicles at terminals or stops, adjusting vehicle speeds, implementing
+skip-stop operations, and performing short-turns or short-cuts. Short-turning can be particularly useful in addressing no-show or lateness situations. Short-cuts allow buses to
+operate as express trips between specific stops if all passengers have destinations along
+the route. Through these tactics, Hadas and Ceder achieved a significant reduction in
+average waiting time (around 10%) and a substantial increase in direct transfers (hundreds
+of percent).
+Parbo, Nielsen, and Prato [92] applied tabu search to optimize a large-scale public transportation network in Denmark, encompassing 1794 lines, 8373 variants, over
+22,000 stops, 1077 zones, and 3.5 million origin-destination cells. By focusing on adjusting
+bus schedules, they were able to reduce passenger waiting time by more than 5%.
+Shen and Wang [93] utilized PSO to synchronize feeder buses with metro lines in
+Wuhan, China. They enhanced the classic PSO algorithm by incorporating a backup library
+to store the best 10% of particles. This strategy allowed the algorithm to recover from
+stagnation and continue exploring the solution space effectively.
+Liu and Ceder [94], Shang and Liu [95], and Shang et al. [96] proposed a deficit
+function approach to balance operator costs and passenger waiting time for selected lines
+in Auckland, New Zealand, and Beijing, China. The deficit function helped to reduce fleet
+size and passenger waiting times.
+Gkiotsalitis and Maslekar [97] introduced a sequential hill-climbing method to minimize passenger waiting time while maintaining scheduled headways. Their approach
+demonstrated its effectiveness for large-scale problems, providing a promising solution for
+optimizing timetables in complex transportation networks.
+These case studies further highlight the diversity of techniques available for timetable
+synchronization and their applicability to various network configurations and objectives.
+Table 4. Classification of timetable synchronization by other methods.
+
+Authors (Year)
+
+Objective
+
+Synchronization
+Method
+
+Network
+Type
+
+Problem
+Scale
+
+Problem
+Setting
+
+Klemt and Stemme
+(1988) [86]
+
+Min passengers’
+waiting time
+
+Heuristic
+
+Metro
+
+Network
+
+Berlin
+
+Daduna and Voß
+(1995) [87]
+
+Min passengers’
+waiting time
+
+Quadratic
+Semi-Assignment
+Problem and Tabu
+Search
+
+Bus
+
+Test network
+
+-
+
+Jansen, Pedersen,
+Nielsen (2002) [98]
+
+Min passengers’
+waiting time
+
+Tabu Search
+
+Not
+Described
+
+Network
+
+Copenhagen
+
+Teodorović, Lučić
+(2005) [88]
+
+Min passengers’
+waiting time
+
+Fuzzy Ant System
+
+Not
+Described
+
+Test network
+
+-
+
+Schröder and
+Solchenbach
+(2006) [89]
+
+Improve quality
+transfers
+
+Quadratic
+Semi-Assignment
+Problem
+
+Bus to Rail
+
+Selected
+nodes
+
+Kaiserslautern
+
+Wang and Shen
+(2007) [99]
+
+Min vehicle numbers
+
+Ant Colony System
+
+Electric Bus
+
+Test network
+
+-
+
+Liu, Shen, Wang,
+Yang (2007) [100]
+
+Min passengers’
+waiting time
+
+Tabu Search
+
+Bus
+
+Selected
+nodes
+
+Not described
+
+Guihaire and Hao
+(2008) [101]
+
+Min vehicle numbers
+and max transfer
+possibilities
+
+Local Search
+
+Bus
+
+Not described
+
+France
+
+Future Transp. 2025, 5, 6
+
+17 of 25
+
+Table 4. Cont.
+
+Authors (Year)
+
+Objective
+
+Synchronization
+Method
+
+Network
+Type
+
+Problem
+Scale
+
+Problem
+Setting
+
+Hadas and Ceder
+(2010) [91]
+
+Min transfer time and
+average waiting time
+
+Dynamic
+Programming
+
+Bus
+
+Selected lines
+
+Not described
+
+Chowdhury and
+Chien (2011) [90]
+
+Min operational cost
+and user cost
+
+Powell’s method
+
+Bus to Rail
+
+Selected lines
+
+New Jersey
+Coast Line
+
+Parbo, Nielsen,
+Prato (2014) [92]
+
+Min passengers’
+waiting cost
+
+Tabu Search
+
+Bus
+
+Network
+
+Denmark
+
+Shen and Wang
+(2015) [93]
+
+Maximize the number
+of simultaneous
+arrivals
+
+PSO
+
+Bus to
+Metro
+
+Node
+
+Wuhan
+
+Liu and Ceder
+(2017) [94]
+
+Min vehicle numbers
+and passengers’
+waiting time
+
+Deficit Function
+
+Bus
+
+Selected
+nodes
+
+Auckland
+
+Fonseca, van der
+Hurk, Roberti,
+Larsen (2018) [102]
+
+Min passengers’ cost
+and vehicle cost
+
+Metaheuristic
+
+Bus
+
+Selected lines
+
+Copenhagen
+
+Gkiotsalitis and
+Maslekar (2018) [97]
+
+Min transfer waiting
+time and excess
+waiting time
+
+Sequential hill
+climbing
+
+Bus
+
+Selected lines
+
+Stockholm
+
+Shang and Liu
+(2019) [95]
+
+Min passengers’ cost
+and vehicle cost
+
+Deficit Function
+
+Bus
+
+Selected lines
+
+Beijing
+
+Shang, Liu, Huang,
+Guo (2019) [96]
+
+Min vehicle numbers
+and passengers’
+waiting time
+
+Deficit Function
+
+Bus
+
+Selected lines
+
+Beijing
+
+Abdolmaleki,
+Masoud, Yin (2020)
+[103]
+
+Min total transfer
+waiting time
+
+Local Search
+
+Bus
+
+Network
+
+Mashhad
+
+4. Discussion
+As the provided literature review shows, researchers have employed a diverse range
+of techniques to address timetable synchronization problems. These methods include
+genetic algorithms, integer programming, simulated annealing, the deficit function, local
+search, tabu search, particle swarm optimization, sequential hill climbing, Powell’s method,
+the ant colony system, the fuzzy ant system, and quadratic semi-assignment problems.
+Furthermore, researchers have often modified existing methods or combined multiple
+techniques to tailor solutions to specific challenges and optimize synchronization outcomes.
+The effectiveness of heuristic methods for timetable synchronization is inherently
+context-dependent. Their performance is significantly influenced by the specific characteristics of the input data, including passenger demand patterns, the topology of the transport
+network, and other operational factors.
+Directly comparing the performance of different heuristics necessitates their implementation and subsequent evaluation through simulation experiments. This involves
+generating realistic scenarios, executing the heuristics, and analyzing the resulting timetables based on predefined performance metrics.
+However, this study diverges from a direct performance comparison. Instead, it
+focuses on a comparative analysis of the existing research literature. This analysis examines
+the following key aspects:
+
+Future Transp. 2025, 5, 6
+
+18 of 25
+
+•
+
+Frequency of method usage: identifying the most commonly employed heuristics
+in the literature provides insights into prevailing research trends and the relative
+popularity of different approaches;
+Objective functions number: analyzing the range of objective functions considered in
+•
+different studies reveals the priorities and trade-offs inherent in timetable synchroFuture Transp. 2025, 5, x FOR PEER REVIEW
+nization problems and the ability of the method to solve the optimization problem for 17 of 25
+different stakeholders;
+•
+Mode of transport focus: examining the specific modes of transport (e.g., bus, rail,
+or mixed) addressed in different studies helps to understand the applicability and
+•
+Scale of application: Investigating the scale of the transportation systems considered
+limitations of various approaches across different transportation contexts;
+(e.g., small urban areas versus large metropolitan networks) provides insights into
+Scale of application: Investigating the scale of the transportation systems considered
+•
+the scalability and generalizability of diﬀerent methodologies.
+(e.g., small urban areas versus large metropolitan networks) provides insights into the
+scalability
+and in Figure
+generalizability
+of different
+methodologies.
+As
+illustrated
+4, GAs
+emerged as the
+most frequently used method for time-
+
+in Figure 4,
+GAs for
+emerged
+as the
+the most
+frequently
+used
+method for
+tableAs illustrated
+synchronization,
+accounting
+42% of
+analyzed
+papers.
+Integer
+programming
+timetable
+synchronization,
+accounting
+for
+42%
+of
+the
+analyzed
+papers.
+Integer
+programfollowed as the second most popular method, used in 29% of the studies. The deficit funcming simulated
+followed asannealing,
+the second most
+method,
+used
+in 29% ofin
+the
+deficit of retion,
+and popular
+tabu search
+were
+employed
+a studies.
+smallerThe
+proportion
+function, simulated annealing, and tabu search were employed in a smaller proportion of
+search, with 9% each. The remaining 17% of studies explored other methods.
+research, with 9% each. The remaining 17% of studies explored other methods.
+
+17%
+GA
+IP
+
+4%
+
+42%
+
+Deficit Function
+
+4%
+
+SA
+
+4%
+
+Tabu Search
+Others
+29%
+Figure 4.4.Percentage
+share
+of timetable
+synchronization
+methods
+in the analyzed
+works. works.
+Figure
+Percentage
+share
+of timetable
+synchronization
+methods
+in the analyzed
+
+Figure 5 and Table 5 provide insights into the focus of the research. Most papers (37
+Figure 5 and Table 5 provide insights into the focus of the research. Most papers (37
+out of 70, or 53%) concentrated on synchronizing bus timetables. Rail timetables were the
+out
+of 70,
+or papers
+53%) concentrated
+on synchronizing
+buson
+timetables.
+Rail first
+timetables
+subject
+of 10
+(14%), while 13%
+of studies focused
+synchronizing
+and lastwere the
+subject of
+10 papers
+(14%),
+while 13%
+focused
+synchronizing
+train
+timetables.
+Five works
+addressed
+the of studies
+synchronization
+of on
+timetables
+between busfirst
+andand last
+train
+timetables.
+Five
+works
+addressed
+the
+synchronization
+of
+timetables
+between
+rail etworks at specific nodes, and one paper focused
+synchronizing transfers between bus and
+high-speed
+railat
+and
+airplanes.
+rail
+networks
+specific
+nodes, and one paper focused on synchronizing transfers between
+
+high-speed rail and airplanes.
+
+Table 5. Number of papers by method and objective numbers.
+
+Method
+GA
+IP
+Others
+Deficit Function
+Tabu Search
+
+Number of Elements in Objective Function
+1
+
+2
+
+3
+
+4
+
+5
+
+20
+14
+7
+3
+
+6
+6
+5
+3
+-
+
+2
+-
+
+-
+
+1
+-
+
+Future Transp. 2025, 5, x FOR PEER REVIEW
+
+18 of 25
+
+Future Transp. 2025, 5, 6
+
+19 of 25
+
+4%
+7%
+
+2%
+Bus
+
+7%
+
+Rail
+Last train or First Train
+
+13%
+
+Bus to Rail or Metro
+
+53%
+
+Metro or Urban Rail
+Not described
+14%
+
+Rail to Air
+
+Figure
+5. 5.
+Percentage
+share
+by by
+thethe
+network
+type
+in in
+thethe
+analyzed
+works.
+Figure
+Percentage
+share
+network
+type
+analyzed
+works.
+
+Regarding
+number
+of and
+criteria
+considered
+in the objective functions, 20 out of
+Table 5. Number
+of the
+papers by
+method
+objective
+numbers.
+47 papers (43%) adopted a single criterion, primarily using genetic algorithms. Six papers
+Number of Elements in Objective Function
+eachMethod
+employed GAs and integer programming with two criteria, while GAs were the sole
+1
+2
+3
+4
+5
+choice for objective functions with more than two criteria. Two papers considered three
+GA
+20
+6
+2
+1
+criteria, and one paper included five criteria in its objective function.
+IP
+14
+6
+Tables 6 and 7 summarize the most used methods for synchronizing various types of
+Others
+7
+5
+networks and timetables. Genetic algorithms were the dominant choice for synchronizing
+Deficit Function
+3
+bus, rail, and last or first train timetables, appearing in 29 out of 60 papers. For networkTabu Search
+3
+wide, selected line, and node-level synchronization, GAs were also the preferred method,
+used in 28 out of 61 papers. When focusing on bus networks, GAs were employed in 15
+Regarding the number of criteria considered in the objective functions, 20 out of 47
+out of 29 papers.
+papers (43%) adopted a single criterion, primarily using genetic algorithms. Six papers
+each employed GAs and integer programming with two criteria, while GAs were the sole
+Table 6. The number of works by network type and solution method.
+choice for objective functions with more than two criteria. Two papers considered three
+Deficit
+Tabu
+criteria,Mode
+and one
+paper included five
+of Transport
+GAcriteria in
+IPits objective function.
+SA
+Others
+Function
+Search
+Tables 6 and 7 summarize the most used methods for synchronizing various types of
+2 for 1
+7
+networks and Bus
+timetables. Genetic 15
+algorithms 8
+were the 3
+dominant choice
+synchronizing
+Rail
+7
+3
+bus, rail, and last or first train timetables, appearing in 29 out of 60 papers. For networkLast
+Train
+or
+First
+train
+5
+4
+wide, selected line, and node-level synchronization, GAs were also the preferred method,
+Metro or Urban Rail
+2
+1
+1
+1
+used in 28 out of 61 papers. When focusing on bus networks, GAs were employed in 15
+Bus to Rail or Metro
+2
+3
+out of 29 papers.
+Rail to Air
+1
+BRT
+
+-
+
+1
+
+-
+
+Table 6. The
+number
+of works by network
+method.
+Not
+described
+- type and- solution -
+
+1
+
+Deficit FuncTabu
+tion
+Search
+Table 7. The number of works by problem scale and solution method.
+Bus
+15
+8
+3
+2
+Deficit
+Rail
+7
+3
+-Tabu
+Problem Scale
+GA
+IP
+Function Search
+Last Train or First train
+5
+4
+12
+Metro orNetwork
+Urban Rail
+2 19 1
+- 2
+lines
+4
+2
+Bus to Selected
+Rail or Metro
+- 5 2
+- Node
+4
+1
+Rail to Air
+1
+Selected nodes
+1
+1
+BRT
+- 1 1
+- Line
+1
+Not described
+1
+Corridor
+1
+Mode of Transport
+
+Not described
+
+GA
+
+IP
+
+-
+
+-
+
+-
+
+-
+
+1
+
+1
+
+SA
+
+Others
+
+1
+- SA
+1 3
+- - 1 -
+
+7
+Others
+1 5
+3 4
+1
+1
+- 1 -
+
+-
+
+1
+
+Future Transp. 2025, 5, 6
+
+20 of 25
+
+As shown in Table 7, for network-wide synchronization, GAs were the primary choice
+in 19 out of 29 papers. Five papers focused on selected lines, and four papers addressed
+synchronization at specific nodes. In one study, synchronization was limited to a single line.
+The comprehensive literature review conducted on public transport timetable synchronization methods reveals that genetic algorithms have emerged as the most widely used
+approach. GAs have been successfully applied to synchronize timetables at various levels,
+including nodes, selected lines, and entire networks. Furthermore, GAs have demonstrated
+their applicability to both bus and rail networks, as well as connections between different
+modes of transportation.
+In terms of performance, GAs have consistently outperformed other methods, such
+as integer programming, branch-and-bound, and particle swarm optimization, in terms
+of objective function value. Even when not achieving the absolute optimal solution, GAs
+have generally required less computational time to find solutions that are close to optimal.
+While not all authors provided precise details regarding GA parameter settings, the
+most commonly reported values include a crossover rate between 50% and 60% and a
+mutation probability of 10%. The size of the selected population typically falls below
+100 chromosomes.
+Based on the findings of this review, the following recommendations can be made for
+future research and practice in timetable synchronization:
+
+•
+•
+•
+•
+•
+
+Given their demonstrated effectiveness, GAs should remain a primary focus of research
+and development in timetable synchronization;
+Conduct systematic studies to optimize GA parameter settings, such as crossover rate
+and mutation probability, for different types of networks and objectives;
+Explore the integration of GAs into real-time control systems to enable dynamic
+adjustments to timetables in response to disruptions or changing conditions;
+Develop and apply multi-objective optimization techniques to address the conflicting
+goals of passenger satisfaction, operational efficiency, and network resilience;
+Conducted comprehensive case studies and benchmarking exercises to evaluate the
+performance of different synchronization methods in various contexts and identify
+best practices.
+
+5. Conclusions
+The literature review reveals a clear shift in the focus of timetable synchronization
+research since 2013. Earlier studies primarily concentrated on optimizing single aspects,
+such as passenger waiting time or total travel time. However, the increasing number of
+papers published after 2014 demonstrates a growing emphasis on multi-criteria objective
+functions. Researchers have recognized the need to balance multiple objectives, including
+minimizing the number of vehicles required, maximizing passenger comfort through
+occupancy control, and optimizing transfer possibilities.
+The synchronization of the first and last trains in rail networks has emerged as a
+prominent research topic. Additionally, studies have focused on transfers between highspeed trains and airplanes, the synchronization of autonomous feeder buses in transit hubs,
+and the restoration of connectivity in transit rail networks through bus bridging.
+The literature review suggests that genetic algorithms are a versatile and effective
+method for timetable synchronization. GAs have demonstrated their ability to find highquality solutions across various network types and objective functions. While not always
+achieving the absolute optimal solution, genetic algorithms often require less computational
+time compared to other methods.
+Despite the valuable insights gained from these studies, it is important to note that
+many research results have not yet been implemented in real-world public transportation
+
+Future Transp. 2025, 5, 6
+
+21 of 25
+
+systems. While research often provides valuable insights on better solutions regarding public transport timetables, translating these into real-world improvements can be challenging.
+Possible reasons why this gap exists are the following:
+
+•
+
+•
+
+•
+
+•
+
+•
+
+•
+
+Many research projects prioritize demonstrating the potential of a proposed algorithm
+or methodology. This often involves simplified synchronization models and controlled environments that may not fully reflect the complexities of real-world public
+transportation systems.
+Rigorous testing of new timetables in actual operating environments is crucial to
+identify unforeseen challenges and refine the proposed solutions. However, such
+testing can be costly and time-consuming, often hindering the transition from research
+to implementation.
+Even if a research-based solution proves effective in a controlled setting, integrating it
+into an existing transportation system can be complex. This may involve modifications
+to significant infrastructure, software, and operational procedures.
+Public transportation systems are often large, complex organizations with established
+routines and procedures. Introducing new technologies or operational changes can
+face resistance from stakeholders, including drivers, dispatchers, and passengers.
+Implementing new approaches to synchronize public transport can require significant
+financial investment. Securing funding for such initiatives can be challenging for many
+municipalities under budget constraints.
+Effective implementation of new schedules often requires close collaboration between
+researchers, transportation companies, municipal authorities, and other stakeholders.
+However, such collaboration can be hindered by differing priorities.
+
+Future research should focus on bridging the gap between theoretical advancements
+and practical applications. Additionally, further exploration of multi-criteria objective
+functions and the development of real-time control strategies are essential to address the
+evolving challenges and demands of modern public transportation networks.
+Based on the findings of this comprehensive literature review, several promising
+avenues for future research in timetable synchronization can be identified:
+
+•
+
+•
+
+•
+
+•
+
+•
+
+Develop and implement sophisticated real-time rescheduling algorithms capable of
+dynamically adjusting timetables in response to a wide range of disruptions, such as
+delays, cancelations, or unexpected changes in demand;
+Integrate timetable synchronization systems with intelligent traffic management systems to coordinate public transport operations with other modes of transportation,
+such as private vehicles and shared mobility services;
+Develop models for designing and optimizing integrated public transportation networks that consider the interactions between different modes of transportation, such
+as buses, trains, and subways;
+Incorporate accessibility and equity considerations into network planning to ensure
+that public transportation systems are inclusive and meet the needs of diverse passenger populations;
+Utilize big data analytics to analyze large-scale transportation data, including passenger usage patterns, traffic conditions, and operational performance.
+
+Author Contributions: Conceptualization, D.K. and Y.M.; methodology, D.K. and Y.M.; validation,
+V.N.; investigation, D.K. and Y.M.; resources, Y.M.; data curation, Y.M.; writing—original draft
+preparation, D.K.; writing—review and editing, Y.M. and V.N.; visualization, D.K.; supervision, V.N.;
+funding acquisition, V.N. All authors have read and agreed to the published version of the manuscript.
+Funding: This research received no external funding.
+
+Future Transp. 2025, 5, 6
+
+22 of 25
+
+Data Availability Statement: Not applicable.
+Conflicts of Interest: The authors declare no conflict of interest.
+
+References
+1.
+2.
+3.
+4.
+5.
+6.
+7.
+8.
+9.
+10.
+11.
+12.
+13.
+14.
+15.
+16.
+17.
+
+18.
+19.
+20.
+21.
+22.
+23.
+24.
+25.
+26.
+
+27.
+
+Münchschwander, P.; Jänsch, E.; Rump, R. Schienenschnellverkehr: Hochgeschwindigkeitsverkehr International; R. v. Decker’s Verlag:
+Heidelberg, Germany, 1990.
+Ceder, A. Public Transport Planning and Operation—Theory, Modelling and Practice; Elsevier: Oxford, UK, 2007.
+Ibarra-Rojas, O.J.; Rios-Solis, Y.A. Synchronization of bus timetabling. Transp. Res. Part B Methodol. 2012, 46, 599–614. [CrossRef]
+Yin, H.; Wu, J.; Sun, H.; Kang, L.; Liu, R. Optimizing last trains timetable in the urban rail network: Social welfare and
+synchronization. Transp. B Transp. Dyn. 2019, 7, 473–497. [CrossRef]
+Susilo, Y.O.; Cats, O. Exploring key determinants of travel satisfaction for multi-modal trips by different traveler groups. Transp.
+Res. Part A Policy Pract. 2014, 67, 366–380. [CrossRef]
+Allen, J.; Muñoz, J.C.; Rosell, J. Effect of a major network reform on bus transit satisfaction. Transp. Res. Part A Policy Pract.
+2019, 124, 310–333. [CrossRef]
+Badia, H.; Argote-Cabanero, J.; Daganzo, C.F. How network structure can boost and shape the demand for bus transit. Transp.
+Res. Part A Policy Pract. 2017, 103, 83–94. [CrossRef]
+González, L.; Perdiguero, J.; Sanz, À. Impact of public transport strikes on traffic and pollution in the city of Barcelona. Transp.
+Res. Part D Transp. Environ. 2021, 98, 102952. [CrossRef]
+Adler, M.W.; van Ommeren, J.N. Does public transit reduce car travel externalities? Quasi-natural experiments’ evidence from
+transit strikes. J. Urban Econ. 2016, 92, 106–119. [CrossRef]
+Anderson, M.L. Subways, Strikes, and Slowdowns: The Impacts of Public Transit on Traffic Congestion. Am. Econ. Rev.
+2014, 104, 2763–2796. [CrossRef]
+Clever, R. Intermodal integrated timed transfer: A European perspective. Transp. Res. Rec. 1997, 1571, 107–115. [CrossRef]
+Chowdhury, S.; Ceder, A.; Schwalger, B. The effects of travel time and cost savings on commuters’ decision to travel on public
+transport routes involving transfers. J. Transp. Geogr. 2015, 43, 151–159. [CrossRef]
+Holland, J.H. Adaptation in Natural and Artificial Systems; University of Michigan Press: Ann Arbor, MI, USA, 1975.
+Yang, X.-S. Nature-Inspired Optimization Algorithms; Elsevier: Amsterdam, The Netherlands, 2014. [CrossRef]
+Ansari, N.; Hou, E. Genetic Algorithms. In Computational Intelligence for Optimization; Springer: Boston, MA, USA, 1997. [CrossRef]
+Lipowski, A.; Lipowska, D. Roulette-wheel selection via stochastic acceptance. Phys. A Stat. Mech. Its Appl. 2012, 391, 2193–2196.
+[CrossRef]
+Shukla, A.; Pandey, H.M.; Mehrotra, D. Comparative review of selection techniques in genetic algorithm. In Proceedings of the
+International Conference on Futuristic Trends on Computational Analysis and Knowledge Management, Greater Noida, India,
+25–27 February 2015; pp. 515–519. [CrossRef]
+Lin, W.-Y.; Lee, W.-Y.; Hong, T.-P. Adapting Crossover and Mutation Rates in Genetic Algorithms. J. Inf. Sci. Eng. 2003, 19, 889–903.
+[CrossRef]
+Aibinu, A.M.; Bello Salau, H.; Rahman, N.A.; Nwohu, M.N.; Akachukwu, C.M. A novel Clustering based Genetic Algorithm for
+route optimization. Eng. Sci. Technol. 2016, 19, 2022–2034. [CrossRef]
+Asadujjaman, M.; Rahman, H.F.; Chakrabortty, R.K.; Ryan, M.J. Multi-operator immune genetic algorithm for project scheduling
+with discounted cash flows. Expert Syst. Appl. 2022, 195, 116589. [CrossRef]
+Tambe, P. Selective maintenance optimization of a multi-component system based on simulated annealing algorithm. Procedia
+Comput. Sci. 2022, 200, 1412–1421. [CrossRef]
+Dorigo, M.; Gambradella, L. Ant colony system: A cooperative learning approach to the traveling salesman problem. IEEE Trans.
+Evol. Comput. 1997, 1, 53–66. [CrossRef]
+Baltierra, S.; Valdebenito, J.; Mora, M. A proposal of edge detection in images with multiplicative noise using the Ant Colony
+System algorithm. Eng. Appl. Artif. Intell. 2022, 110, 104715. [CrossRef]
+Dong, L.; Gan, X. An energy-saving path planning method using adaptive ant colony system for marine surface vehicles. Soft
+Comput. 2024, 28, 6637–6656. [CrossRef]
+Kennedy, J.; Eberhart, R. Particle swarm optimization. Proc. ICNN’95—Int. Conf. Neural Netw. 1995, 4, 1942–1948. [CrossRef]
+Yang, S.; Wang, H.; Xu, Y.; Guo, Y.; Pan, L.; Zhang, J.; Guo, X.; Meng, D.; Wang, J. A coupled simulated annealing and particle
+swarm optimization reliability-based design optimization strategy under hybrid uncertainties. Mathematics 2023, 11, 4790.
+[CrossRef]
+Liu, T.; Ceder, A. Deficit function related to public transport: 50 year retrospective, new developments, and prospects. Transp. Res.
+Part B Methodol. 2017, 100, 1–19. [CrossRef]
+
+Future Transp. 2025, 5, 6
+
+28.
+29.
+30.
+31.
+32.
+33.
+34.
+35.
+36.
+37.
+38.
+39.
+40.
+41.
+42.
+43.
+44.
+45.
+46.
+47.
+48.
+49.
+50.
+51.
+52.
+53.
+54.
+55.
+56.
+
+23 of 25
+
+Glover, F. Future paths for integer programming and links to artificial intelligence. Comput. Oper. Res. 1986, 13, 533–549.
+[CrossRef]
+Glover, F. Tabu Search: A Tutorial. Interfaces 1990, 20, 74–94. [CrossRef]
+Mirjalili, S.; Mirjalili, S.M.; Lewis, A. Grey Wolf Optimizer. Adv. Eng. Softw. 2014, 69, 46–61. [CrossRef]
+Qiu, Y.; Yang, X.; Chen, S. An improved gray wolf optimization algorithm solving to functional optimization and engineering
+design problems. Sci. Rep. 2024, 14, 14190. [CrossRef]
+Chakroborty, P.; Deb, K.; Subrahmanyam, P. Optimal scheduling of urban transit systems using genetic algorithms. J. Transp. Eng.
+1995, 121, 544–553. [CrossRef]
+Nachtigall, D.; Voget, S. A genetic algorithm approach to periodic railway synchronization. Comput. Oper. Res. 1996, 23, 453–463.
+[CrossRef]
+Bielli, M.; Caramia, M.; Carotenuto, P. Genetic algorithms in bus network optimization. Transp. Res. Part C Emerg. Technol.
+2002, 10, 19–34. [CrossRef]
+Shrivastava, P.; Dhingra, S.L.; Gundaliya, P.J. Application of genetic algorithm for scheduling and schedule coordination problems.
+J. Adv. Transp. 2002, 36, 23–41. [CrossRef]
+Shrivastava, P.; Dhingra, S.L. Development of coordinated schedules using Genetic Algorithms. J. Transp. Eng. 2002, 128, 89–96.
+[CrossRef]
+Ngamchai, S.; Lovell, D.J. Optimal time transfer in bus transit route network design using a genetic algorithm. J. Transp. Eng.
+2003, 129, 510–521. [CrossRef]
+Cevallos, F.; Zhao, F. A Genetic Algorithm for bus schedule synchronization. In Proceedings of the 9th International Conference,
+Chicago, IL, USA, 13–16 August 2006. [CrossRef]
+Cevallos, F.; Zhao, F. Minimizing transfer times in public transit network with Genetic Algorithm. Transp. Res. Rec.
+2006, 1971, 74–79. [CrossRef]
+Shrivastava, P.; O’Mahony, M. A model for development of optimized feeder routes and coordinated schedules—A genetic
+algorithms approach. Transp. Policy 2006, 13, 413–425. [CrossRef]
+Shafahi, Y.; Khani, A. A practical model for transfer optimization in a transit network: Model formulations and solutions. Transp.
+Res. Part A Policy Pract. 2010, 44, 377–389. [CrossRef]
+Yu, B.; Yang, Z.; Yao, J. Genetic Algorithm for bus frequency optimization. J. Transp. Eng. 2010, 136, 576–583. [CrossRef]
+Niu, H.; Zhou, X. Optimizing urban rail timetable under time-dependent demand and oversaturated conditions. Transp. Res. Part
+C Emerg. Technol. 2013, 36, 212–230. [CrossRef]
+Wu, J.; Liu, M.; Sun, H.; Li, T.; Gao, Z.; Wang, D. Equity-based timetable synchronization optimization in urban subway network.
+Transp. Res. Part C Emerg. Technol. 2015, 51, 1–18. [CrossRef]
+Tuzun, A.D.; Yılmaz, S. Transit coordination with heterogeneous headways. Transp. Plan. Technol. 2014, 37, 450–465. [CrossRef]
+Kang, L.; Wu, J.; Sun, H.; Zhu, X.; Gao, Z. A case study on the coordination of last trains for the Beijing subway network. Transp.
+Res. Part B Methodol. 2015, 72, 112–127. [CrossRef]
+Kang, L.; Wu, J.; Sun, H.; Zhu, X.; Wang, B. A practical model for last train rescheduling with train delay in urban railway transit
+networks. Omega 2015, 50, 29–42. [CrossRef]
+Wu, Y.; Tang, J.; Yu, Y.; Pan, Z. A stochastic optimization model for transit network timetable design to mitigate the randomness
+of traveling time by adding slack time. Transp. Res. Part C Emerg. Technol. 2015, 52, 15–31. [CrossRef]
+Wu, Y.; Yang, H.; Tang, J.; Yu, Y. Multi-objective re-synchronizing of bus timetable: Model, complexity and solution. Transp. Res.
+Part C Emerg. Technol. 2016, 67, 149–168. [CrossRef]
+Naumov, V. Synchronisation of timetables for public bus lines using genetic algorithms and computer simulations. Lect. Notes
+Netw. Syst. 2018, 36, 44–53. [CrossRef]
+Shang, P.; Li, R.; Liu, Z.; Xian, K.; Guo, J. Timetable synchronization and optimization considering time-dependent passenger
+demand in an urban subway network. Transp. Res. Rec. 2018, 2672, 243–254. [CrossRef]
+Naumov, V. Genetic-based algorithm of the public transport lines synchronization in a transfer node. Transp. Res. Procedia
+2020, 47, 315–322. [CrossRef]
+Cao, Z.; Ceder, A.; Li, D.; Zhang, S. Optimal synchronization and coordination of actual passenger-rail timetables. J. Intell. Transp.
+Syst. 2019, 23, 231–249. [CrossRef]
+Chen, Y.; Mao, B.; Bai, Y.; Ho, T.; Li, Z. Timetable synchronization of last trains for urban rail networks with maximum accessibility.
+Transp. Res. Part C Emerg. Technol. 2019, 99, 110–129. [CrossRef]
+Wang, Y.; Li, D.; Cao, Z. Integrated timetable synchronization optimization with capacity constraint under time-dependent
+demand for a rail transit network. Comput. Ind. Eng. 2020, 142, 106374. [CrossRef]
+Cao, N.; Tang, T.; Gao, C. Multiperiod Transfer Synchronization for Cross-Platform Transfer in an Urban Rail Transit System.
+Symmetry 2020, 12, 1665. [CrossRef]
+
+Future Transp. 2025, 5, 6
+
+57.
+58.
+59.
+60.
+61.
+62.
+63.
+64.
+65.
+66.
+67.
+68.
+69.
+70.
+71.
+72.
+73.
+74.
+75.
+76.
+77.
+78.
+79.
+80.
+81.
+82.
+83.
+84.
+85.
+
+24 of 25
+
+Guo, X.; Wu, J.; Sun, H.; Yang, X.; Jin, J.; Wang, D. Scheduling synchronization in urban rail transit networks: Trade-offs between
+transfer passenger and last train operation. Transp. Res. Part A Policy Pract. 2020, 138, 463–490. [CrossRef]
+Ataeian, S.; Solimanpur, M.; Amiripour, S.; Shankar, R. Synchronized timetables for bus rapid transit networks in small and large
+cities. Sci. Iran. 2021, 28, 477–491. [CrossRef]
+Naeini, H.M.; Shafahi, Y.; Taherkhani, M.S. Optimizing and synchronizing timetable in an urban subway network with stop-skip
+strategy. J. Rail Transp. Plan. Manag. 2022, 22, 100301. [CrossRef]
+Wang, Y.; Zhou, Y.; Yan, X. Autonomous bus timetable synchronization for maximizing smooth transfers with passenger
+assignment. Expert Syst. Appl. 2022, 193, 478–492. [CrossRef]
+Niu, H.; Tian, X.; Zhou, X. Demand-driven train schedule synchronization for high-speed rail lines. IEEE Trans. Intell. Transp.
+Syst. 2015, 16, 2642–2652. [CrossRef]
+Zhao, F.; Zeng, X. Optimization of transit route network, vehicle headways and timetables for large-scale transit networks. Eur. J.
+Oper. Res. 2008, 186, 841–855. [CrossRef]
+Poorjafari, V.; Yue, W.L.; Holyoak, N. Application of simulated annealing in transit schedule synchronization. Int. J. Model. Optim.
+2014, 4, 476–481. [CrossRef]
+Guo, X.; Sun, H.; Wu, J.; Jin, J.; Zhou, J.; Gao, Z. Multiperiod-based timetable optimization for metro transit networks. Transp. Res.
+Part B Methodol. 2017, 96, 46–67. [CrossRef]
+Ceder, A.; Golany, B.; Tal, O. Creating bus timetables with maximal synchronization. Transp. Res. Part A Policy Pract.
+2001, 35, 913–928. [CrossRef]
+Eranki, A. A Model to Create Bus Timetables to Attain Maximum Synchronization Considering Waiting Times at Transfer Stops.
+Master’s Thesis, University of South Florida, Tampa, FL, USA, 2004.
+Vansteenwegen, P.; van Oudheusden, D. Decreasing the passenger waiting time for an intercity rail network. Transp. Res. Part B
+Methodol. 2007, 41, 478–492. [CrossRef]
+Liebchen, C. The first optimized railway timetable in practice. Transp. Sci. 2008, 42, 420–435. [CrossRef]
+Wong, R.; Yuen, T.; Fung, K.; Leung, J. Optimizing timetable synchronization for rail mass transit. Transp. Sci. 2008, 42, 57–69.
+[CrossRef]
+Bruno, G.; Improta, G.; Sgalambro, A. Models for the schedule optimization problem at a public transit terminal. OR Spectr.
+2009, 31, 465–481. [CrossRef]
+Nesheli, M.; Ceder, A. Optimal combinations of selected tactics for public-transport transfer synchronization. Transp. Res. Part C
+Emerg. Technol. 2014, 48, 491–504. [CrossRef]
+Dou, X.; Meng, Q.; Guo, X. Bus schedule coordination for the last train service in an intermodal bus-and-train transport network.
+Transp. Res. Part C Emerg. Technol. 2015, 60, 360–376. [CrossRef]
+Ibarra-Rojas, O.J.; López-Irarragorri, F.; Rios-Solis, Y.A. Multiperiod bus timetabling. Transp. Sci. 2015, 50, 805–822. [CrossRef]
+Guo, X.; Wu, J.; Sun, H.; Liu, R.; Gao, Z. Timetable coordination of first trains in urban railway network: A case study of Beijing.
+Appl. Math. Model. 2016, 40, 8048–8066. [CrossRef]
+Wu, W.; Liu, R.; Jin, W. Designing robust schedule coordination scheme for transit networks with safety control margins. Transp.
+Res. Part B Methodol. 2016, 93, 495–519. [CrossRef]
+Gschwender, A.; Jara-Díaz, S.; Bravo, C. Feeder-trunk or direct lines? Economies of density, transfer costs and transit structure in
+an urban context. Transp. Res. Part A Policy Pract. 2016, 88, 209–222. [CrossRef]
+Dou, X.; Guo, X. Schedule coordination method for last train transfer problem. Transp. Res. Rec. 2017, 2648, 86–95. [CrossRef]
+Liu, T.; Ceder, A.; Chowdhury, S. Integrated public transport timetable synchronization with vehicle scheduling. Transp. A Transp.
+Sci. 2017, 13, 932–954. [CrossRef]
+Kang, L.; Zhu, X.; Sun, H.; Wu, J.; Gao, Z.; Hu, B. Last train timetabling optimization and bus bridging service management in
+urban railway transit networks. Omega 2019, 84, 31–44. [CrossRef]
+Shang, H.-Y.; Huang, H.-J.; Wu, W.-X. Bus timetabling considering passenger satisfaction: An empirical study in Beijing. Comput.
+Ind. Eng. 2019, 135, 1155–1166. [CrossRef]
+Wang, Y.; Wei, Y.; Zhang, Q.; Shi, H.; Shang, P. Scheduling overnight trains for improving both last and first train services in an
+urban subway network. Adv. Mech. Eng. 2019, 11, 1687814019848920. [CrossRef]
+Takamatsu, M.; Taguchi, A. Bus timetable design to ensure smooth transfers in areas with low-frequency public transportation
+services. Transp. Sci. 2020, 54, 1238–1250. [CrossRef]
+Ke, Y.; Park, D.; Nie, L.; Liebchen, C.; Yuan, W.; Wu, X. Improving synchronization in an air and high-speed rail integration
+service via adjusting a rail timetable: A Real-world case study in China. J. Adv. Transp. 2020, 2020, 5081315. [CrossRef]
+Lee, K.; Jiang, Y.; Ceder, A.; Dauwels, J.; Su, R.; Nielsen, O. Path-oriented synchronized transit scheduling using time-dependent
+data. Transp. Res. Part C Emerg. Technol. 2022, 136, 103505. [CrossRef]
+Wardman, M. Public transport values of time. Transp. Policy 2004, 11, 363–377. [CrossRef]
+
+Future Transp. 2025, 5, 6
+
+25 of 25
+
+Klemt, W.D.; Stemme, W. Schedule synchronization for public transit networks. Lect. Note Econ. Math. Syst. 1989, 11, 17–24.
+[CrossRef]
+87. Daduna, J.R.; Voß, S. Practical experiences in schedule synchronization. In Computer-Aided Transit Scheduling: Proceedings of the
+Sixth International Workshop on Computer-Aided Scheduling of Public Transport; Springer: Berlin/Heidelberg, Germany, 1995; Volume
+430. [CrossRef]
+88. Teodorović, D.; Lučić, P. Schedule synchronization in public transit using the fuzzy ant system. Transp. Plan. Technol.
+2005, 28, 47–76. [CrossRef]
+89. Schröder, M.; Solchenbach, I. Optimization of Transfer Quality in Regional Public Transit; Berichte Des Fraunhofer ITWM: Kaiserslautern, Germany, 2006; Volume 84.
+90. Chowdhury, M.; Chien, S. Joint optimization of bus size, headway, and slack time for efficient timed transfer. Transp. Res. Rec.
+2011, 2218, 48–58. [CrossRef]
+91. Hadas, Y.; Ceder, A. Optimal coordination of public-transit vehicles using operational tactics examined by simulation. Transp. Res.
+Part C Emerg. Technol. 2010, 18, 879–895. [CrossRef]
+92. Parbo, J.; Nielsen, O.A.; Prato, C.G. User perspectives in public transport timetable optimisation. Transp. Res. Part C Emerg.
+Technol. 2014, 48, 269–284. [CrossRef]
+93. Shen, Y.; Wang, S. Maximal synchronization of feeder buses to metro using particle swarm optimization. Commun. Comput. Inf.
+Sci. 2015, 562, 350–361. [CrossRef]
+94. Liu, T.; Ceder, A. User and operator perspectives in public transport timetable synchronization design. Transp. Res. Rec.
+2017, 2667, 154–163. [CrossRef]
+95. Shang, H.; Liu, Y. An extended vehicle scheduling model considering interests of both passengers and bus operators. In
+Proceedings of the 2019 Chinese Control Conference (CCC), Guangzhou, China, 27–30 July 2019; pp. 1995–2000. [CrossRef]
+96. Shang, H.; Galante, F.; Liu, Y.; Huang, H.; Guo, R. Vehicle scheduling optimization considering the passenger waiting cost. J. Adv.
+Transp. 2019, 2019, 4212631. [CrossRef]
+97. Gkiotsalitis, K.; Maslekar, N. Towards transfer synchronization of regularity-based bus operations with sequential hill-climbing.
+Public Transp. 2018, 10, 335–361. [CrossRef]
+98. Jansen, L.; Pedersen, M.; Nielsen, O. Minimizing passenger transfer times in public transport timetables. In Proceedings of the
+7th Conference of the Hong Kong Society for Transportation Studies: Transportation in the Information Age, Hong Kong, China,
+14 December 2002.
+99. Wang, H.; Shen, J. Heuristic approaches for solving transit vehicle scheduling problem with route and fueling time constraints.
+Appl. Math. Comput. 2007, 190, 1237–1249. [CrossRef]
+100. Liu, Z.; Shen, J.; Wang, H.; Yang, W. Regional bus timetabling model with synchronization. J. Transp. Syst. Eng. Inf. Technol.
+2007, 7, 109–112. [CrossRef]
+101. Guihaire, V.; Hao, J.K. Transit Network Re-timetabling and Vehicle Scheduling. In International Conference on Modelling, Computation
+and Optimization in Information Systems and Management Sciences; Springer: Berlin/Heidelberg, Germany, 2008; Volume 14.
+[CrossRef]
+102. Fonseca, J.P.; van der Hurk, E.; Roberti, R.; Larsen, A. A metaheuristic for transfer synchronization through integrated timetabling
+and vehicle scheduling. Transp. Res. Part B Methodol. 2018, 109, 128–149. [CrossRef]
+103. Abdolmaleki, M.; Masoud, N.; Yin, Y. Transit timetable synchronization for transfer time minimization. Transp. Res. Part B
+Methodol. 2020, 131, 143–159. [CrossRef]
+86.
+
+Disclaimer/Publisher’s Note: The statements, opinions and data contained in all publications are solely those of the individual
+author(s) and contributor(s) and not of MDPI and/or the editor(s). MDPI and/or the editor(s) disclaim responsibility for any injury to
+people or property resulting from any ideas, methods, instructions or products referred to in the content.
+
+

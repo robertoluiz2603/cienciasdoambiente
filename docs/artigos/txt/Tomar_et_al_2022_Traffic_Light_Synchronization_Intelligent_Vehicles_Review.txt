@@ -1,0 +1,3084 @@
+electronics
+Review
+
+State-of-Art Review of Traffic Light Synchronization for
+Intelligent Vehicles: Current Status, Challenges,
+and Emerging Trends
+Ishu Tomar * , Indu Sreedevi and Neeta Pandey
+Electronics and Communication Engineering Department, Delhi Technological University, Delhi 110042, India;
+s.indu@dce.ac.in (I.S.); neetapandey@dce.ac.in (N.P.)
+* Correspondence: ishutomar.611@gmail.com
+
+
+
+Citation: Tomar, I.; Sreedevi, I.;
+
+Abstract: The effective control and management of traffic at intersections is a challenging issue in the
+transportation system. Various traffic signal management systems have been developed to improve
+the real-time traffic flow at junctions, but none of them have resulted in a smooth and continuous
+traffic flow for dealing with congestion at road intersections. Notwithstanding, the procedure of
+synchronizing traffic signals at nearby intersections is complicated due to numerous borders. In
+traditional systems, the direction of movement of vehicles, the variation in automobile traffic over
+time, accidents, the passing of emergency vehicles, and pedestrian crossings are not considered.
+Therefore, synchronizing the signals over the specific route cannot be addressed. This article explores
+the key role of real-time traffic signal control (TSC) technology in managing congestion at road
+junctions within smart cities. In addition, this article provides an insightful discussion on several
+traffic light synchronization research papers to highlight the practicability of networking of traffic
+signals of an area. It examines the benefits of synchronizing the traffic signals on various busy routes
+for the smooth flow of traffic at intersections.
+Keywords: traffic lights; intersections; synchronization; traffic management and control
+
+Pandey, N. State-of-Art Review of
+Traffic Light Synchronization for
+Intelligent Vehicles: Current Status,
+Challenges, and Emerging Trends.
+Electronics 2022, 11, 465. https://
+doi.org/10.3390/electronics11030465
+Academic Editor: José Santa
+Received: 25 December 2021
+Accepted: 26 January 2022
+Published: 4 February 2022
+Publisher’s Note: MDPI stays neutral
+with regard to jurisdictional claims in
+published maps and institutional affiliations.
+
+Copyright: © 2022 by the authors.
+Licensee MDPI, Basel, Switzerland.
+This article is an open access article
+distributed under the terms and
+conditions of the Creative Commons
+Attribution (CC BY) license (https://
+creativecommons.org/licenses/by/
+4.0/).
+
+1. Introduction
+For ensuring vehicular traffic safety and consistent flow of traffic, traffic signal control
+and management at road junctions is a challenging problem in the transportation system.
+Intersections are the points where two or more routes interact with each other. Intersections
+are where crossroads, pedestrians, vehicles, and bikes change their direction. Intersections
+act as an obstruction/barrier for smooth traffic flow within the urban areas because of the
+large number of vehicles traveling from one place to another. This leads to traffic interruption, congestion, and poor control and management of the traffic [1,2]. The intersection
+delay affects the signal control logic and the travel efficiency of road users [3]. According
+to a study, over 10% of the traffic delays all over the world are due to the fixed traffic signal
+delays. It was found that over 295 million traffic hours of delay was observed on major road
+intersections in the United States [4]. Therefore, precise estimates of time-dependent delays
+are needed at junctions on metropolitan roadways for traffic control and management.
+Intelligent Transportation Systems (ITS) address the complex issue of effective control
+and management of traffic at junctions. There should be a balance in between safe and
+effective traffic control at the intersections in order to allow the maximum vehicles to move
+through while maintaining safety [5]. Nowadays, traffic-light signaling is used to regulate
+traffic at crucial junctions/crossings by distributing the same green light timings to all
+routes [6]. The complicated architecture of traffic systems does not coordinate/link the
+timings of traffic signals with the average daily road traffic, which leads to congestion at the
+intersections. Various metropolitan cities such as New Delhi, Bangalore, and Mumbai are
+going through this imbalanced/uneven traffic flow scenario in cities because the majority
+
+Electronics 2022, 11, 465. https://doi.org/10.3390/electronics11030465
+
+https://www.mdpi.com/journal/electronics
+
+Electronics 2022, 11, 465
+
+2 of 20
+
+of working people live in the neighboring areas. The traffic imbalance is generally seen
+during the peak hours (morning and evening) when people drive from their jobs and
+residency. Numerous traffic light management systems have been developed to improve
+the real-time traffic flow at junctions, but none of them have resulted in real-time traffic
+synchronization or networking. As a result, metropolitan cities require an updated traffic
+signal control mechanism/technique that updates traffic signal timing and synchronizes
+the traffic signals at the road intersections on the basis of real-time traffic information.
+For large-scale TSC, synchronization provides a number of advantages. Synchronization is not reliant on any network design or set of rules. This is perfect for network traffic
+management. When the system’s most comparable entities synchronize, it is called synchronization. When traffic signal timing and traffic conditions at nearby intersections are
+comparable or matching, adaptive and smooth traffic signal coordination can be achieved.
+This article provides a comprehensive survey of the TSC strategies that have been
+developed so far. In addition, it provides a detailed analysis of the associated research
+study and technology advancement status by comparing the existing techniques used
+for congestion control at road intersections. This article offers an insightful discussion
+on several traffic light synchronization research papers to highlight the practicability of
+networking of traffic signals of an area. It emphasizes the gaps in research, open challenges,
+and provides potential directions for further research in this area.
+This paper’s key features and contributions are as follows:
+
+•
+•
+
+To explore the key role of real-time traffic signal control technology in managing
+congestion at road junctions within smart cities.
+To summarize the benefits and implementation status of traffic light synchronization
+and directions for future research for networking traffic lights at intersections of roads.
+
+This article’s layout is organized in the following manner. In the beginning, we provide
+a brief introduction about the history and development background of TSC technology and
+traffic tight synchronization for intelligent vehicles, and then, the technical benefits of the
+current traffic light systems are discussed. Then, we compare the existing techniques used
+for congestion control at road intersections with the help of related work. Afterwards, the
+synchronization of traffic light development status is summarized and directions for future
+research for networking traffic lights at road intersections are suggested. Then, typical
+applications of traffic light networking are discussed. Finally, we conclude the whole paper.
+2. Background of Traffic Signal Synchronization for Intelligent Vehicles
+The development of traffic signal synchronization for intelligent vehicles is derived
+from the traffic light control technology. To better understand the synchronization of traffic
+lights concept, this section outlines the traffic light control technology and analyzes the
+advantages of synchronization of traffic lights.
+2.1. Overview of the Traffic Signal Control Technology
+The design of an intelligent traffic light control system is an active research topic.
+Many researchers are working on the design and development of intelligent traffic signal
+control systems to solve this stressful issue. Traffic lights can be synchronized as part
+of regional traffic control methods to enhance the system performance at coordinated
+junctions. New methods and advanced systems based on artificial intelligence, fuzzy logic,
+swarm intelligence, evolutionary algorithms [7], image processing, neural network, data
+fusion, and linear programming etc. have been proposed by the researchers to solve this
+TSC problem. Table A2 shows the categorization of existing literature on techniques used
+for congestion control at road intersections. Figure 1 presents the year-by-year trend of the
+papers published in the area between 1990 and 2021.
+
+Electronics 2022, 11, 465
+
+3 of 18
+
+Electronics 2022, 11, 465
+Electronics 2022, 11, 465
+
+3 of 18
+3 oftrend
+20
+for congestion control at road intersections. Figure 1 presents the year-by-year
+of
+the papers published in the area between 1990 and 2021.
+
+for congestion control at road intersections. Figure 1 presents the year-by-year trend of
+the papers published in the area between 1990 and 2021.
+
+Figure
+1. Numberofof
+ofpapers
+papers published
+published in
+in
+TSC
+domain
+from
+1990
+to 2021.
+Figure
+papers
+from
+1990
+to
+2021.
+Figure
+1. 1.
+Number
+published
+inTSC
+TSCdomain
+domain
+from
+1990
+to
+2021.
+
+Numerous
+traffic
+algorithms
+have
+been
+developed
+so far
+improve
+Numeroustraffic
+trafficlight
+lightmanagement
+management
+algorithms
+have
+been
+developed
+sotofar
+im-to imNumerous
+light
+management
+algorithms
+have
+been
+developed
+sotofar
+the
+real-time
+traffic flow
+junctions,
+but none
+themofhave
+resulted in
+real-time
+traffic
+prove
+the real-time
+trafficatflow
+at junctions,
+butofnone
+them have
+resulted
+in real-time
+prove the real-time traffic flow at junctions, but none of them have resulted in real-time
+synchronization
+or
+networking.
+The The
+risingrising
+trendtrend
+reflects
+the the
+increasing
+popularity
+in
+traffic
+synchronization
+or
+networking.
+reflects
+increasing
+popularity
+traffic
+synchronization
+or networking.
+The rising trend
+reflects the increasing
+popularity
+thethe
+subject
+and
+emphasizes
+thethe
+importance
+in
+subject
+and
+emphasizes
+importanceofofcurrent
+currentresearch.
+research.Figure
+Figure22illustrates
+illustrates the
+the
+in the
+subjectof
+emphasizes the importance of current research. Figure 2 illustrates the
+taxonomy
+the
+taxonomy
+ofand
+the paper.
+paper.
+taxonomy of the paper.
+
+Figure
+Figure 2.
+2. Taxonomy
+Taxonomy of
+of the
+the article.
+article.
+
+2.1.1. Traditional Traffic Control Methods
+2.1.1. Traditional Traffic Control Methods
+Many
+researchers
+Figure 2.
+Taxonomy
+of thearound
+article.the world are working in the field of ITS. It has been known
+Many researchers around the world are working in the field of ITS. It has been known
+for a long time that working on intelligent traffic monitoring and control systems gives
+for a long time that working on intelligent traffic monitoring and control systems gives
+various
+traffic-responsive
+management
+solutions that may reduce junction delays dramati2.1.1.
+Traditional
+Traffic Control
+Methods
+cally. SCOOT [8], SCATS [9], OPAC [10], RHODES [11], PRODYN [12], and MOTION [13]
+
+Many researchers around the world are working in the field of ITS. It has been known
+for a long time that working on intelligent traffic monitoring and control systems gives
+
+Electronics 2022, 11, 465
+
+4 of 20
+
+are examples of adaptive traffic control systems that were designed and implemented in
+several cities in recent decades. SCOOT [8] and SCATS [9] are adaptive traffic control
+strategies. These systems use loop/magnetic detectors for gathering traffic data. However,
+the limitation in these methods is that they do not provide the vehicle’s speed, heading,
+and position. While SCATS is a fully computer (microcomputer, regional computer, and
+central computer)-based system, it is very expensive to use. Unlike SCOOT and SCATS,
+PRODYN [12] is not based on cyclic settings. PRODYN addresses the global traffic problem
+using a two-level iterative computation structure after decomposing the enormous initial
+optimization problem into multiple smaller problems answered via Dynamic Programming.
+These adaptive traffic systems generate a “green signal” for large vehicle flow by
+optimizing the network’s traffic signal offset values according to the current traffic demand. Both real-time and predicted traffic arrivals are used in these systems to optimize
+the objective functions. These systems have significant drawbacks in terms of cost and
+functionality because they use cameras and loop/magnetic detectors to track vehicles.
+The initial implementation cost of the system is around $30,000/junction having a cost of
+$28,800 per mile/year [14]. Moreover, these systems need a large communication infrastructure that is capable of supporting a centralized control with a high data rate. As a result,
+many cities across the world have developed systems with high implementation cost.
+The Webster procedure was used for fixed signal control at isolated junctions [15] for
+operation based on measured flows. In this method, the cycle length of every intersection
+is calculated using Webster’s equation. The highest cycle length will act as the cycle
+length of the whole system. This modified demand-based strategy is viable for realtime undersaturated traffic conditions. In fact, the Traffic Response Urban Control (TUC)
+technique may be utilized to eliminate the predetermined static signal control sequence,
+which may lead to more successful outcomes than the original TUC approach. However,
+the issue is that this technique is quite complex.
+2.1.2. Vision-Based Traffic Control Methods
+A video camera was utilized to predict and monitor real-time traffic using a dynamic
+Bayesian networks technique in [16]. In this computationally light method, the distribution
+of spatial interest and spatiotemporal interest points is classified using the Gaussian mixture
+model (GMM), and then, the dynamic Bayesian approach is used.
+Feature-based approaches [17] and neural networks [18] are also used to recognize
+and track vehicles coming toward an intersection. Feature-based methods track the features
+less sensitive to partial occlusion. This approach was ineffective for real-time TSC due to its
+low accuracy and large storage requirements. In these feature-based methods, binarization,
+rule-based logic, cameras, and road conditions are used to identify vehicles, which makes
+the process complex and tedious.
+Indu et al. [19] proposed a simple but expensive adaptive traffic signaling system that
+uses video camera data to provide equal green light timings and then allocates enough
+time using a fair weight and optimal weight calculation algorithm.
+Vehicle tracking and image segmentation algorithms become ineffective for real-time
+operations because of the computational complexity and longer execution time. However, some are not able to operate effectively at night or in variable weather conditions.
+Zheng et al. [20] use neural networks to predict the upcoming traffic volume from a 15-min
+daylight traffic flow on an expressway. As a result of the high complexity and memory
+needs, this approach is unsuitable for real-time systems.
+2.1.3. Sensor-Based Traffic Control Methods
+Sharma et al. [21] presented a method that assigns equal green signal duration and
+arrange fair lane departure at an intersection using the GPS data of the users.
+Wang et al. [22] proposed a data fusion approach that collects the data on the speed,
+position, and direction of the vehicles approaching junctions with the help of GPS sensors
+
+Electronics 2022, 11, 465
+
+5 of 20
+
+in vehicles. This method only improves the traffic flow on a road network; it does not
+control the traffic signal timing.
+Other strategies such as detectors [23], on-board GPS, and big data technologies [24,25]
+are also used to monitor the arrival and departure of vehicles at a junction to reduce the
+congestion in urban areas. For monitoring the local traffic in a region, sensors and traffic
+servers are also used. Embedded technology [26] records the GPS data of vehicles and
+sends it to the traffic monitoring system through GSM/GPRS. This method has a very high
+implementation cost.
+Coll et al. [27] introduced an adaptive system based on linear programming that
+controls the traffic lights and reduces the waiting time at intersections. This method uses
+the data gathered from the real-time sensors placed at every intersection.
+TSC systems based on Wireless Sensor Network (WSN) have also been used at isolated
+intersections in [28,29]. Rida et al. [28] proposed a time-fragment based control mechanism
+that splits the time and calculates the percentage of green ratio. Yousef et al. [30] proposed
+a connected vehicle-based algorithm for isolated junctions that uses vehicle proximity for
+releasing vehicle platoons.
+2.1.4. Connected Vehicle-Based Traffic Control Methods
+Another technique to adaptive decision making is the Virtual Traffic Light (VTL)
+approach [31], which is a Vehicle-to-Vehicle (V2V) traffic control system with enormous
+potential, since it may increase traffic flow by more than 30% while eliminating the usage of
+expensive traffic signals. VTL makes use of V2V communication using the Signal Phase and
+Timing (SPaT) message and Basic Safety Message (BSM) from the Dedicated Short Range
+Communication (DSRC) radio for traffic management at intersections. The drawback of
+this approach is that it requires full penetration of DSRC technology in vehicles, which is
+not possible at the present time. Furthermore, V2V communications in VTL could come
+across non-LoS conditions, which makes rapid decision making extremely challenging [32].
+A connected vehicle (CV) initiative [33,34] was established by the Virginia Department
+of Transportation (VDOT) to focus on different V2V and Vehicle-to-Infrastructure (V2I)
+applications. This program intends to lower the cost of infrastructure for roadside guidance
+signs and traffic lights by using DSRC technology. However, the complete penetration of
+the DSRC is required for the connected corridor setup.
+Tonguz et al. [35] presented a DSRC-based traffic management method for road
+intersections. Roads with DSRC-equipped automobiles are given precedence under this
+system. Even if a small number of vehicles have DSRC technology, this strategy can be
+effective in reducing the average waiting time on each traffic light. When compared to
+alternative TSC systems that use detectors, sensors, and cameras, this technique provides
+a cost-effective solution for traffic management in urban areas by simply using DSRC
+Road-Side Units (RSUs).
+Dresner et al. [36] describes autonomous intersection management (AIM) utilizing
+multiagent systems, in which drivers and junctions are considered as autonomous entities.
+Intersections employ a completely new reservation-based technique based on a detailed
+communication protocol in this mechanism.
+2.1.5. Learning-Based Traffic Control Methods
+Many studies have recommended using reinforcement learning (RL) to regulate traffic
+lights and reduce traffic congestion [37,38]. Unlike traditional TSC systems, which depend
+mainly on predefined models, RL may learn immediately from input as shown in Figure 3.
+Every junction in RL is portrayed as an agent that optimizes its input-based travel time
+from the surroundings when the action (i.e., the traffic lights) is set [39].
+
+2.1.5. Learning-Based Traffic Control Methods
+
+Electronics 2022, 11, 465
+
+Many studies have recommended using reinforcement learning (RL) to regulate traffic lights and reduce traffic congestion [37,38]. Unlike traditional TSC systems, which depend mainly on predefined models, RL may learn immediately from input as shown in
+6 of 20
+Figure 3. Every junction in RL is portrayed as an agent that optimizes its input-based
+travel time from the surroundings when the action (i.e., the traffic lights) is set [39].
+
+working procedure.
+procedure.
+Figure 3. Reinforcement learning working
+
+Zheng et al. [40] suggested a FRAP model based on phase competitive modeling,
+which
+which achieves
+achieves invariance
+invariance in traffic
+traffic flow
+flow flipping
+flipping and
+and rotation
+rotation conditions.
+conditions. In complicated
+traffic
+traffic situations
+situations and
+and multi-junction
+multi-junction configurations,
+configurations, this
+this system
+system discovers
+discovers better
+better solutions
+solutions
+and
+delivers
+greater
+performance
+than
+prior
+learning
+methods.
+and delivers greater performance than prior learning methods.
+To
+To overcome
+overcomethe
+thefixed
+fixedtraffic
+trafficsignal
+signalproblem,
+problem,ref.
+ref.[41]
+[41]proposes
+proposesaanovel
+novelMARL
+MARL(Multi(Mulagent
+Reinforcement
+Learning)
+approach
+called
+Co-DQL,
+which
+stands
+for
+tiagent Reinforcement Learning) approach called Co-DQL, which stands for co-operative
+co-operative
+double
+The overestimation
+overestimation problem
+problem that
+that affects
+affects traditional
+traditional independent
+independent QQdouble Q-learning.
+Q-learning. The
+learning
+simulators are
+are used
+used to
+to test
+various traffic
+learning is
+is avoided
+avoided with
+with Co-DQL.
+Co-DQL. TSC
+TSC simulators
+test various
+traffic flow
+flow
+conditions.
+MARL
+provides
+a
+new
+reward
+allocation
+mechanism
+for
+boosting
+agent
+stabilconditions. MARL provides a new reward allocation mechanism for boosting agent staity
+andand
+resilience.
+bility
+resilience.
+Joo
+et al.
+al. [42],
+[42],WeiHua
+WeiHuaetetal.al.[43],
+[43],and
+and
+Zhang
+investigated
+some
+recent
+Joo et
+Zhang
+et et
+al. al.
+[44][44]
+investigated
+some
+recent
+imimprovements
+in
+RL
+techniques
+that
+may
+be
+applied
+to
+solve
+difficulties
+with
+traffic
+provements in RL techniques that may be applied to solve difficulties with traffic signal
+signal
+regulation.
+They describe
+describe the
+the usage
+regulation. They
+usage of
+of PPO,
+PPO, A2C,
+A2C, and
+and ACKTR
+ACKTR algorithms
+algorithms to
+to handle
+handle the
+the
+problem of partial vehicle detection.
+problem of partial vehicle detection.
+For TSC, Zhang et al. [45] proposes a deep Q-learning approach with partial vehicle
+For TSC, Zhang et al. [45] proposes a deep Q-learning approach with partial vehicle
+identification using DSRC. This system has the benefit of being able to identify cars utilizing
+identification using DSRC. This system has the benefit of being able to identify cars utilizdifferent detection technologies such as LTE/5G, BLE 5.0, and RFID.
+ing different detection technologies such as LTE/5G, BLE 5.0, and RFID.
+2.1.6. Miscellaneous Traffic Control Methods
+2.1.6. Miscellaneous Traffic Control Methods
+Dezani et al. [46,47] used genetic algorithm (GA) to optimize traffic signals in real time
+Dezani et the
+al. [46,47]
+algorithm
+traffic signals
+in real
+and determine
+optimalused
+pathsgenetic
+for cars.
+With the(GA)
+use oftoa optimize
+basic neighborhood
+algorithm,
+time and
+the optimal
+pathsafor
+cars.
+Withstrategy
+the usethat
+of alowers
+basic neighborhood
+alSabar
+et al.determine
+[48] enhanced
+GA by using
+local
+search
+the average delay
+gorithm,
+Sabar
+et
+al.
+[48]
+enhanced
+GA
+by
+using
+a
+local
+search
+strategy
+that
+lowers
+the
+in traffic even more than feasible.
+average
+in trafficnetwork,
+even more
+thanSun
+feasible.
+In adelay
+nine-junction
+Li and
+[49] suggested a multifunctional GA for traffic
+In
+a
+nine-junction
+network,
+Li
+and
+Sun
+a multifunctional
+GA for traffic
+optimization. However, this method did not[49]
+usesuggested
+real-time traffic
+data.
+optimization.
+However,
+this
+method
+did
+not
+use
+real-time
+traffic
+data.
+For traffic light scheduling, refs. [50–52] employ a particle swarm optimization (PSO)
+For to
+traffic
+light traffic
+scheduling,
+refs.
+employ
+particle
+swarm
+optimizationso(PSO)
+technique
+regulate
+lights
+to[50–52]
+minimize
+the a
+waiting
+time
+at intersections
+that
+technique
+to reach
+regulate
+traffic
+lights toin the
+minimize
+the waiting
+at Other
+intersections
+that
+vehicles
+can
+their
+destination
+minimum
+feasibletime
+time.
+swarm so
+intellivehicles
+can
+reach
+their
+destination
+in
+the
+minimum
+feasible
+time.
+Other
+swarm
+intelligence algorithms used for TSC include Ant Colony Optimization [53,54] and Harmony
+gence algorithms
+used for TSC include Ant Colony Optimization [53,54] and Harmony
+search
+[55,56].
+search
+[55,56].
+Milanés et al. [57] presented a V2V communication-based method for reducing traffic
+Milanés
+[57] presented
+a
+V2Vthe speed
+communication-based
+method
+for reducing
+traffic
+congestion
+at et al.
+intersections
+by
+utilizing
+and location of
+autonomous
+vehicles.
+congestion
+intersections
+by a
+utilizing
+and
+location
+autonomousand
+vehicles.
+Bi et al.at[58,59]
+presented
+type-2 the
+FLCspeed
+system
+to solve
+theofcoordination
+complicated uncertainty issues in heavy but organized traffic. (based on fuzzy and Q learning).
+Firdous et al. [60,61] developed a real-time control system based on fuzzy logic to reduce
+vehicle waiting times at intersections.
+3. Advantages of Synchronizing the Traffic Lights
+The primary goals of TSC technology is to improve traffic safety and travel quality
+as well as lower the pollution caused by vehicles. However, due to the rapid growth of
+numerous issues such as the increase in the number of vehicles on the road, traffic jams,
+
+Electronics 2022, 11, 465
+
+7 of 20
+
+and increased pollution over the last 20 years, even emerging countries have relied on the
+most basic traffic signal control technologies.
+Traffic congestion has been a serious concern in metropolitan areas as vehicular traffic
+has increased. The problem is even worse at road intersections, where pre-timed traffic
+signals produce delays, increased vehicle activity costs, and air pollution. Time delays are
+least caused in roadways and rural areas; they are frequently observed in metropolitan cities.
+Consequently, metropolitan traffic shapes the concerned area of research on delays caused
+for vehicles and pedestrians. The basic objective of signalized junctions is to decrease
+the problems that are experienced more at unsignalized crossing points and rotaries and
+furthermore to give an equivalent chance to all vehicles to cross the intersection.
+To address these concerns, traffic light synchronization is a technique in which a vehicle
+traveling along one side of the road at a specific speed can continue to the opposite end of
+the road indefinitely by obtaining the maximum number of green lights at the intersections.
+4. Development Status of Synchronization of Traffic Lights
+The synchronization of traffic signals across a city is supported by traffic light control
+frameworks. When automobiles pass through a junction network, these frameworks lower
+the amount of time they have to wait. Despite the previous research in this domain over the
+last five decades, improved traffic signal control framework administration is still required.
+To enhance traffic flow efficiency at high-density junctions, Hu et al. [62] employed a
+long green and long red (LGLR) technique for synchronizing the traffic lights of an area.
+For smoothening the traffic flow across the city, ref. [63] employed a real-time system for the
+synchronization of traffic lights using multiagent fuzzy logic and the Q-learning approach.
+Amogh et al. [64] presented a method for improving traffic synchronization efficiency
+by dynamically modifying timing settings. This system uses traffic cameras to obtain
+vehicle density at each intersection and then uses OpenCV to conduct operations on
+the pictures.
+Khan et al. [65] proposes a self-organized TSC system based on sensors. It improves
+the efficiency of traffic flow and reduces the waiting time at intersections. In comparison
+to traditional traffic management systems, this technology gives more information and
+prioritizes the road with a large number of cars at an intersection first. However, this
+approach does not synchronize the traffic lights of all the intersections.
+V2I connectivity was utilized in [66] for the networking of junctions and other road
+signs. It is used to transmit information on infrastructure such as speed restrictions, road
+alterations, and traffic light information to smart cars.
+Sirikham et al. [67] presented a traffic light synchronization system that used two
+control boards, a sender and receiver. These control boards use the NodeMCU V.2 (2.4 GHz
+WiFi) to synchronize the control signals by ESP-NOW protocol, as shown in Figure 4.
+However, this system works only for single-lane traffic control.
+Kumar et al. [68] proposed a synchronization method for two traffic signals using the
+Long Range (LoRa) module. It uses the time division algorithm to get the traffic information
+so that the rerouting of vehicles can be done during the peak hours. This concept helps the
+vehicles reach their destination in the shortest possible time by taking the fastest route.
+A synchronization scheme for traffic light controllers based on an explicit finite state
+model (FSM) is presented in [69]. FSM is modeled using Verilog HDL, and the coding
+is done using Xilinx Spartan-6 XC6LX16-CS324 FPGA. The machine is merely simulated
+with six states, which are selected using the traffic control method. Each state provides the
+appropriate delay, and the requisite traffic signals are turned ON/OFF for that delay. For
+example, just two routes are picked, and a control algorithm controls the traffic lights on
+those roads. This study introduced a flexible architecture that uses a clock divider to give
+a delay in a certain state and discusses the difficulty of modeling the FSM. The topic of
+selecting a state-encoding technique was also discussed.
+
+Electronics 2022, 11,
+11, 465
+465
+
+of 18
+20
+88of
+
+Figure4.4.Overview
+Overview
+Single-lane
+traffic
+control
+NodeMCU
+Figure
+of of
+Single-lane
+traffic
+control
+usingusing
+NodeMCU
+V.2 [67].V.2 [67].
+Kumar et al.
+[68] proposed a
+synchronization
+forand
+twoair
+traffic
+signals
+using
+the
+A
+self-synchronization
+mechanism
+for aerialmethod
+vehicles
+traffic
+control
+(ATC)
+systems
+was (LoRa)
+introduced
+in [70]Itfor
+avoiding
+collision.
+in to
+obtaining
+uniqueinforpath
+Long
+Range
+module.
+uses the
+time
+divisionIt assists
+algorithm
+get thea traffic
+for
+eachso
+aircraft
+in order
+to of
+reduce
+conflict,
+this is
+not the
+possible,
+system
+an
+mation
+that he
+rerouting
+vehicles
+can but
+be if
+done
+during
+peak the
+hours.
+Thisgives
+concept
+optimum
+option
+to
+utilize
+other
+shared
+resources.
+helps the vehicles reach their destination in the shortest possible time by taking the fastest
+route.An adaptive, flexible, and robust distributed TSC method based on spontaneous
+synchronization
+was introduced
+[71], light
+which occurs
+when
+local
+interaction
+leads to
+a
+A
+synchronization
+scheme forintraffic
+controllers
+based
+on an
+explicit finite
+state
+stable
+method,inevery
+junction
+represented
+phase-oscillator
+model.
+The
+modelstate.
+(FSM)Inisthis
+presented
+[69]. FSM
+is is
+modeled
+using by a
+Verilog HDL,
+and the
+coding
+is
+globalusing
+coordination
+achieved by
+synchronizing
+these
+phase
+oscillators
+maintain
+the
+done
+Xilinx is
+Spartan-6
+XC6LX16-CS324
+FPGA.
+The
+machine
+is to
+merely
+simulated
+platoons
+flow.
+with six states, which are selected using the traffic control method. Each state provides
+Adacher et al.
+[72,73]
+a distributed
+algorithm
+for solving
+the synchronization
+the appropriate
+delay,
+andproposed
+the requisite
+traffic signals
+are turned
+ON/OFF
+for that delay.
+problem
+of
+urban
+traffic
+signals.
+They
+calculated
+the
+weighted
+sum
+of
+delays
+signalized
+For example, just two routes are picked, and a control algorithm controls the at
+traffic
+lights
+intersections
+by This
+CTM-UT;
+Transmission
+for Urban
+Traffic)
+via divider
+simulation.
+on those
+roads.
+studyi.e., (Cell
+introduced a
+flexible Model
+architecture
+that uses
+a clock
+to
+A
+surrogate
+method
+(SM)state
+based
+on an
+onlinethe
+andifficulty
+stochastic
+scheme
+has been
+used
+give a
+delay in a
+certain
+and
+discusses
+of control
+modeling
+the FSM.
+The topic
+to synchronize
+the traffic signals.
+of
+selecting a state-encoding
+technique was also discussed.
+An
+IoT-based
+traffic signal
+synchronization
+was
+proposed
+in control
+[74] to reduce
+A self-synchronization
+mechanism
+for aerialmethod
+vehicles
+and
+air traffic
+(ATC)
+the
+traffic
+congestion
+at
+road
+intersections.
+This
+method
+allows
+the
+vehicles
+to
+long
+systems was introduced in [70] for avoiding collision. It assists in obtaining a travel
+uniquea path
+distance
+by
+minimizing
+the
+number
+of
+STOP
+and
+GO
+occurrences
+by
+adapting
+the
+traffic
+for each aircraft in order to reduce conflict, but if this is not possible, the system gives an
+light phases
+at the
+intersections
+(Figure
+5). This method reduces the average travel
+optimum
+option
+toroad
+utilize
+other shared
+resources.
+time An
+up adaptive,
+to 39% using
+traffic
+simulator
+SUMO in TSC
+comparison
+the other
+fixed time synand
+flexible,
+and
+robust distributed
+method to
+based
+on spontaneous
+non-synchronized
+traffic
+control
+strategies.
+chronization was introduced in [71], which occurs when local interaction leads to a stable
+Nesmachnow et al. [75] introduced the synchronization of traffic lights using a parallel
+state. In this method, every junction is represented by a phase-oscillator model. The global
+evolutionary algorithm for Bus Rapid Transit systems by considering various features such
+coordination is achieved by synchronizing these phase oscillators to maintain the platoons
+as real maps and mobility data and analyzing these features for optimization. This method
+flow.
+improves the average speed of public transport up to 15.3% and other vehicles up to 24.8%.
+Adacher et al. [72,73] proposed a distributed algorithm for solving the synchronizaUsing this method, different priorities can be assigned to buses and other vehicles using a
+tion problem of urban traffic signals. They calculated the weighted sum of delays at sigmulti-objective optimization analysis.
+nalized intersections by CTM-UT; i.e., (Cell Transmission Model for Urban Traffic) via
+A model for synchronizing the traffic lights at road intersections is presented in [76].
+simulation. A surrogate method (SM) based on an online and stochastic control scheme
+This method uses a hybrid metaheuristic approach that combines variable neighborhood
+has been used to synchronize the traffic signals.
+search and Tabu search into one algorithm. The method incorporates a memory structure
+An IoT-based traffic signal synchronization method was proposed in [74] to reduce
+into an iterative local search, allowing for a wider range of solutions. Certain changes such
+the traffic congestion at road intersections. This method allows the vehicles to travel a
+long distance by minimizing the number of STOP and GO occurrences by adapting the
+
+Electronics 2022, 11, 465
+Electronics 2022, 11, 465
+
+9 of 18
+9 of 20
+
+traffic light phases at the road intersections (Figure 5). This method reduces the average
+as
+modification
+a mixed
+integersimulator
+linear model’s
+andto
+the
+of
+travel
+time up toof
+39%
+using traffic
+SUMOconstraints
+in comparison
+thegeneralization
+other fixed time
+some
+bounds
+for
+integer
+variables
+were
+made
+to
+the
+MAXBAND
+in
+this
+algorithm.
+and non-synchronized traffic control strategies.
+
+Figure 5. IoT-based mechanism for traffic signal synchronization using sensor deployment on adFigure 5. IoT-based mechanism for traffic signal synchronization using sensor deployment on
+jacent junctions [74].
+adjacent junctions [74].
+
+Nesmachnow
+et al. [75] introduced
+the synchronization
+of traffic
+usingfor
+a parIn
+[77], the decentralized
+spatial decomposition
+of a network
+haslights
+been used
+the
+allel evolutionary
+foratBus
+Transit systems
+by considering
+various
+feasynchronization
+of algorithm
+traffic signals
+theRapid
+road junctions.
+This method
+uses the platoon
+model
+tures
+such asthe
+real
+maps and
+mobility
+data
+and analyzing
+these crossings.
+features forTooptimization.
+to
+calculate
+weighted
+sum
+of delays
+induced
+by signalized
+get a spatial
+This
+method
+improves
+the
+average
+speed
+of
+public
+transport
+up
+to 15.3%
+and other
+breakdown of the network, distributed consensus approaches were
+utilized.
+Usingvehithe
+cles
+up
+to
+24.8%.
+Using
+this
+method,
+different
+priorities
+can
+be
+assigned
+to
+buses
+and
+other
+distributed communication architecture, each semaphore distributes information
+with
+its
+vehicles using
+a multi-objective
+optimization
+neighbors
+in a totally
+dispersed manner,
+hence analysis.
+removing the need for a central authority. A
+A model
+for is
+synchronizing
+traffic lights
+road signals
+intersections
+presented
+in [76].
+surrogate
+technique
+used for the
+synchronizing
+theatraffic
+given is
+the
+subnetwork.
+This A
+method
+uses
+a
+hybrid
+metaheuristic
+approach
+that
+combines
+variable
+neighborhood
+self-synchronization paradigm for connected vehicles in traffic networks has been
+search
+search
+one algorithm.
+Theatmethod
+incorporates
+a memory
+structure
+used
+inand
+[78]Tabu
+to solve
+the into
+coordination
+problem
+junctions.
+For safe pacing
+between
+cars
+into
+an
+iterative
+local
+search,
+allowing
+for
+a
+wider
+range
+of
+solutions.
+Certain
+changes
+such
+moving on the same route, coordinating safe crossing at junctions with competing flows,
+modification of
+a mixedcontrol
+integermethod
+linear is
+model’s
+constraints
+and thequation
+generalization
+of
+aasmultilayer
+decentralized
+utilized. The
+Kuramoto
+is used to
+some
+boundsthe
+forphase
+integer
+variables
+wereof the
+made to
+the MAXBAND
+this This
+algorithm.
+synchronize
+and
+frequency
+network’s
+agents in
+(vehicles).
+approach
+In [77],the
+thevehicles
+decentralized
+spatialagents
+decomposition
+a traffic
+network
+has been
+for the
+considered
+as oscillating
+instead ofofthe
+lights.
+This used
+technique
+is
+synchronization
+of
+traffic signals
+at the
+road
+This to
+method
+uses the
+platoon
+classified
+as a
+decentralized
+approach
+since
+it isjunctions.
+interconnected
+achieve
+network-wide
+model to calculate
+the weighted
+sum of delays
+induced by signalized
+crossings.
+To get a
+synchronization.
+It combines
+the advantages
+of coordinating
+vehicle crossings
+at particular
+spatial
+breakdown
+of the
+network,
+distributed
+consensus
+approaches
+crossroads
+with
+synchronizing
+flow from
+nearby
+junctions in
+this way.were utilized. Using
+the In
+distributed
+communication
+architecture,
+each
+distributes
+information
+with
+[79], floating car
+data (FCD)
+was used
+to semaphore
+synchronize the
+traffic signals
+at interits
+neighbors
+totally used
+dispersed
+hence
+removing the
+need for a
+central
+sections.
+Thisin a
+approach
+the manner,
+penetration
+rate of
+“instrumented”
+vehicles
+toauthorobtain
+synchronization
+adaptive
+trafficfor
+light systems
+based
+floating
+car data
+(FCDATS)
+in
+ity. A
+surrogate in
+technique
+is used
+synchronizing
+theontraffic
+signals
+given the
+subnetcompetition cooperation. This technology increases the traffic safety and energy efficiency
+work.
+of transportation
+systems. paradigm for connected vehicles in traffic networks has been
+A self-synchronization
+Yang
+et to
+al. [80]
+automaton
+forat junctions.
+synchronizing
+signals by
+building
+a
+used in
+[78]
+solveused
+the cellular
+coordination
+problem
+Fortraffic
+safe spacing
+between
+cars
+network on
+model
+tworoute,
+intersections.
+By safe
+changing
+the at
+signal
+durationwith
+and green
+time flows,
+offset,
+moving
+the of
+same
+coordinating
+crossing
+junctions
+competing
+
+Electronics 2022, 11, 465
+
+10 of 20
+
+the synchronization of the signals is investigated, and results are obtained in MATLAB.
+An optimal signal scheme reduces the overall delay and increases the traffic flow at road
+junctions. Next, the network’s essential features, such as fundamental and time–space
+diagrams, are addressed.
+Li et al. [81] introduced a time synchronization method among VANET devices, claiming that On-Board Units (OBUs) can synchronize with other OBUs or RSUs on their own
+initiative. This technique lowers the synchronization error to less than 0.3 ms when there is
+no center node in the Basic Service Set, which fulfills the accuracy criterion of the VANET
+specification. In the Basic Safety System (BSS), a time-synchronization mechanism is introduced in which there is no central node, resulting in a more stable network. This method
+can achieve nanosecond precision while avoiding estimate errors. This method can correctly implement time synchronization in a BSS. In addition, there is a topology for the
+whole VANET in order to achieve time synchronization among RSUs. As a result, the
+amount of handoff done by OBUs can be drastically decreased. It can also greatly increase
+the system’s stability.
+A survey of the synchronization techniques is presented in [82], which addressed various situations and current cellular network generations while reviewing synchronization
+standards and approaches for V2V and Device-to-Device (D2D) enabled cellular networks.
+They looked at the major channels, entities, and signals that V2V and D2D enabled cellular
+networks employ for synchronization in various circumstances. Furthermore, to highlight
+current developments and give future perspectives, the focus is on the synchronization in
+V2V and Vehicle to Everything (V2X).
+Du et al. [83] presented a rule-based algorithm for V2X speed synchronization at road
+junctions. Vehicles entering from separate lanes form a virtual platoon. When traffic is
+light, this system allows for fewer unnecessary stops, resulting in energy savings and
+an increase in average speed. As a result, speed synchronization is no longer effective,
+as the volume of traffic increases and cars must come to a halt. Virtual platooning is
+expanded here by introducing some principles that enable a virtual platoon to dynamically
+modify its whole behavior in response to traffic flow growth while maintaining safety.
+This technique is extremely efficient in boosting average speed while maintaining the
+intersection’s high capacity.
+The significance of nearby junctions has not been studied in the above cited research
+works. The categorization of existing literature on synchronization of traffic signals is
+shown in Table A1 (Appendix A). These works are restricted to one intersection only,
+which makes the problem appearance more complex and extensive in scope. More efforts
+should be made in order to obtain maximal modeling, control, and monitoring of several
+synchronized junctions.
+5. Discussion and Potential Directions
+The primary goals of TSC technology research were to improve traffic safety, improve
+trip quality, and minimize pollution emissions. Traffic congestion has been a serious concern
+in metropolitan areas as vehicular traffic has increased. The problem is even worse at road
+intersections, where pre-timed traffic signals produce delays, increased vehicle activity
+costs, and air pollution. Delay is caused by the status of one light at a crossroad, which
+impacts the flow of traffic at neighboring intersections also. Additionally, the traditional
+traffic system does not account for mishaps, road closures, or vehicle breakdowns, which
+contribute to travel delays. Furthermore, a major issue is the seamless movement of
+emergency vehicles with greater demands, such as emergency vehicles, ambulances, fire
+brigade, police, and VIPs, through crossing points. As a result, the regular traffic system
+must be upgraded in order to alleviate traffic congestion and minimize waiting times and
+travel time as well as maximize vehicle safety, efficiency, and economic benefits [84].
+The majority of traffic monitoring technologies at junctions rely on high-cost cameras
+and sensors that are difficult to install and maintain. Computationally intensive traffic
+signal control technologies are utilized at road junctions. As a result, real-time signal
+
+Electronics 2022, 11, 465
+
+bulances, fire brigade, police, and VIPs, through crossing points. As a result, the regular
+traffic system must be upgraded in order to alleviate traffic congestion and minimize waiting times and travel time as well as maximize vehicle safety, efficiency, and economic
+benefits [84].
+The majority of traffic monitoring technologies at junctions rely on high-cost
+cameras
+11
+of 20
+and sensors that are difficult to install and maintain. Computationally intensive traffic
+signal control technologies are utilized at road junctions. As a result, real-time signal control
+tactics
+at road
+crossings
+must
+be be
+enhanced
+in in
+order
+toto
+eliminate
+control
+tactics
+at road
+crossings
+must
+enhanced
+order
+eliminatetraffic
+trafficcongestion.
+congestion.AA
+massive
+disadvantage
+is
+that
+the
+traditional
+methods
+do
+not
+synchronize
+the
+traffic
+massive disadvantage is that the traditional methods do not synchronize the trafficsignals
+signals
+ofofaaregion.
+region.
+To
+traffic
+light
+synchronization
+is aistechnique
+in which
+a ve-a
+Toaddress
+addressthese
+theseconcerns,
+concerns,
+traffic
+light
+synchronization
+a technique
+in which
+hicle
+traveling
+along
+oneone
+side
+of of
+thethe
+road
+at at
+aa
+specific
+speed
+vehicle
+traveling
+along
+side
+road
+specific
+speedcan
+cancontinue
+continuetotothe
+theopposite
+opposite
+end
+endofofthe
+theroad
+roadindefinitely
+indefinitelyby
+byobtaining
+obtainingthe
+themaximum
+maximumnumber
+numberofofgreen
+greenlights
+lightsatatall
+allthe
+the
+intersections.
+Traffic
+signal
+synchronization
+is
+required
+so
+that
+the
+green
+light
+cycles
+for
+intersections. Traffic signal synchronization is required so that the green light cycles foraa
+series
+seriesofofjunctions
+junctionscan
+canbe
+besynchronized,
+synchronized,enabling
+enablingthe
+thegreatest
+greatestnumber
+numberof
+ofautomobiles
+automobilestoto
+pass
+through
+while
+avoiding
+waits
+and
+delays.
+pass through while avoiding waits and delays.
+Synchronization
+Synchronizationcan
+canbe
+bedone
+doneatatdifferent
+differentlevels.
+levels.Figure
+Figure6 6shows
+showstraffic
+trafficsignal
+signalsynchrosynchronization
+nizationatatlevel
+levelI Iand
+andlevel
+levelII.II.We
+Wecan
+candefine
+definethe
+thelevels
+levelsofofsynchronization
+synchronizationwithin
+withinan
+anarea.
+area.
+One
+Onewill
+willbe
+bethe
+theinner
+innercircle
+circleand
+andanother
+anotherwill
+willbe
+bethe
+theouter
+outercircle,
+circle,where
+wherethe
+theinner
+innercircle
+circle
+reflects
+reflectspeer
+peerjunctions
+junctionsofoflevel
+levelI Iand
+andthe
+theouter
+outercircle
+circlereflects
+reflectsthe
+thepeer
+peerjunctions
+junctionsofoflevel
+levelII.II.
+Level
+I
+consists
+of
+the
+nearest
+neighboring
+junctions,
+and
+level
+II
+consists
+of
+the
+junctions
+Level I consists of the nearest neighboring junctions, and level II consists of the junctions
+fallingininthe
+theexternal
+externalarea.
+area.The
+Theintelligence
+intelligenceatatlevel
+levelIIIIalso
+alsotakes
+takesinto
+intoconsideration
+considerationthe
+the
+falling
+densityofofthe
+theadjacent
+adjacentjunctions.
+junctions.These
+Theselevels
+levelsofofsynchronization
+synchronizationwill
+willhelp
+helpininreducing
+reducingthe
+the
+density
+congestionat
+atneighboring
+neighboring intersections.
+intersections. In
+In this way,
+congestion
+way, the
+the system
+system will
+willbecome
+becomesmart
+smartwhen
+whenit
+itisisconnected
+connectedtotothe
+theserver.
+server.
+
+Figure
+Figure6.6.Levels
+Levelsofofsynchronization.
+synchronization.
+
+The designed traffic signal synchronization framework can work efficiently with any
+technology, whether it is DSRC, image processing, sensors, or any other technology that
+is used to collect traffic density at intersection. With minor changes to the current system,
+new junctions can also be incorporated for synchronization. In this way, it is possible to
+extend this system for covering all the intersections of a city or state, thus moving toward a
+well-coordinated and lucid method of traffic control.
+6. Conclusions
+Traffic signal synchronization for intelligent vehicles is a revolutionary innovative
+technology with exceptional potential in the intelligent transportation systems. Hence, this
+article provides a comprehensive survey on traffic light synchronization techniques for
+intelligent vehicles. First of all, we outline the different traffic light control technologies
+used for congestion control at intersections. Then, typical applications of synchronization
+of traffic signals are discussed. Next, we summarize the development status of synchronization of traffic signals for intelligent vehicles by surveying all the research works on traffic
+signal synchronization. In addition, we discuss many emerging and potential directions of
+
+Electronics 2022, 11, 465
+
+12 of 20
+
+traffic light networking. This study will provide researchers with the basis for more understanding and investigation of the synchronization of traffic lights for intelligent vehicles.
+Author Contributions: I.T.: Lead author of manuscript (Corresponding Author), Conceptualization
+and methodology, writing—original draft preparation, investigation, editing; I.S. and N.P.: Second
+author, research design, guidance, and reviewing. All authors have read and agreed to the published
+version of the manuscript.
+Funding: This research received no external funding.
+Data Availability Statement: Data sharing not applicable to this article as no datasets were generated
+or analyzed during the current study.
+Acknowledgments: This work has been carried out under the supervision of Indu Sreedevi and
+Neeta Pandey, Department of ECE, Delhi Technological University, and I (Ishu Tomar) pay immense
+gratitude toward my guides for enlightening me through the process. In addition, I (Ishu Tomar)
+would like to acknowledge the financial assistantship provided by Delhi Technological University.
+Conflicts of Interest: The authors declare that they have no conflict of interest.
+
+Appendix A
+Table A1. Categorization of existing literature on synchronization of traffic signals.
+Reference
+Number
+
+[62]
+
+Objective
+Traffic light
+synchronization
+strategy for
+saturated road
+networks
+
+Strategies Used
+
+Disadvantages
+
+Comments
+
+•
+Long green and long red
+method for highly saturated
+road networks
+
+Not suitable to the
+undersaturated HGRN
+
+•
+
+•
+
+[63]
+
+To synchronize
+traffic signals
+
+Multiagent fuzzy logic and
+Q-learning
+
+•
+
+•
+•
+
+[64]
+
+Traffic signal
+synchronization
+with dynamic
+timer value
+
+Image processing and
+Raspberry Pi in
+synchronization with cloud
+
+•
+
+[65]
+
+Self-organized
+traffic light
+control based on
+sensors
+
+•
+
+Pressure sensors to
+detect vehicles
+approaching the
+intersection
+Microcontroller and
+Zigbee module to
+transfer the information
+to signal controller
+
+•
+
+Camera implementation
+cost is very high
+System implemented on a
+small scale (in the
+laboratory, not in real-life
+scenarios)
+Conflicts can arise when
+two emergency vehicles
+arrive on opposite sides
+of a junction at the
+same time
+
+No synchronization of traffic
+signals
+
+•
+
+•
+•
+
+Control the arrival and
+departure of queues
+Increase the efficiency of
+traffic flows to the
+maximum level at
+signalized junctions
+Fully distributed
+multiagent architecture
+with no central
+supervising or
+synchronizing agent
+Coordination between
+agents through
+communication of
+decision data
+Obtains the vehicle
+density using traffic
+cameras on every side of
+the junction using image
+processing on OpenCV
+Provides priority to
+emergency vehicles
+Increased efficiency in
+with dynamic change in
+timer value
+
+Increases traffic flow efficiency
+and reduce the waiting time at
+intersections
+
+Electronics 2022, 11, 465
+
+13 of 20
+
+Table A1. Cont.
+Reference
+Number
+
+Objective
+
+Strategies Used
+
+•
+
+[67]
+
+Wireless traffic
+light
+synchronization
+system
+
+•
+
+Uses two control boards
+(sender and receiver)
+Control boards use
+NodeMCU V.2 (2.4GHz
+WiFi) for
+synchronization of
+control signals by
+ESP-NOW protocol
+
+Disadvantages
+
+For single-lane traffic control
+only
+
+Comments
+
+•
+•
+
+•
+
+[68]
+
+Rerouting and
+synchronization
+of traffic
+
+Using the Long Range
+(LoRa) module
+
+•
+•
+
+Based on explicit finite
+state model (FSM)
+FSM modeled using
+Verilog HDL and
+coding is done using
+Xilinx Spartan-6
+XC6LX16- CS324 FPGA
+
+Uses wireless
+communication
+Increased safety
+
+Congestion control at
+intersection by
+rerouting vehicles
+Vehicles reach their
+destination in the shortest
+possible time by taking
+the fastest route
+
+Synchronization for two traffic
+signals only
+
+•
+
+Difficulty of modeling the FSM
+
+Flexible architecture that uses a
+clock divider to give a delay in
+a certain state
+
+[69]
+
+Synchronization
+scheme for traffic
+light controller
+
+[71]
+
+Distributed traffic
+signal control
+method based on
+spontaneous
+synchronization
+
+•
+
+[72,73]
+
+Distributed
+approach for
+synchronizing
+traffic signals
+
+CTM-UT i.e., (Cell
+Transmission Model for
+Urban Traffic) via simulation
+
+Computational complexity
+
+Surrogate method (SM), based
+on an online and stochastic
+control scheme, used for
+synchronizing the
+traffic signals
+
+[74]
+
+IoT-based traffic
+signal
+synchronization
+method
+
+Uses magnetic sensors as the
+main IoT sensing technology
+
+Not suitable for all kinds of
+road networks
+
+Reduces the average travel
+time up to 39% using the road
+traffic simulator SUMO
+
+•
+
+Every junction is
+represented by a
+phase-oscillator model
+These oscillators are
+synchronized to get the
+desired global
+coordination
+
+•
+Mathematical complexity
+
+•
+
+•
+
+Local interaction leads to
+a stable state
+Maintain the
+platoons flow
+
+Improves the average
+speed of public transport
+up to 15.3% and other
+vehicles up to 24.8%
+Different priorities can be
+assigned to buses and
+other vehicles using a
+multi-objective
+optimization analysis
+
+[75]
+
+Traffic signals
+synchronization
+for Bus Rapid
+Transit systems
+
+Parallel evolutionary
+algorithm
+
+In the context of Bus Rapid
+Transit systems
+
+•
+
+[76]
+
+Model for
+synchronizing the
+traffic lights at
+road intersections
+
+Hybrid metaheuristic
+approach that combines
+variable neighborhood
+search and Tabu search
+
+Mathematical and
+computational complexity
+
+Flexible and robust approach
+
+Electronics 2022, 11, 465
+
+14 of 20
+
+Table A1. Cont.
+Reference
+Number
+
+[77]
+
+Objective
+
+Strategies Used
+
+Disadvantages
+
+Comments
+
+Decentralized
+spatial
+decomposition of
+network for
+synchronization
+of traffic signals at
+the road junctions
+
+Uses platoon model to
+calculate the weighted sum
+of delays induced by
+signalized crossings
+
+More robust to failure
+
+Distributed communication
+architecture for networking of
+traffic lights
+
+Increases the traffic safety and
+energy efficiency of
+transportation systems
+
+[79]
+
+To synchronize
+the traffic signals
+at intersections
+
+Using floating car data (FCD)
+
+Only a beginning step toward
+addressing the
+synchronization problem;
+need for more comprehensive
+optimization algorithms for
+general cases
+
+[80]
+
+Traffic signal
+synchronization
+in a small urban
+road network
+
+Cellular automation
+
+Synchronization for two traffic
+signals only
+
+Minimize total delay and
+maximize the flow
+
+[82]
+
+Survey of the
+synchronization
+techniques
+
+Highlight current
+developments and give
+future perspectives on
+synchronization in V2V
+and V2X
+
+Not Specified
+
+Reviews synchronization
+standards and approaches for
+V2V and D2D-enabled
+cellular networks
+
+[83]
+
+Vehicle-toEverything (V2X)
+speed
+synchronization
+at road junctions
+
+Rule-based algorithm
+
+Based on optimal scheduling
+
+Improves the performance of
+cooperative intersection
+management
+
+GPS/DSRC
+
+Field Cameras
+
+Source of Data
+Collection
+Sensors/Detectors
+
+Fixed Time
+
+Traffic Signal
+Control
+Strategies
+Real Time
+
+Network
+
+Objective/Context
+
+Single
+
+Intersection
+
+Isolated
+
+Reference Number
+
+Table A2. Categorization of existing literature on techniques used for congestion control at road
+intersections.
+
+Comments
+
+•
+[8]
+
+Split Cycle Offset
+Optimization Technique
+(SCOOT)
+
+[9]
+
+Sydney Cooperation
+Adaptive Traffic System
+(SCATS)
+
+X
+
+X
+
+Detectors
+
+•
+
+•
+X
+
+X
+
+Sensors
+
+•
+
+Minimize stops and delays at
+intersections by synchronizing
+adjacent signals
+Disadvantage: Increased
+overhead during heavy traffic
+in large complicated network
+Monitors real-time traffic
+signals and a volume of traffic
+Reduces average waiting time,
+travel time, and
+fuel consumption
+
+Electronics 2022, 11, 465
+
+15 of 20
+
+GPS/DSRC
+
+Field Cameras
+
+Source of Data
+Collection
+Sensors/Detectors
+
+Fixed Time
+
+Traffic Signal
+Control
+Strategies
+Real Time
+
+Network
+
+Objective/Context
+
+Single
+
+Intersection
+
+Isolated
+
+Reference Number
+
+Table A2. Cont.
+
+Comments
+
+•
+
+[10]
+
+•
+
+Optimized Policies for
+Adaptive Control (OPAC)
+
+X
+
+X
+
+X
+•
+
+[11]
+
+Real-Time Hierarchical
+Optimized Distributed
+Effective System
+(RHODES)
+
+[15]
+
+Traffic signal control of
+road networks in real time
+
+X
+
+X
+
+X
+
+Decomposition of traffic network by
+modules that individually deal
+with sub-problems
+
+X
+
+X
+
+Based on Webster procedure
+
+•
+
+[16]
+
+Traffic monitoring and
+prediction on roads
+
+•
+X
+
+Calculates signal timing by
+minimizing total delay and
+stops performance function
+No special features for
+priority/pre-emption on the
+system level
+No explicit features for
+pedestrians or
+oversaturation conditions
+
+X
+
+X
+•
+•
+
+Freeway
+
+X
+
+Robust Travel
+Time framework
+
+X
+
+X
+
+X
+
+Uses dynamic Bayesian
+networks approach
+Real-time prediction and
+classification of the state of
+a road
+Improvement of travel and
+transit information
+Based on state-space
+neural network
+Based on Bayesian combined
+neural network
+
+[17,18]
+
+Travel time
+prediction framework
+
+[19]
+
+To reduce waiting time of
+vehicles at
+road intersections
+
+[21]
+
+Assign equal green signal
+durations and arrange fair
+lane departure at
+an intersection
+
+X
+
+X
+
+GPS
+
+Adaptive traffic signal timings and
+lane scheduling
+
+[22]
+
+To enhance the flow of
+traffic on current road
+network using a data
+fusion approach
+
+X
+
+X
+
+GPS
+
+•
+•
+
+Using floating car data (FCD)
+Improve traffic flows on roads
+
+•
+[23]
+
+Traffic signal
+control system
+
+Using two-stage fuzzy
+control system
+Reduces the average
+vehicle delay
+
+X
+
+X
+
+X
+
+•
+
+A video-based adaptive traffic
+signaling system
+
+•
+•
+
+[27]
+
+To minimize the waiting
+time at a crossroad
+
+X
+
+X
+
+X
+
+•
+
+Using a linear
+programming model
+Minimize the queue length of
+vehicles waiting at
+intersections
+
+Electronics 2022, 11, 465
+
+16 of 20
+
+GPS/DSRC
+
+Field Cameras
+
+Source of Data
+Collection
+Sensors/Detectors
+
+Fixed Time
+
+Traffic Signal
+Control
+Strategies
+Real Time
+
+Network
+
+Objective/Context
+
+Single
+
+Intersection
+
+Isolated
+
+Reference Number
+
+Table A2. Cont.
+
+Comments
+
+•
+[28,29]
+
+WSN-based traffic light
+control systems
+
+[30]
+
+TSC at signalized
+intersections
+
+[31]
+
+V2V traffic control for
+traffic management
+at intersections
+
+[33,34]
+
+Removal of intersection
+traffic signal infrastructures
+
+[35]
+
+Intersection traffic
+control scheme
+
+[36]
+
+Autonomous intersection
+management (AIM)
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+V2V
+communication
+
+•
+
+X
+
+DSRC
+
+X
+
+DSRC
+
+•
+•
+
+•
+X
+
+X
+
+Simulator
+
+•
+•
+
+[40]
+
+[41]
+
+Reinforcement Learning
+based traffic signal control
+
+X
+
+Traffic signal control at a
+very large scale using
+Multiagent reinforcement
+learning (MARL) technique
+
+X
+
+X
+
+Mathematical
+Model
+
+•
+•
+
+•
+X
+
+Simulator
+
+•
+•
+
+[45]
+
+Deep Q-learning algorithm
+based system for partially
+detected intelligent
+vehicles
+
+X
+
+X
+
+Connected and autonomous
+vehicle program (CV)
+V2V and V2I applications
+Based on DSRC-Actuated Traffic
+Control
+
+DSRC
+
+•
+X
+
+Using connected
+vehicle technology
+Minimize average delay
+Virtual Traffic Light phenomenon
+based on DSRC
+
+•
+X
+
+Low-cost installation to
+existing traffic
+road infrastructure
+Self-configurable, easy
+installation of new traffic
+sensor nodes
+
+DSRC
+
+•
+
+Operate both human-driven
+and autonomous cars
+Prioritizes emergency vehicles
+FRAP (Flipping and Rotation
+and considers All Phase
+configurations) model
+Gives priority to the road with
+high traffic density
+Better performance in
+complicated traffic situations
+and multi-junction
+environment
+Using cooperative double
+Q-learning (Co-DQL)
+Stable and robust
+Minimize the vehicles waiting
+time at junctions (even if the
+detection rate of vehicles in
+low)
+Can be used with different
+detection technologies such as
+LTE/5G, BLE 5.0, and RFID
+
+Electronics 2022, 11, 465
+
+17 of 20
+
+References
+1.
+2.
+
+3.
+4.
+5.
+6.
+7.
+8.
+9.
+10.
+11.
+12.
+13.
+14.
+15.
+16.
+17.
+18.
+19.
+20.
+21.
+22.
+23.
+24.
+
+25.
+
+26.
+
+27.
+28.
+
+Nielsen, O.A.; Frederiksen, R.; Simonsen, N. Using Expert System Rules to Establish Data for Intersections and Turns in Road
+Networks. Int. Trans. Oper. Res. 1998, 5, 569–581. [CrossRef]
+Sigua, R.G. Fundamentals of Traffic Engineering; University of the Philippines in Diliman: Quezon City, Philippines, 2008;
+p. 327. Available online: https://www.crcpress.com/Fundamentals-of-Picoscience/Sattler/p/book/9781466505094#
+googlePreviewContainer (accessed on 20 September 2021).
+Heidemann, D. Queue length and delay distributions at traffic signals. Transp. Res. Part B Methodol. 1994, 28, 377–389. [CrossRef]
+The National Traffic Signal Report Card. Available online: https://www.researchgate.net/publication/295961075_The_national_
+traffic_signal_report_card (accessed on 20 September 2021).
+Chen, L.; Englund, C. Cooperative Intersection Management: A Survey. IEEE Trans. Intell. Transp. Syst. 2015, 17, 570–586.
+[CrossRef]
+Zaghal, R.; Thabatah, K.; Salah, S. Towards a smart intersection using traffic load balancing algorithm. In Proceedings of the 2017
+Computing Conference, London, UK, 18–20 July 2017.
+Shaikh, P.W.; El-Abd, M.; Khanafer, M.; Gao, K. A Review on Swarm Intelligence and Evolutionary Algorithms for Solving the
+Traffic Signal Control Problem. IEEE Trans. Intell. Transp. Syst. 2020, 23, 48–63. [CrossRef]
+Bing, B.; Carter, A.T. SCOOT: The World’s Foremost Adaptive Traffic Control System. Traffic Technology International’95. 1995.
+Available online: https://trid.trb.org/view/415757 (accessed on 20 September 2021).
+Sims, A.; Dobinson, K. The Sydney coordinated adaptive traffic (SCAT) system philosophy and benefits. IEEE Trans. Veh. Technol.
+1980, 29, 130–137. [CrossRef]
+Gartner, N.H. Demand-responsive traffic signal control research. Transp. Res. Part A Gen. 1985, 19, 369–373. [CrossRef]
+Mirchandani, P.; Head, K.L. A real-time traffic signal control system: Architecture, algorithms, and analysis. Transp. Res. Part C
+Emerg. Technol. 2001, 9, 415–432. [CrossRef]
+Henry, J.; Farges, J.; Tuffal, J. The Prodyn Real Time Traffic Algorithm. In Proceedings of the Control in Transportation Systems,
+Baden-Baden, Germany, 20–22 April 1983; Elsevier BV: Amsterdam, The Netherlands, 1984; pp. 305–310.
+Brilon, W.; Wietholt, T. Experiences with Adaptive Signal Control in Germany. Transp. Res. Rec. J. Transp. Res. Board 2013, 2366,
+9–16. [CrossRef]
+Costs|U.S. Department of Transportation. Available online: https://www.itskrs.its.dot.gov/costs (accessed on 20 September
+2021).
+Kouvelas, A.; Aboudolas, K.; Papageorgiou, M.; Kosmatopoulos, E.B. A Hybrid Strategy for Real-Time Traffic Signal Control of
+Urban Road Networks. IEEE Trans. Intell. Transp. Syst. 2011, 12, 884–894. [CrossRef]
+Chaudhary, S.; Indu, S.; Chaudhury, S. Video-based road traffic monitoring and prediction using dynamic Bayesian networks.
+IET Intell. Transp. Syst. 2018, 12, 169–176. [CrossRef]
+Hadi, R.A.; Sulong, G.; George, L.E. Vehicle Detection and Tracking Techniques: A Concise Review. Signal Image Process. Int. J.
+2014, 5, 1–12. [CrossRef]
+van Lint, J.; Hoogendoorn, S.; van Zuylen, H. Accurate freeway travel time prediction with state-space neural networks under
+missing data. Transp. Res. Part C Emerg. Technol. 2005, 13, 347–369. [CrossRef]
+Indu, S.; Nair, V.; Jain, S.; Chaudhury, S. Video based adaptive road traffic signaling. In Proceedings of the Seventh International
+Conference on Distributed Smart Cameras (ICDSC), Palm Springs, CA, USA, 29 October–1 November 2013.
+Zheng, W.; Lee, D.-H.; Shi, Q. Short-Term Freeway Traffic Flow Prediction: Bayesian Combined Neural Network Approach.
+J. Transp. Eng. 2006, 132, 114–121. [CrossRef]
+Sharma, K.K.; Indu, S. GPS Based Adaptive Traffic Light Timings and Lane Scheduling. In Proceedings of the 2019 IEEE Intelligent
+Transportation Systems Conference (ITSC), Auckland, New Zealand, 27–30 October 2019; pp. 4267–4274.
+Tiedong, W.; Jingjing, H. Applying floating car data in traffic monitoring. In Proceedings of the 2014 IEEE International Conference
+on Control Science and Systems Engineering, Yantai, China, 29–30 December 2014; pp. 96–99.
+Lin, Y. The Design and Simulation of Intelligent Traffic Signal Control System Based on Fuzzy Logic. In Foundations of Intelligent
+Systems; Springer: Berlin/Heidelberg, Germany, 2014; pp. 965–973. [CrossRef]
+Tanwar, R.; Majumdar, R.; Sidhu, G.S.; Srivastava, A. Removing traffic congestion at traffic lights using GPS technology. In
+Proceedings of the 2016 6th International Conference—Cloud System and Big Data Engineering (Confluence), Noida, India, 14–15
+January 2016; pp. 575–579.
+Liu, Y. Big Data Technology and Its Analysis of Application in Urban Intelligent Transportation System. In Proceedings of the
+2018 International Conference on Intelligent Transportation, Big Data & Smart City (ICITBS), Xiamen, China, 25–26 January 2018;
+pp. 17–19.
+Liping, X.; Dangying, L. A Novel Embedded Vehicle Terminal for Intelligent Transportation. In Proceedings of the 2014 Fifth
+International Conference on Intelligent Systems Design and Engineering Applications, Hunan, China, 15–16 June 2014; pp. 52–54.
+[CrossRef]
+Coll, P.; Factorovich, P.; Loiseau, I.; Gómez, R. A linear programming approach for adaptive synchronization of traffic signals. Int.
+Trans. Oper. Res. 2013, 20, 667–679. [CrossRef]
+Rida, N.; Hasbi, A. Traffic Lights Control using Wireless Sensors Networks. In Proceedings of the 3rd International Conference on
+Smart City Applications, Tetouan, Morocco, 10–11 October 2018. [CrossRef]
+
+Electronics 2022, 11, 465
+
+29.
+30.
+31.
+
+32.
+33.
+34.
+35.
+36.
+37.
+38.
+
+39.
+40.
+
+41.
+42.
+43.
+44.
+
+45.
+46.
+47.
+48.
+49.
+50.
+51.
+
+52.
+
+53.
+54.
+
+18 of 20
+
+Yousef, K.M.; Al-Karaki, J.N.; Shatnawi, A.M. Intelligent Traffic Light Flow Control System Using Wireless Sensors Networks.
+J. Inf. Sci. Eng. 2010, 26, 753–768.
+Liang, X.; Guler, S.I.; Gayah, V.V. An equitable traffic signal control scheme at isolated signalized intersections using Connected
+Vehicle technology. Transp. Res. Part C Emerg. Technol. 2019, 110, 81–97. [CrossRef]
+Zhang, R.; Schmutz, F.; Gerard, K.; Pomini, A.; Basseto, L.; Hassen, S.B.; Ishikawa, A.; Ozgunes, I.; Tonguz, O. Virtual Traffic
+Lights: System Design and Implementation. In Proceedings of the 2018 IEEE 88th Vehicular Technology Conference (VTC-Fall),
+Chicago, IL, USA, 27–30 August 2018; pp. 1–5. [CrossRef]
+Tonguz, O.K. Red light, green light—No light: Tomorrow’s communicative cars could take turns at intersections. IEEE Spectr.
+2018, 55, 24–29. [CrossRef]
+VDOT Launches Smarter Roads. Available online: https://augustafreepress.com/vdot-launches-smarterroads/ (accessed on
+20 September 2021).
+Virginia Connected Corridors|Virginia Tech Transportation Institute. Available online: https://www.vtti.vt.edu/facilities/vcc.
+html (accessed on 20 September 2021).
+Tonguz, O.K.; Zhang, R. Harnessing Vehicular Broadcast Communications: DSRC-Actuated Traffic Control. IEEE Trans. Intell.
+Transp. Syst. 2019, 21, 509–520. [CrossRef]
+Dresner, K.; Stone, P.A. Multiagent Approach to Autonomous Intersection Management. J. Artif. Intell. Res. 2008, 31, 591–656.
+[CrossRef]
+Wei, H.; Zheng, G.; Gayah, V.; Li, Z. A Survey on Traffic Signal Control Methods, 2020. Surv. Traffic Signal Control Methods 2019, 1.
+[CrossRef]
+Li, L.; Lv, Y.; Wang, F.Y. Traffic signal timing via deep reinforcement learning. IEEE/CAA J. Autom. Sin. 2016, 3, 247–254.
+Available online: https://www.academia.edu/28634266/Traffic_Signal_Timing_via_Deep_Reinforcement_Learning (accessed on
+21 November 2021).
+Mousavi, S.S.; Schukat, M.; Howley, E. Traffic light control using deep policy-gradient and value-function-based reinforcement
+learning. IET Intell. Transp. Syst. 2017, 11, 417–423. [CrossRef]
+Zheng, G.; Xiong, Y.; Zang, X.; Feng, J.; Wei, H.; Zhang, H.; Li, Y.; Xu, K.; Li, Z. Learning Phase Competition for Traffic Signal
+Control. In Proceedings of the 28th ACM International Conference on Information and Knowledge Management, Beijing, China,
+3–7 November 2019; pp. 1963–1972. [CrossRef]
+Wang, X.; Ke, L.; Qiao, Z.; Chai, X. Large-Scale Traffic Signal Control Using a Novel Multiagent Reinforcement Learning. IEEE
+Trans. Cybern. 2021, 51, 174–187. [CrossRef] [PubMed]
+Wei, H.; Zheng, G.; Gayah, V.; Li, Z. Recent Advances in Reinforcement Learning for Traffic Signal Control. ACM SIGKDD Explor.
+Newsl. 2021, 22, 12–18. [CrossRef]
+Joo, H.; Ahmed, S.H.; Lim, Y. Traffic signal control for smart cities using reinforcement learning. Comput. Commun. 2020, 154,
+324–330. [CrossRef]
+Zhang, R.; Leteurtre, R.; Striner, B.; Alanazi, A.; Alghafis, A.; Tonguz, O.K. Partially Detected Intelligent Traffic Signal Control:
+Environmental Adaptation. In Proceedings of the 2019 18th IEEE International Conference on Machine Learning and Applications
+(ICMLA), Boca Raton, FL, USA, 16–19 December 2019; pp. 1956–1960. [CrossRef]
+Zhang, R.; Ishikawa, A.; Wang, W.; Striner, B.; Tonguz, O.K. Using Reinforcement Learning With Partial Vehicle Detection for
+Intelligent Traffic Signal Control. IEEE Trans. Intell. Transp. Syst. 2021, 22, 404–415. [CrossRef]
+Dezani, H.; Marranghello, N.; Damiani, F. Genetic algorithm-based traffic lights timing optimization and routes definition using
+Petri net model of urban traffic flow. IFAC Proc. Vol. 2014, 47, 11326–11331. [CrossRef]
+Dezani, H.; Bassi, R.D.; Marranghello, N.; Gomes, L.; Damiani, F.; da Silva, I.N. Optimizing urban traffic flow using Genetic
+Algorithm with Petri net analysis as fitness function. Neurocomputing 2014, 124, 162–167. [CrossRef]
+Sabar, N.R.; Kieu, L.M.; Chung, E.; Tsubota, T.; de Almeida, P.E.M. A memetic algorithm for real world multi-intersection traffic
+signal optimisation problems. Eng. Appl. Artif. Intell. 2017, 63, 45–53. [CrossRef]
+Li, X.; Sun, J.-Q. Signal Multiobjective Optimization for Urban Traffic Network. IEEE Trans. Intell. Transp. Syst. 2018, 19, 3529–3537.
+[CrossRef]
+García-Nieto, J.; Alba, E.; Carolina Olivera, A. Swarm intelligence for traffic light scheduling: Application to real urban areas.
+Eng. Appl. Artif. Intell. 2012, 25, 274–283. [CrossRef]
+Zhang, Y.; Zhu, H.-B.; Liu, X.-Q.; Chen, X.-B. Optimal control for region of the city traffic signal base on Selective particle swarm
+optimization algorithm. In Proceedings of the 2017 36th Chinese Control Conference (CCC), Dalian, China, 26–28 July 2017;
+pp. 2723–2728.
+Wijaya, I.G.P.S.; Uchimura, K.; Koutaki, G. Traffic light signal parameters optimization using particle swarm optimization. In
+Proceedings of the 2015 International Seminar on Intelligent Technology and Its Applications (ISITIA), Surabaya, Indonesia,
+20–21 May 2015; pp. 11–16.
+Baskan, O.; Haldenbilen, S. Ant Colony Optimization Approach for Optimizing Traffic Signal Timings. Ant Colony
+Optim.—Methods Appl. 2011, 14, 205–220. [CrossRef]
+Renfrew, D.; Yu, X.-H. Traffic signal optimization using Ant Colony Algorithm. In Proceedings of the 2012 International Joint
+Conference on Neural Networks (IJCNN), Brisbane, Australia, 10–15 June 2012; pp. 1–7. [CrossRef]
+
+Electronics 2022, 11, 465
+
+55.
+56.
+57.
+58.
+59.
+60.
+
+61.
+62.
+63.
+
+64.
+
+65.
+
+66.
+67.
+
+68.
+69.
+70.
+71.
+
+72.
+
+73.
+74.
+
+75.
+76.
+77.
+78.
+
+19 of 20
+
+Dell’Orco, M.; Baskan, O.; Marinelli, M. A Harmony Search Algorithm approach for optimizing traffic signal timings.
+Promet—Traffic Transp. 2013, 25, 349–358. [CrossRef]
+Gao, K.; Zhang, Y.; Sadollah, A.; Su, R. Optimizing urban traffic light scheduling problem using harmony search with ensemble
+of local search. Appl. Soft Comput. 2016, 48, 359–372. [CrossRef]
+Milanes, V.; Perez, J.; Onieva, E.; Gonzalez, C. Controller for Urban Intersections Based on Wireless Communications and Fuzzy
+Logic. IEEE Trans. Intell. Transp. Syst. 2009, 11, 243–248. [CrossRef]
+Bi, Y.; Lu, X.; Sun, Z.; Srinivasan, D.; Sun, Z. Optimal Type-2 Fuzzy System For Arterial Traffic Signal Control. IEEE Trans. Intell.
+Transp. Syst. 2017, 19, 3009–3027. [CrossRef]
+Moghaddam, M.J.; Hosseini, M.; Safabakhsh, R. Traffic light control based on fuzzy Q-leaming. In Proceedings of the 2015
+International Symposium on Artificial Intelligence and Signal Processing (AISP), Mashhad, Iran, 3–5 March 2015; pp. 124–128.
+Firdous, M.; Iqbal, F.U.D.; Ghafoor, N.; Qureshi, N.K.; Naseer, N. Traffic Light Control System for Four-Way Intersection and
+T-Crossing Using Fuzzy Logic. In Proceedings of the 2019 IEEE International Conference on Artificial Intelligence and Computer
+Applications (ICAICA), Dalian, China, 29–31 March 2019; pp. 178–182.
+Hawi, R.; Okeyo, G.; Kimwele, M. Smart traffic light control using fuzzy logic and wireless sensor network. In Proceedings of the
+2017 Computing Conference, London, UK, 18–20 July 2017; pp. 450–460. [CrossRef]
+Hu, X.; Lu, J.; Wang, W.; Zhirui, Y. Traffic Signal Synchronization in the Saturated High-Density Grid Road Network. Comput.
+Intell. Neurosci. 2015, 2015, 1–11. [CrossRef]
+Iyer, V.; Jadhav, R.; Mavchi, U.; Abraham, J. Intelligent traffic signal synchronization using fuzzy logic and Q-learning. In
+Proceedings of the 2016 International Conference on Computing, Analytics and Security Trends (CAST), Pune, India, 19–21
+December 2016; pp. 156–161. [CrossRef]
+Amogh, A.S.; Pujari, S.; Gowda, S.N.; Nyamati, V.M. Traffic timer synchronization based on congestion. In Proceedings of the 2016
+International Conference on Computation System and Information Technology for Sustainable Solutions (CSITSS), Bengaluru,
+India, 6–8 October 2016; pp. 255–260. [CrossRef]
+Khan, A.; Ullah, F.; Kaleem, Z.; Rahman, S.U.; Cho, Y.Z. Sensor-based self-organized traffic control at intersections. In Proceedings
+of the 2017 International Conference on Information and Communication Technology Convergence (ICTC), Jeju, Korea, 18–20
+October 2017; pp. 634–638. [CrossRef]
+Guler, S.I.; Menendez, M.; Meier, L. Using connected vehicle technology to improve the efficiency of intersections. Transp. Res.
+Part C Emerg. Technol. 2014, 46, 121–131. [CrossRef]
+Sirikham, A. Development of a Wireless Stop Light Synchronization System for Single-lane Traffic Control. In Proceedings of
+the 2021 18th International Conference on Electrical Engineering/Electronics, Computer, Telecommunications and Information
+Technology (ECTI-CON), Chiang Mai, Thailand, 19–22 May 2021; pp. 1006–1009. [CrossRef]
+Kumar, D.M.; Arthi, R.; Aravindhan, C.; Roch, A.A.; Priyadarsini, K.; Deny, J. Traffic Congestion Control Synchronizing and
+Rerouting Using LoRa. Microprocess. Microsyst. 2021, 104048. [CrossRef]
+Reddy, K.S.; Shabarinath, B. Timing and Synchronization for Explicit FSM Based Traffic Light Controller. In Proceedings of the
+2017 IEEE 7th International Advance Computing Conference (IACC), Hyderabad, India, 5–7 January 2017; pp. 526–529.
+Khedkar, A.; Kumar, V. Self synchronization based air traffic control and collision avoidance system. In Proceedings of the 2011
+IEEE/AIAA 30th Digital Avionics Systems Conference, Seattle, WA, USA, 16–20 October 2011; pp. 1–8. [CrossRef]
+Wu, J.; Yan, F.; Kuang, P. Distributed urban traffic signal control based on spontaneous synchronization. In Proceedings of the 17th
+International IEEE Conference on Intelligent Transportation Systems (ITSC), Qingdao, China, 8–11 October 2014; pp. 2202–2207.
+[CrossRef]
+Adacher, L.; Tiriolo, M. A Distributed Approach for Traffic Signal Synchronization Problem. In Proceedings of the 2016 Third
+International Conference on Mathematics and Computers in Sciences and in Industry (MCSI), Chania, Greece, 27–29 August 2016;
+pp. 191–196.
+Adacher, L. A Global Optimization Approach to Solve the Traffic Signal Synchronization Problem. Procedia—Soc. Behav. Sci. 2012,
+54, 1270–1277. [CrossRef]
+Aleko, D.R.; Djahel, S. An IoT Enabled Traffic Light Controllers Synchronization Method for Road Traffic Congestion Mitigation.
+In Proceedings of the 2019 IEEE International Smart Cities Conference (ISC2), Casablanca, Morocco, 14–17 October 2019;
+pp. 709–715.
+Nesmachnow, S.; Massobrio, R.; Arreche, E.; Mumford, C.; Olivera, A.C.; Vidal, P.J.; Tchernykh, A. Traffic lights synchronization
+for Bus Rapid Transit using a parallel evolutionary algorithm. Int. J. Transp. Sci. Technol. 2019, 8, 53–67. [CrossRef]
+Cabezas, X.; García, S.; Salas, S.D. A hybrid heuristic approach for traffic light synchronization based on the MAXBAND.
+Soft Comput. Lett. 2019, 1, 100001. [CrossRef]
+Adacher, L.; Gemma, A.; Oliva, G. Decentralized Spatial Decomposition for Traffic Signal Synchronization. Transp. Res. Procedia
+2014, 3, 992–1001. [CrossRef]
+Rodriguez, M.; Fathy, H. Self-Synchronization of Connected Vehicles in Traffic Networks: What Happens When We Think of
+Vehicles as Waves? In Proceedings of the 2019 American Control Conference (ACC), Philadelphia, PA, USA, 10–12 July 2019; pp.
+2651–2657. [CrossRef]
+
+Electronics 2022, 11, 465
+
+79.
+
+80.
+
+81.
+
+82.
+83.
+84.
+
+20 of 20
+
+Astarita, V.; Festa, D.C.; Giofre, V.P. Cooperative-Competitive Paradigm in Traffic Signal Synchronization Based on Floating
+Car Data. In Proceedings of the 2018 IEEE International Conference on Environment and Electrical Engineering and 2018 IEEE
+Industrial and Commercial Power Systems Europe (EEEIC/I&CPS Europe), Palermo, Italy, 12–15 June 2018; pp. 1–6.
+Yingxiang, Y.; Min, Y.; Lei, S.; Jian, S.; Yong, W. Traffic Signal Synchronization of a Small Urban Network Using Cellular
+Automaton. In Proceedings of the 2011 Third International Conference on Measuring Technology and Mechatronics Automation,
+Shanghai, China, 6–7 January 2011; Volume 3, pp. 1035–1039.
+Li, Z.; Ding, Z.; Wang, Y.; Fu, Y. Time synchronization method among VANET devices. In Proceedings of the 2017 International
+Conference on Wireless Communications, Signal Processing and Networking (WiSPNET), Chennai, India, 22–24 March 2017;
+pp. 2096–2101.
+Abbasi, M.; Shahraki, A.; Barzegar, H.R.; Pahl, C. Synchronization Techniques in “Device to Device- and Vehicle to VehicleEnabled” Cellular Networks: A survey. Comput. Electr. Eng. 2021, 90, 106955. [CrossRef]
+Du, W.; Abbas-Turki, A.; Koukam, A.; Galland, S.; Gechter, F. On the V2X speed synchronization at intersections: Rule based
+System for extended virtual platooning. Procedia Comput. Sci. 2018, 141, 255–262. [CrossRef]
+Tomar, I.; Indu, S.; Pandey, N. Traffic Signal Control Methods: Current Status, Challenges, and Emerging Trends. In Proceedings of
+Data Analytics and Management; Springer Science and Business Media LLC: Singapore, 2022; Volume 90, pp. 151–163.
+
+

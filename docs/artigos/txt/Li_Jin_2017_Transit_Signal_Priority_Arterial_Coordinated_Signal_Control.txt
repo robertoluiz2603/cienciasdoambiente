@@ -1,0 +1,1551 @@
+Special Issue Article
+
+Transit signal priority optimization for
+urban traffic network considering
+arterial coordinated signal control
+
+Advances in Mechanical Engineering
+2017, Vol. 9(8) 1–12
+Ó The Author(s) 2017
+DOI: 10.1177/1687814017700594
+journals.sagepub.com/home/ade
+
+Rui Li1 and Peter J Jin2
+
+Abstract
+Traffic congestion has been a challenging problem in urban areas during rush hours. Transit priority (especially transit signal priority) strategy can provide smooth flow for decreasing travel times, stops, and delay. However, on urban arterials,
+the performance of transit signal priority scenario along arterial corridors of urban traffic network is primarily affected
+by coordinated signal control strategy. This article proposes a transit signal priority green duration optimization model
+considering passengers traveling delay at intersections and bus stops, and then the optimized transit signal priority phase
+plan considering arterial coordinated signal control is addressed. Consequently, the proposed method is evaluated using
+a VISSIM model calibrated with field traffic volume and traffic signal data of Qingliangmen-Bridge community in Nanjing,
+China. Comparing with the non-transit signal priority scenario, the optimized transit signal priority–based phasing plans
+result in the reduced delay at intersections and bus service stops. The evaluation results illustrate the promising performance of the proposed transit signal priority optimization method considering arterial coordinated signal control in
+reducing the passenger delay for urban traffic network during rush hours.
+Keywords
+Transport engineering, transit signal priority, arterial coordinated signal control, optimization, methodology
+
+Date received: 30 August 2016; accepted: 22 February 2017
+Academic Editor: Yongjun Shen
+
+Introduction
+To handle the challenge of severe traffic congestion in
+the urban area during rush hours, high occupancy vehicle (especially transit vehicles) priority strategy is implemented to carry larger numbers of passengers
+efficiently.1 However, the performance of transit vehicles priority is usually limited in some bottleneck areas
+(such as intersections and bus stops) of traffic networks. Previous experience has shown that transit signal priority (TSP) control can improve traffic operation
+in urban areas when compared to traditional signal
+control strategies.
+W Smith2 and colleagues were among the first to
+conduct bus preemption experiments to reduce bus
+travel time. In the early periods, most studies focused
+on TSP system optimization within traditional
+
+fixed-time traffic signal control systems for bus delay
+reductions and negative traffic impacts. Then, the signal priority procedure for optimization in real-time
+(SPPORT) model was created and evaluated specifically with the target of explicitly considering the unique
+nature of transit vehicles and the interference caused to
+the general traffic by transit vehicles.3,4 A number of
+
+1
+
+College of Civil and Transportation Engineering, Hohai University,
+Nanjing, China
+2
+Department of Civil and Environmental Engineering, Rutgers, The State
+University of New Jersey, Piscataway, NJ, USA
+Corresponding author:
+Rui Li, College of Civil and Transportation Engineering, Hohai University,
+Xi Kang Road 1, Nanjing 210098, China.
+Email: lirui2012@hhu.edu.cn
+
+Creative Commons CC-BY: This article is distributed under the terms of the Creative Commons Attribution 4.0 License
+(http://www.creativecommons.org/licenses/by/4.0/) which permits any use, reproduction and distribution of the work without
+further permission provided the original work is attributed as specified on the SAGE and Open Access pages (https://us.sagepub.com/en-us/nam/
+open-access-at-sage).
+
+2
+improved real-time, traffic-responsive TSP optimization models and control systems are developed and
+proposed for enhancing overall system operation efficiency,5 improving transit traveling reliability,6 and
+minimizing the impacts on other vehicular traffic7,8 of
+isolated intersection,9,10 bus stop-to-stop segment,11
+arterial progression,12 and coordinated network.13
+Besides that, transit operation characteristics such as
+bus stop dwell time (DT)14,15 and transit vehicle arrival
+distribution16 are also considered for establishing TSP
+optimization model with high-level performance and
+reliability. These previous studies have focused primarily on TSP optimization models examining the interaction between general vehicles and transit vehicles in
+urban areas (intersections, arterial corridors, and network). However, the strategies of arterial coordinated
+signal control and TSP are usually implemented on
+arterial roadways simultaneously, and the optimization
+model considering the influence of arterial coordinated
+signal control should be paid more attention.
+Moreover, the effect of transit vehicles’ real-time movement characteristics at transit routes (especially at bus
+service stops) to TSP control system optimization needs
+further development.
+The research in this article developed a TSP green
+duration optimization model considering both the passenger delay (PD) at intersections and bus service stops.
+Then the optimized TSP phase plan considering arterial
+coordinated signal control is proposed. A VISSIMbased simulation platform is established for analyzing
+and testing the performance of the optimized TSP program. The simulation is calibrated by field traffic flow,
+signal, and bus stops data of urban network including
+two commuting arterial corridors in Nanjing, China.
+This article is organized as follows. In section
+‘‘Methodology,’’ the control units of urban traffic network are classified into two categories (intersections
+with and without downstream service stop), and the
+TSP plans of intersections are developed regarding TSP
+green duration optimization model and phase allocation method under arterial coordinated signal control
+scenarios. Section ‘‘Case study’’ is the field data–based
+analysis, calibration, and evaluation of the proposed
+TSP optimization scenarios. The TSP optimization
+plans of the test area are generated, and the performance is analyzed and simulated by VISSIM-based
+simulation platform. In the end, conclusions and recommendations are included.
+
+Methodology
+For minimizing passenger traveling delay in urban traffic network under arterial coordinated signal control
+condition, the TSP optimization method is developed
+for improving the TSP system operation efficiency. The
+
+Advances in Mechanical Engineering
+
+Figure 1. Flowchart of the methodology.
+
+Figure 2. Visualization of the control units.
+
+flowchart of TSP optimization method is shown in
+Figure 1, and the process of this methodology is divided
+into control unit division phase, TSP strategy optimization phase, and arterial coordinated signal control
+phase. The details are summarized in the following
+description.
+
+TSP control unit division
+The control units are classified into two categories (illustrated in Figure 2): Control Unit Type 1 and Control
+Unit Type 2. Control Unit Type 1 means the isolated
+intersection, and Control Unit Type 2 involves the
+intersection with a downstream stop.
+
+TSP timing plan optimization
+TSP green duration optimization. In this article, we use
+passengers’ total traveling delay as the optimized index.
+And minimized passengers’ total traveling delay in control units of traffic network is chosen as the optimized
+target. The proposed TSP timing optimization model is
+described in equation (1). For Control Unit Type 1,
+total passenger delay (DU 1 ) of the unit is PD at the signalized intersection (DI ). For Control Unit Type 2,
+total passenger delay (DU 2 ) of the unit includes PD at
+the signalized intersection (DI ) and bus stop (DS ). The
+degree of saturation of vehicles for intersections is
+assumed to be not more than 0.9
+
+Li and Jin
+
+3
+8
+min DU 1 = DI
+>
+>
+<
+min DU 2 = DI + DS
+D = DIg + DIb
+>
+>
+: I
+DS = DSb + DSo
+
+ð1Þ
+
+where DIg and DIb are the PD of general vehicles and
+transit vehicles at the signalized intersection, respectively. DSb denotes the total delay of passenger waiting
+at bus stop bay. DSo denotes the delay of passengers
+riding the buses during the bus dwelling at bus stops.
+PD at intersection. Considering the degree of saturation pattern for urban traffic network, delay formula
+cited from Highway Capacity Manual (1985) is chosen
+for calculating the average delay of vehicles. The average delay for general vehicles in phase m at one signalized intersection is illustrated in equation (2)
+8
+m 2
+2
+)
+m
+>
+= 0:38C(1l
++ 173x m
+dIg
+m
+>
+Ig
+(1l
+)
+>
+rﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+
+<
+>
+>
+>
+:
+
+(xm
+Ig  1) +
+
+16xm
+
+2
+Ig
+(xm
+Ig  1) + cm
+
+Figure 3. Time-space trajectory diagram of buses.
+
+ð2Þ
+
+Ig
+
+gm
+
+lm = C
+
+m
+m
+m
+m
+where C is the cycle length, and dIg
+, cm
+Ig , g , l , and xIg
+are the average delay, capacity, green duration, green
+time ratio, and degree of saturation of general vehicles
+for phase m at one intersection, respectively.
+The formula for the total passenger delay of general
+vehicles at one intersection is addressed as follows
+X
+m
+m
+(dIg
+ qm
+ð3Þ
+DIg =
+Ig  PIg )
+m2M
+
+where M denotes the set of all phases of a cycle at one
+m
+intersection; Pm
+Ig and qIg are the average passenger occupancy (APO) and arrival rate of general vehicles for
+phase m at one intersection, respectively.
+For TSP buses, the average delay at one signalized
+intersection is illustrated in equation (4)
+8
+a 2
+2
+>
+d = 0:38C(1l ) + 173x aIb
+>
+< Ib h (1la )
+qﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃa i
+16x
+ð4Þ
+(xaIb  1) + (xaIb  1)2 + ca Ib
+>
+Ib
+>
+a
+: a
+gge
+l = C
+a
+where dIb , caIb , gge
+, la , and xaIb are the average delay,
+capacity, green duration, green time ratio, and degree
+of saturation of buses for TSP phase a at one intersection, respectively.
+The formula for the total passenger delay of transit
+vehicles for TSP phase at one intersection is addressed
+as follows
+
+DIb = dIb  qIb  PIb
+
+ð5Þ
+
+where dIb , PIb , and qIb are the average delay, APO, and
+arrival rate of buses during the TSP phase at one
+intersection.
+
+Figure 4. Illustrative passenger arrival and boarding patterns at
+bus stop. f jk ðtÞ: The arrival rate of passengers for bus k of route
+j at bus stop. gjk ðtÞ: The boarding rate of passengers for bus k of
+route j at bus stop. DjkSb : The passenger delay for bus k of route j
+at bus stop bay. tjkf : The headway between bus k and (k–1) on
+route j. tjks : The dwell duration of transit k of route j at bus stop.
+Dt jks : The increased dwell time of bus k at the bus stop on route
+j for overflow traffic situation compared with normalized traffic
+situation.
+
+PD at bus stop. Passengers’ traveling delay at transit
+service station includes travelers’ waiting delay on
+buses and at the bus stop. Based on the trajectory data
+of transit vehicles (as shown in Figure 3), traffic delay
+(of passengers on buses) at bus service station can be
+analyzed.
+The delay of travelers on buses at bus stops (DSo ) can
+be formulated in the following equation
+DSo =
+
+
+X X X  jk
+jk
+Ps(n)  ts(n)
+
+ð6Þ
+
+n2N j2J k2K
+jk
+where Pjk
+s(n) and ts(n) are the APO and dwell duration for
+bus k of route j at bus stop n, respectively.
+Figure 4 illustrates the waiting delay patterns of passengers at bus stop bay for different transit arrival rates.
+Figure 4(a) and (b) shows normalized and overflow
+
+4
+
+Advances in Mechanical Engineering
+
+Figure 5. Ring-and-barrier diagram and TSP strategies.
+
+situation of the bus stop. The normalized condition
+means that the arrival transits can load and unload passengers without waiting for entering berths, while overflow situation means some arrival buses need to wait
+for serving passengers because the berths are filled fully
+with the former arrival buses.
+The arrival and boarding rate of passengers bus k of
+route j at bus stop is f jk (t) and g jk (t), respectively. The
+jk
+jk
+shaded area (Djk
+Sb ) surrounded by f (t) and g (t) curves
+and the time axis is the PD for bus k of route j at bus
+stop bay.tfjk denotes the headway between bus k and
+(k 2 1) on route j. tsjk denotes the dwell duration of transit k of route j at bus stop.
+For formalized situation (as shown in Figure 4(a)),
+the PD for each arriving transit vehicle at bus stops can
+be formulated in the following equation
+DSb =
+
+X X ð tfjk tsjk
+j2J k2K
+
+ð tsjk
++
+0
+
+0
+
+(tfjk  t)f jk (t)dt
+!
+
+t(f jk (tfjk  tsjk )  g jk (t))dt
+
+ð7Þ
+
+For the overflow situation, the number of berths is
+less than bus arrivals, and the downstream buses are
+required to wait at the entrance of curbside stop until
+the upstream berths are vacated.17 The DT of bus k at
+the bus stop on route j (tsjk ) is longer than passengers’
+boarding and alighting time, and the increased time is
+
+Dtsjk . The delay of passengers on buses for each arriving
+transit vehicle at the bus stop under overflow condition
+can be formulated in the following equation
+DSb =
+
+X X ð tfjk tsjk + Dtsjk
+j2J k2K
+
+ð tsjk Dtsjk
++
+0
+
+0
+
+(tfjk  t)f jk (t)dt
+!
+
+ð8Þ
+
+t(f jk (tfjk  tsjk + Dtsjk )  gjk (t))dt
+
+Intersection signal phasing allocation. Figure 5 shows a sample four-phase ring diagram with TSP strategy of green
+extension. Phase 1 includes a through and right movement of vehicles on the major street. Phase 2 includes a
+left-turn movement for the main street. Phase 3 consists
+of a through and right movement of vehicles on the
+minor street. Finally, Phase 4 has one left-turn phase on
+the minor street. The transit vehicle movements follow
+the through movement in the major direction. The initial phasing plan without TSP is Plan 1. Plan 2 is the
+TSP phasing program with green phase extension where
+tge is the TSP green duration.
+In this article, the TSP green duration and signal
+phasing plans are optimized with fixed cycle lengths.
+Then the phase plans are predetermined and fixed. TSP
+strategy of green extension is selected for optimization,
+and the TSP green duration for transit vehicles is calculated by the following equation
+
+Li and Jin
+
+5
+
+Figure 6. Layouts of test area in Qingliangmen-Bridge community.
+
+m
+gge
+=
+
+8 m
++ tge
+<g 
+: gm
+
+tge
+1
+C  L  ga
+
+
+
+m=a
+m 6¼ a
+
+Case study
+ð9Þ
+
+where L is the lost time in each cycle of the original
+phasing plan without TSP control.
+
+Arterial coordinated signal optimization
+A well-timed, coordinated system enables continuous
+movement along an arterial or throughout a network
+with minimum delays, which, reduces fuel consumption
+and improves air quality.18 The two fundamental parameters (cycle length and offset) should be adjusted for
+acquiring the optimized coordinated system. The maximum cycle length of the arterial is usually chosen as the
+common cycle length.
+Every signalized intersection has an offset point
+referenced to the master clock. Therefore, each intersection will have a relative offset to each other. The
+optimized offset can be acquired regarding the timespace diagram considering the DT of transit vehicles at
+intersections and bus service stops.
+
+Experiment design
+The network used in this case study is the two commuting arterial corridors (Zhanjiang Ave and Qingliangmen
+Blvd) of Qingliangmen-Bridge community in Nanjing,
+China. These two arterial corridors have five adjacent
+signalized intersections, Zhanjiang Ave at Hengqi Rd
+(I-1) and Hanjiang Rd (I-2), Qingliangmen Blvd at
+Zhanjiang Ave (I-3), at Nenjiang Ave (I-4), and at
+Beiwei Ave (I-5). The test area also includes four bus
+stops, serviced by 11 transit routes (Transit Routes
+15, 20, 23, 57, 60, 91, 133, 204, 303, 317, and 550).
+Hanjiang Bus Stop (S-1) and Qingliangmen Bus Stop
+(S-2) are located in Zhanjiang Ave, and Zhanjiang
+Bus Stop (S-3) and Qingliangmen West Bus Stop (S4) are located in Qingliangmen Blvd. The geometric
+layouts of the evaluation area are illustrated in Figure
+6. Field data collected from the evaluation area are
+used in the numerical experiments for the proposed
+TSP models.
+Based on the warrant of TSP control unit, these two
+commuting arterial corridors are divided into five
+
+6
+
+Advances in Mechanical Engineering
+
+Figure 7. Initial signal phase plans of these five signalized intersections.
+
+control units: Control Unit-1 (CU-1, including I-1 and
+S-1), Control Unit-2 (CU-2, including I-2 and S-2),
+Control Unit-3 (CU-3, including I-3 and S-3), Control
+Unit-4 (CU-4, including I-4 and S-4), and Control
+Unit-5 (CU-5, including I-5 only).
+The initial signal phase plans (without TSP strategy)
+for these intersections are shown in Figure 7. Traffic
+volumes data collected in the morning rush hour (from
+8:00 a.m. to 9:00 a.m.) during 3 days from 10 May 2016
+to 12 May 2016 are shown in Table 1, and the movements of each phase for these intersections are illustrated in Table 2.
+Several preliminary experiments were performed to
+determine the capacity of vehicle lane is 1700 vehicles
+per lane per hour approximately,19 and the transit lane
+capacity is nearly 850 buses per lane per hour.20
+The APO of general vehicles during morning rush
+hour is observed to be 1.8 persons per vehicle by field
+observations. Passenger occupancy (PO) of these transit routes are calculated using automated passenger
+count (APC) data and the empirical calibrated by
+Nanjing Transit Agency.Table 3 lists the APO of all
+transit routes in the morning rush hour during the test
+days at the different approaches of these five signalized
+intersections.
+In this study, TSP strategies are developed to
+respond to morning peak hour direction, the southbound direction for Zhanjiang Ave, and the eastbound
+direction for Qingliangmen Blvd. The transit route
+characteristics of these four bus stops are illustrated in
+Table 4.
+The Time-Space trajectory diagram of these 11 transit routes between 8:00 a.m. and 9:00 a.m. during 3 days
+from 10 May 2016 to 12 May 2016 is illustrated in
+Figure 8. The DT of these transit routes at the four bus
+service stops can be acquired in Figure 8. Arrival time
+data are obtained from the Automatic Vehicle Location
+(AVL) system (between 8:00 a.m. and 9:00 a.m. during
+
+3 days from 10 May 2016 to 12 May 2016). PO, the
+number of boarding passengers (BP), and alighting passengers (AP) in the morning rush hour of these four bus
+service stops for the same period are depicted in
+Figures 9–11. The PO is calculated based on APC data
+and the empirical observations of local Transit Agency.
+The BP and AP count data are collected through the
+observation at the bus stops.
+Based on the observation data for the number of
+Passengers’ boarding and alighting at these four bus
+stops, the number of BP is higher than AP for nearly
+all transit routes (except Bus Route 15) in the morning
+rush hour. Besides, the number of BP directly affects
+the duration of DT of transit vehicles during the test
+time.
+
+Results simulation analysis
+Traffic data collected in the morning rush hour during
+3 days from 10 May 2016 to 12 May 2016 are divided
+into two parts. The first part of the data (10 May 2016
+and 11 May 2016) is used to calibrate the proposed TSP
+optimization model, and the second part of the data (12
+May 2016) is used to evaluate the performance of this
+model.
+Experimental design. In this research, capacities for each
+approach of signalized intersections are assumed fixed
+and not affected by traffic operations. Uniform arrival
+rates are also assumed for passengers coming to these
+four bus stops during the morning rush hour. The TSP
+green durations (illustrated in Table 5) at these five signalized intersections are calculated based on the proposed TSP time optimization model, which is calibrated
+by the data collected in the morning rush hour during
+10 May 2016 and 11 May 2016. Table 5 also presents
+the PD at these five control units with and without TSP
+optimization. The results of Table 5 show the
+
+NA
+NA
+NA
+NA
+NA
+8
+NA
+NA
+8
+15
+9
+NA
+NA
+10
+NA
+7
+14
+NA
+NA
+NA
+NA
+NA
+NA
+NA
+NA
+9
+NA
+NA
+9
+15
+10
+NA
+NA
+8
+NA
+8
+13
+NA
+NA
+NA
+NA
+NA
+NA
+NA
+NA
+7
+NA
+NA
+7
+14
+9
+NA
+NA
+8
+NA
+7
+14
+NA
+NA
+NA
+NA
+NA
+55
+56
+NA
+NA
+46
+47
+38
+41
+24
+37
+51
+52
+NA
+NA
+54
+55
+NA
+NA
+NA
+NA
+56
+54
+NA
+NA
+47
+47
+39
+39
+24
+33
+52
+50
+NA
+NA
+56
+57
+NA
+NA
+NA
+NA
+NA
+NA
+NA
+NA
+9
+NA
+NA
+NA
+13
+7
+NA
+7
+9
+NA
+NA
+NA
+NA
+14
+128
+135
+159
+74
+129
+109
+166
+162
+262
+143
+167
+180
+169
+118
+138
+172
+165
+72
+68
+221
+93
+137
+154
+104
+114
+109
+119
+141
+267
+158
+173
+175
+172
+103
+187
+169
+134
+75
+59
+218
+154
+129
+170
+99
+132
+98
+132
+159
+249
+147
+167
+193
+169
+115
+102
+185
+192
+59
+80
+242
+90
+61
+577
+466
+177
+135
+571
+439
+1004
+599
+471
+381
+1069
+572
+180
+100
+1259
+629
+129
+117
+79
+68
+602
+521
+152
+103
+562
+501
+957
+593
+465
+393
+1023
+544
+174
+104
+1249
+629
+114
+127
+82
+57
+521
+420
+215
+121
+598
+453
+1092
+631
+485
+361
+1153
+648
+204
+111
+1337
+601
+158
+135
+223
+231
+138
+129
+121
+119
+199
+82
+159
+127
+181
+190
+127
+135
+183
+159
+NA
+195
+99
+138
+195
+194
+128
+107
+122
+127
+208
+74
+165
+126
+165
+191
+102
+111
+191
+146
+NA
+199
+79
+120
+I-5
+
+I-4
+
+I-3
+
+I-2
+
+East Bound
+West Bound
+South Bound
+North Bound
+East Bound
+West Bound
+South Bound
+North Bound
+East Bound
+West Bound
+South Bound
+North Bound
+East Bound
+West Bound
+South Bound
+North Bound
+East Bound
+West Bound
+South Bound
+North Bound
+I-1
+
+249
+277
+162
+147
+115
+107
+232
+70
+174
+119
+185
+184
+148
+97
+191
+147
+NA
+203
+111
+179
+
+Movement
+
+11 May
+
+NA
+NA
+NA
+NA
+NA
+NA
+8
+NA
+NA
+NA
+13
+8
+NA
+8
+9
+NA
+NA
+NA
+NA
+15
+
+NA
+NA
+NA
+NA
+NA
+NA
+9
+NA
+NA
+NA
+13
+8
+NA
+8
+9
+NA
+NA
+NA
+NA
+14
+
+NA
+NA
+54
+57
+NA
+NA
+46
+44
+39
+40
+24
+36
+52
+54
+NA
+NA
+55
+57
+NA
+NA
+
+11 May
+10 May
+11 May
+10 May
+12 May
+10 May
+10 May
+10 May
+
+12 May
+
+TH Veh # (veh)
+LT Veh # (veh)
+
+11 May
+
+12 May
+
+10 May
+
+11 May
+
+12 May
+
+11 May
+
+TH Bus # (bus)
+LT Bus # (bus)
+RT Veh # (veh)
+
+7
+
+Intersection #
+
+Table 1. Traffic volumes for these five intersections in the morning rush hour during 3 days from 10 May 2016 to 12 May 2016.
+
+12 May
+
+RT Bus # (bus)
+
+12 May
+
+Li and Jin
+
+significant PD reduction of over 3.5% at the test control units (expect CU-5). Figure 12 shows the TSP timing optimization plans.
+The traffic flow characteristics (based on Table 2) of
+the two arterial corridors illustrate the significant disequilibrium. Figure 13 describes the proposed coordinated timing plan for the direction with higher volumes
+of these two arterials.
+For Zhanjiang Ave, morning peak hour direction is
+the southbound direction. The distance between I-1 and
+I-2 is 320 m, and the average speed of traffic flow of
+Zhanjiang Ave is 20 km/h. The optimal offset between
+I-1 and I-2 (Off2-1) is 58 s.
+For Qingliangmen Blvd, morning peak hour direction is the eastbound direction. The distances between
+I-3 and I-4, I-4 and I-5 are 400 and 330 m, and the
+average speed of traffic flow of Qingliangmen Blvd is
+25 km/h. The optimal offsets between I-3 and I-4
+(Off4-3), I-4 and I-5 (Off5-4) are 58 and 48 s.
+Results simulation analysis. VISSIM-based simulation
+platform is established for testing the performance of
+the proposed optimization model and method. Based
+on the data of 12 May, average vehicle delay at the
+intersections and bus stops are simulated by the
+VISSIM-based simulation platform under the initial
+and optimized signal phase plans. Then, PD at each
+control units is calculated using simulation-based average vehicle delay, observation-based traffic volume,
+and observation-based occupancy. TSP optimization
+model–based PD at each control units are also calculated for further evaluating the performance of this
+model.
+Table 6 summarizes the PD (simulation platform
+based and optimization model based) of these control
+units with and without TSP optimization strategies
+based on the traffic data in the morning rush hour on
+12 May 2016. The results of Table 6 show the significant reduction of PD for optimized signalized plan at
+bus stop and intersections using model-based and
+simulation-based methods. For passengers’ delay at
+intersections of CU-1 to CU-5, reduction rate of
+simulation-based PD is more than that of model-based
+PD. For passengers’ delay at bus stops of CU-1 to
+CU-4, reduction rate of model-based PD is more than
+that of simulation-based PD. Total passengers’ delay
+reduction of model-based PD is less than that of
+simulation-based PD for each control unit.
+The results of Figure 14 demonstrate the significant
+PD reduction (under optimal signal phase plans) of
+over 3.5% at the experimental control units (with a bus
+stop). Model-based and simulation-based evaluation
+results of TSP optimization methods have similar performance in reducing PD at the test area. The performance of the TSP optimization model (proposed in this
+
+8
+
+Advances in Mechanical Engineering
+
+Table 2. Movements of original traffic signal phasing plan for these five intersections.
+Intersection #
+
+Phase 1
+
+Phase 2
+
+Phase 3
+
+Phase 4
+
+I-1
+I-2
+I-3
+I-4
+I-5
+
+EB/WB: TH&RT
+EB/WB: TH
+EB/WB: TH
+EB/WB: TH&RT
+EB/WB: TH
+
+EB/WB: LT
+EB/WB: LT&RT
+EB/WB: LT&RT
+EB/WB: LT
+WB: LT&RT; EB: RT
+
+NB/SB: TH&RT
+NB/SB: TH&RT
+NB/SB: TH
+NB/SB: TH&RT
+NB/SB: TH
+
+NB/SB: LT
+NB/SB: LT
+NB/SB: LT&RT
+NB/SB: LT
+NB/SB: LT&RT
+
+Table 3. Average passenger occupancy of all transit routes for these five intersections.
+East Bound
+
+I-1
+I-2
+I-3
+I-4
+I-5
+
+West Bound
+
+South Bound
+
+North Bound
+
+LT
+
+TH
+
+RT
+
+LT
+
+TH
+
+RT
+
+LT
+
+TH
+
+RT
+
+LT
+
+TH
+
+RT
+
+NA
+NA
+NA
+NA
+NA
+
+NA
+NA
+17.7
+20.0
+25.2
+
+NA
+NA
+13.4
+NA
+14.3
+
+NA
+NA
+NA
+18.8
+NA
+
+NA
+NA
+14.2
+16.9
+20.7
+
+NA
+8.9
+13.9
+14.9
+NA
+
+NA
+10.2
+13.3
+17.0
+NA
+
+15.9
+19.3
+24.1
+NA
+NA
+
+NA
+NA
+29.8
+NA
+NA
+
+NA
+NA
+11.1
+NA
+12.9
+
+10.7
+14.5
+19.3
+NA
+NA
+
+NA
+NA
+NA
+21.7
+NA
+
+Figure 8. Time-Space trajectory diagram of these 11 transit routes.
+
+Table 4. Transit routes of these four bus stops.
+Bus Stop #
+
+Bus Route
+
+S-1
+S-2
+S-3
+S-4
+
+#15, #57, #204, #317, #550
+#15, #57, #204, #317, #550
+#15, #23, #60, #91, #133, #303, #317
+#15, #20, #23, #60, #91, #133, #303, #317
+
+article) has advantages in decreasing total passenger
+delay at bus stops than in intersections with over 3.5%
+more reduction. Also, the TSP optimization model performs varied for segments under different saturation
+conditions. The traffic volume degree of saturation of
+Zhanjiang Ave is higher than that of Qingliangmen
+Blvd in rush hour during the test days, and the PD
+reduction rates for these two arterial segments are
+
+Li and Jin
+
+9
+
+Figure 9. Passenger occupancy for transit vehicles at bus stops during the experimental days: (a) S-1, b) S-2, (c) S-3, and (d) S-4.
+
+Figure 10. Boarding passenger # for transit vehicles at bus stops during the experimental days: (a) S-1, b) S-2, (c) S-3, and (d) S-4.
+
+Figure 11. Alighting passenger # for transit vehicles at bus stops during the experimental days: (a) S-1, b) S-2, (c) S-3, and (d) S-4.
+
+different. The proposed TSP optimization model performs better in reducing PD for Zhanjiang Ave (CU-1
+and CU-2) than those of Qingliangmen Blvd (CU-3,
+CU-4, and CU-5). Therefore, the TSP optimization scenarios for reducing PD of the transit system will be
+weakened undersaturated and oversaturated traffic
+flow condition.
+
+Conclusion
+This article presents a TSP optimization framework for
+unsymmetrical traffic flow in urban networks during
+rush hours. The proposed method can significantly
+improve the efficiency and reliability of transit system
+and minimize the negative impact caused by arterial
+
+10
+
+Advances in Mechanical Engineering
+
+Table 5. Solutions of proposed TSP optimization model.
+Optimization
+control unit
+CU-1
+CU-2
+CU-3
+CU-4
+CU-5
+
+TSP green duration (s)
+
+I-1
+S-1
+Total
+I-2
+S-2
+Total
+I-3
+S-3
+Total
+I-4
+S-4
+Total
+I-5
+
+5
+NA
+NA
+6
+NA
+NA
+7
+NA
+NA
+8
+NA
+NA
+5
+
+Passenger delay (s)
+Initial signal phase plan
+
+Optimized signal phase plan
+
+Reduction rate (%)
+
+166,929.8
+61,778.3
+228,708.1
+185,264.3
+56,514.7
+241,779
+445,793.6
+64,168.5
+509,962.1
+411,126.5
+82,693.7
+493,820.2
+344,129.6
+
+160,938.7
+57,435.3
+218,374
+177,674.8
+51,812.7
+229,487.5
+432,286.1
+59,811.5
+492,097.6
+397,271.5
+76,590.9
+473,862.4
+334,577.2
+
+3.59%
+7.03%
+4.52%
+4.09%
+8.32%
+5.08%
+3.03%
+6.79%
+3.50%
+3.37%
+7.38%
+4.04%
+2.78%
+
+TSP: transit signal priority.
+
+Figure 12. TSP optimization phase plans of these five signalized intersections.
+
+Figure 13. Time-Space diagram of the proposed coordinated timing plan.
+
+coordinated signal control strategy for urban traffic
+network. Two types of control units of traffic network
+are identified (intersection with and without downstream bus service stop) for TSP optimization. The TSP
+
+green duration optimization model is presented to calculate the duration of the allocated transit green time,
+the signal phasing allocation method is proposed to
+generate TSP phasing plans. The arterial coordinated
+
+Li and Jin
+
+11
+
+Table 6. Total passenger delay comparison between model-based and simulation-based PD.
+Optimization
+control unit
+CU-1
+CU-2
+CU-3
+CU-4
+CU-5
+
+Model-based PD
+
+I-1
+S-1
+Total
+I-2
+S-2
+Total
+I-3
+S-3
+Total
+I-4
+S-4
+Total
+I-5
+
+Simulation-based PD
+
+Initial plan
+
+Optimized plan
+
+Reduction rate
+
+Initial plan
+
+Optimized plan
+
+Reduction rate
+
+166,367.7
+61,327.4
+227,695.1
+187,491.1
+59,611.9
+247,103
+443,605.4
+59,464.1
+503,069.5
+370,816.6
+88,706.4
+459,523
+335,938.8
+
+160,297.3
+56,623.6
+216,920.9
+179,708.6
+54,598.5
+234,307.1
+429,809.3
+55,367.1
+485,176.4
+357,763.9
+81,955.8
+439,719.7
+326,472.4
+
+3.65%
+7.67%
+4.73%
+4.15%
+8.41%
+5.18%
+3.11%
+6.89%
+3.56%
+3.52%
+7.61%
+4.31%
+2.82%
+
+219,651.2
+50,798.2
+270,449.4
+240,985.5
+47,875.7
+288,861.2
+610,752.5
+48,075.1
+658,827.6
+530,974.1
+71,874.9
+602,849
+480,784.6
+
+208,470.9
+47,618.2
+256,089.1
+227,128.8
+44,519.6
+271,648.4
+583,085.4
+45,435.8
+628,521.2
+503,257.3
+67,339.6
+570,596.9
+461,841.7
+
+5.09%
+6.26%
+5.31%
+5.75%
+7.01%
+5.96%
+4.53%
+5.49%
+4.60%
+5.22%
+6.31%
+5.35%
+3.94%
+
+PD: passenger delay.
+
+Figure 14. Passenger delay reduction rate comparison for the test area.
+
+signal optimization method is addressed for adjusting
+the TSP signal phasing plans, and the TSP control
+under urban network circumstance is optimized based
+on the analysis of transit Time-Space trajectory diagram. A numerical experiment is conducted by simulating transit operations with field volume and phasing
+data collected in Qingliangmen-Bridge community of
+Nanjing, China, and the experimental area including
+two commuting arterial corridors, five adjacent signalized intersections, and four bus service stops. The initial non-TSP and optimized TSP phasing plans of the
+test area are simulated and evaluated using the VISSIM
+simulation platform. The results of experiment validate
+the effectiveness of the proposed TSP method, and the
+performance of the optimized TSP phasing plans are
+analyzed and evaluated.
+Future work includes more extensive numerical
+experiments and field tests to assess the effectiveness
+and reliability of the proposed TSP method under the
+complex traffic condition. Another potential extension
+is to expand more factors such as traffic flow patterns,
+the distance between bus stop and intersection, and
+
+geometric configurations of intersections and bus stops
+should be introduced for TSP optimization models
+development and calibration.
+Declaration of conflicting interests
+The author(s) declared no potential conflicts of interest with
+respect to the research, authorship, and/or publication of this
+article.
+
+Funding
+The author(s) disclosed receipt of the following financial support for the research, authorship, and/or publication of this
+article: This research was supported by the National Natural
+Science Foundation of China (grant no. 51508161), Natural
+Science Foundation of Jiangsu Province (grant no.
+BK20140851), and Fundamental Research Funds for the
+Central Universities of China (grant no. 2016B08314).
+
+References
+1. Weng J, Wang Y, Huang J, et al. Bus operation monitoring oriented public transit travel index system and calculation models. Adv Mech Eng 2013; 2013: 389825.
+
+12
+2. Smith W. Study of evolutionary urban transportation, vols
+I–III (Westinghouse Airbrake Company and Institute of
+Public Administration). Washington, DC: U.S. Department of Housing and Urban Development, 1968.
+3. Yagar S, Han B and Greenough J. Real-time signal control for mixed traffic and transit based on priority rules.
+In: Proceedings of the engineering foundation conference
+traffic management, Palm Beach, Florida, 1–6 April,
+1992. New York: Engineering Foundation.
+4. Dion F and Hellinga B. A rule-based real-time traffic
+responsive signal control system with transit priority:
+application to an isolated intersection. Transport Res B:
+Meth 2002; 36: 325–343.
+5. Vasudevan M. Robust optimization model for bus priority
+under arterial progression. PhD Thesis, University of
+Maryland, College Park, MD, 2005.
+6. Feng W. Analyses of bus travel time reliability and transit
+signal priority at the stop-to-stop segment level. PhD Thesis, Portland State University, Portland, OR, 2014.
+7. Dion F, Rakha H and Zhang Y. Evaluation of potential
+transit signal priority benefits along a fixed-time signalized arterial. J Transp Eng 2004; 130: 294–303.
+8. Ma W, Liu Y and Yang X. A dynamic programming
+approach for optimal signal priority control upon multiple high-frequency bus requests. J Intell Transport S
+2013; 17: 282–293.
+9. Christofa E and Skabardonis A. Traffic signal optimization with application of transit signal priority to an isolated intersection. Transp Res Record 2011; 2259:
+192–201.
+10. Li Y, Yu L, Tao S, et al. Multi-objective optimization of
+traffic signal timing for oversaturated intersection. Math
+Probl Eng 2013; 2013: 182643-1–182643-9.
+11. Li R, Jin PJ and Ran B. Bi-objective optimization and
+evaluation for transit signal priority strategies at bus
+
+Advances in Mechanical Engineering
+stop-to-stop segment. Math Probl Eng 2016; 2016:
+1054570-1–1054570-12.
+12. Ma W, Ni W, Head L, et al. Effective coordinated optimization model for transit priority control under arterial
+progression. Transp Res Record 2013; 2356: 71–83.
+13. Ghanim M, Dion F and Abu-Lebdeh G. Integration of
+signal control and transit signal priority optimization in
+coordinated network using genetic algorithms and artificial neural networks. In: Proceedings of the 88th annual
+meeting of the transportation research board, Washington,
+DC, 11–15 January 2009. Washington, DC: TRB.
+14. Dion F and Ghanim M. Impact of dwell time variability
+on transit signal priority performance at intersections
+with nearside bus stop. In: Proceedings of the 86th annual
+meeting of the transportation research board, Washington,
+DC, 21–25 January 2007. Washington, DC: TRB.
+15. Kim W and Rilett LR. Improved transit signal priority
+system for networks with nearside bus stops. Transp Res
+Record 2005; 1925: 205–214.
+16. Zeng X, Zhang Y, Balke KN, et al. A real-time transit
+signal priority control model considering stochastic bus
+arrival time. IEEE T Intell Transp 2014; 15: 1657–1666.
+17. Gu W and Cassidy MJ. Maximizing bus discharge flows
+from multi-berth stops by regulating exit maneuvers.
+Transport Res B: Meth 2013; 56: 254–264.
+18. Homburger WS, Hall JW, Reilly WR, et al. Fundamentals
+of traffic engineering (ITS course notes UCB-ITS-CN-011). 15th ed. Berkeley, CA: ITS, 2001.
+19. Highway capacity manual. Washington, DC: Transportation Research Board of the National Academies, 2010.
+20. Transit cooperative research program (TCRP) report
+100: transit capacity and quality of service manual.
+Washington, DC: Transportation Research Board of the
+National Academies, 2003.
+
+

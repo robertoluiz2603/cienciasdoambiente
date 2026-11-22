@@ -1,0 +1,1354 @@
+arXiv:2404.06382v1 [eess.SY] 9 Apr 2024
+
+Traffic Signal Control and Speed Offset
+Coordination Using Q-Learning for Arterial Road
+Networks
+Tianchen Yuan1 and Petros A. Ioannou2
+1,2
+
+CATT Laboratory, University of Southern California
+
+Abstract
+Arterial traffic interacts with freeway traffic, yet the two are controlled
+independently. Arterial traffic signals do not take into account freeway
+traffic and how ramps control ingress traffic and have no control over egress
+traffic from the freeway. This often results in long queues in either direction that block ramps and spill over to arterial streets or freeway lanes.
+In this paper, we propose an adaptive arterial traffic control strategy that
+combines traffic signal control (TSC) and dynamic speed offset (DSO) coordination using a Q-learning algorithm for a traffic network that involves
+a freeway segment and adjacent arterial streets. The TSC agent computes
+the signal cycle length and split based on observed intersection demands
+and adjacent freeway off-ramp queues. The DSO agent computes the relative offset and the recommended speeds of both ways between consecutive
+intersections based on their physical distance, intersection queues, and signal cycles. We evaluate the performance of the proposed arterial traffic
+control strategy using microscopic traffic simulations of an arterial corridor
+with seven intersections near the I-710 freeway. The proposed QL-based
+control significantly outperforms a fixed-time control and MAXBAND in
+terms of the travel time and the number of stops under low or moderate
+demands. In high-demand scenarios, the travel-time benefit provided by
+the QL-based control is reduced as it mitigates off-ramp and intersection
+queues, which is a necessary trade-off in our perspective. In addition,
+mutual benefit is obtained by implementing freeway and arterial traffic
+control simultaneously.
+
+1
+
+Introduction
+
+The effective management of arterial traffic has become a pivotal aspect in
+addressing the challenges posed by growing populations and increasing vehicular
+densities. Traffic signal control (TSC) is the only available control option for
+most arterial roads nowadays. The synchronization of traffic signals facilitates
+the creation of green waves, allowing for more seamless progression of vehicles
+1
+
+and reducing travel times on arterial roads. The conventional fixed-time TSC
+systems are proved to be insufficient in coping with the unpredictable nature of
+modern urban traffic [1]. To address the issue, many adaptive TSC algorithms
+have been proposed and thoroughly studied by the research community [2, 3, 4].
+The adaptive TSC system typically uses sensors and real-time data to adjust
+signal timings and dynamically respond to the change of traffic states. However,
+the benefit obtained by the adaptive signal control can be limited when the
+arterial roads are highly saturated due to high demands or unexpected incidents
+[5, 6].
+Although being less practiced in the real world, other traffic regulation techniques such as variable speed limit (VSL) control may also improve the arterial
+traffic mobility when coordinated with the traffic signal control [7, 8]. The core
+idea is to control the speed of vehicles to allow as many vehicles to cross the
+signalized intersection during the green phase as possible, and thus, maximize
+the progression bandwidth. The above concept has been further extended to
+the study of eco-driving where the most energy-saving trajectory is determined
+for connected vehicles (CVs) based on the information of signal phasing and
+timing [9, 10, 11]. Most of these studies focus on a microscopic/vehicular level
+and assume the signal timing is fixed.
+In this paper, we aim to develop an arterial traffic control strategy that coordinates a series of traffic signals with variable speed control to improve the
+progression bandwidth and reduce the arterial travel time. To facilitate the
+coordination between different control components, we adopt the reinforcement
+learning (RL) framework, which has been applied in many adaptive signal control studies due to its ability to share the control policy and the perception of
+traffic conditions between individual agents [12]. Besides, the RL framework
+can be modified to include both the signal control and the speed control as two
+separate agents, but maintain collaborative interactions among the agents to
+enhance the overall system performance.
+We have designed a RL-based freeway traffic control strategy and verified
+its effectiveness in a mixed freeway and arterial road network in the previous
+study [13]. In this paper, we focus on the performance of the arterial part
+and implement a more sophisticated arterial control strategy using a similar
+RL framework in the same road network. In addition, we are interested in the
+interactions between the freeway control and the arterial control.
+The contributions of this paper are summarized as follows:
+1. We develop an adaptive arterial traffic control strategy that coordinates
+traffic signal timing, offset and vehicle speed using a Q-learning (QL) algorithm. The traffic signal control (TSC) agent determines the signal cycle
+length and the split based on observed intersection demands and freeway
+off-ramp queues. The dynamic speed offset (DSO) agent determines the
+relative offset and the recommended vehicle speeds between two adjacent
+arterial signals based on the physical distance, the intersection queues and
+the signal cycles from the TSC agent. Both agents’ reward functions aim
+
+2
+
+to minimize the travel time and the queue length of freeway ramps and
+intersection areas.
+2. The proposed arterial traffic control improves the arterial travel time by
+about 15% under low or moderate demands compared with fixed-time
+control, which is significantly more than the classic MAXBAND. In highdemand scenarios, the proposed control encourages queue dissipation at
+off-ramps and intersections so that the travel-time benefit decreases to
+around 10% as an acceptable trade-off.
+3. The proposed arterial traffic control improves the freeway travel time by
+around 5% under high demands due to its ability to alleviate off-ramp
+queues. The freeway traffic control also benefits the proposed arterial
+control by producing balanced off-ramp flows and intersection demands
+which fit the unification of signal cycles and splits.
+The rest of the paper is organized as follows: section 2 reviews relevant
+literature. Section 3 states the problem that we aim to solve. Section 4 presents
+the QL-based arterial traffic control strategy. Section 5 verifies the effectiveness
+of the proposed approach via microscopic simulations. Section 6 concludes the
+paper.
+
+2
+
+Related Work
+
+Traffic signal control (TSC) is the most crucial and effective arterial-trafficcontrol approach and has been frequently studied by the transportation community for over half a century. There are two main categories of existing
+TSC strategies: fixed-time TSC and adaptive/traffic-responsive TSC. Fixedtime TSC operates by switching between predetermined signal programs based
+on the time of day, making it well-suited for stable and unsaturated traffic conditions. In 1960s, Webster and Miller laid the groundwork for modern fixed-time
+TSC by developing a traffic signal timing model and calculation method to minimize the average vehicle delay [14, 15, 16]. In [17] and [13], the original Webster
+model has been modified to consider vehicle delays, fuel consumption and emission rates. Although the Webster model is able to optimize the performance
+of traffic flows for an isolated intersection, repeatedly applying the model for
+closely distanced signals on an arterial road may not yield the best performance.
+Instead it is recommended to synchronize the traffic signal timing with proper
+offsets to create a green wave and reduce the overall vehicle stops for red lights
+[18]. The exact idea has been incorporated into the MAXBAND model [19].
+The classic MAXBAND model lacks robustness with respect to unpredictable
+arterial traffic characteristics, and thus, has been modified in a number of later
+studies. In [20], Gartner et al. divided the road into multiple segments and
+apply MAXBAND for each segment separately. In [21], Arsava et al. incorporated origin-destination (OD) information and route guidance with MAXBAND
+to guarantee the bandwidth allocation for major origin-to-destination flows. In
+
+3
+
+[8], De Nunzio et al. combined speed advisory with MAXBAND to reduce the
+travel time and the energy consumption. Another widely adopted and extended
+fixed-time TSC scheme is TRANSYT [22], which utilizes historical traffic data
+from the road network as input and computes the optimal signal timing via a
+heuristic ”hill climbing” algorithm.
+The primary drawback of fixed-time TSC is the inability to manage highly
+saturated traffic conditions or abnormal demands due to events or incidents.
+To address the issue, some adaptive TSC methodologies have been investigated.
+In [23], Hunt et al. proposed a traffic-responsive variation of TRANSYT called
+SCOOT, which modifies signal plans online based on observed traffic flow rates
+and occupancy. In [24], a real-time hierarchical optimized distributed effective
+system (RHODES) with two primary operational stages was introduced. In the
+first stage, the system predicts future traffic flow rates across the road network
+using sensor data. In the second stage, the optimal signal timing is computed
+with the predicted traffic flow rates from the first stage. In [2], the authors presented an adaptive phase allocation algorithm for a single signalized intersection
+that optimizes the phase sequence and duration using vehicle location and speed
+data from connected vehicles. Even though many adaptive TSC have demonstrated satisfactory performance in various field tests, a common limitation is
+their dependence on precise real-time traffic data and high-speed computing resources. The complexity of the internal optimization problem of some adaptive
+TSC is significant, which imposes restrictions on the size of arterial networks
+that can be effectively managed.
+Reinforcement learning (RL) has been recently adopted by many researchers
+as a promising alternative to deal with the scalability issue in the study of adaptive TSC [25]. In [12], the authors proposed a basic RL structure that assigns
+one agent per signal to lower delays and number of stops for a two-way arterial
+road segment with five intersections. The RL agents deliver a more balanced
+distribution of the travel delay than fixed-time control. However, each RL agent
+optimizes the performance of a local area and the global optimum is not guaranteed. Besides, the progression bandwidth problem is not considered in [12].
+To achieve global optimum, many research efforts focused on joint state-action
+modeling methods where the agent learns to choose the most rewarding joint
+action with joint state observations [26, 27, 28]. The drawback of joint stateaction methods is that the number of state-action pairs grows exponentially
+with the number of intersections, leading to long training time and the need for
+a huge amount of training data for large networks. In [4], the basic RL structure was upgraded to minimize the sum of intersection queue lengths and the
+cumulative stop delay of the entire network using a deep neural network (DNN).
+The authors utilized a proximal policy optimization (PPO) algorithm to strike
+a balance between speed and stability of training, which solves the scalability
+issue with global optimization in some sense. The potential concern with PPO
+is the high sensitivity to the choice of hyperparameters and limited exploration
+ability, both of which prevent the model from achieving the true optimum.
+The recent developments in the study of eco-driving reveals the great potential of vehicle speed control on improving the arterial traffic mobility [9, 10, 11].
+4
+
+The objective of the eco-driving agent is to find a velocity trajectory for the
+vehicle to travel across a series of traffic signals with least stops and energy
+consumption. Although eco-driving algorithms are designed for vehicular-level
+traffic control, the concept can be implemented in flow-level traffic control, i.e.
+coordinating speed limits with TSC to improve the efficiency of arterial travel.
+
+3
+
+Problem Statement
+
+Consider a road network that consists of a freeway segment and the adjacent
+arterial streets as depicted in Fig. 1. Although the freeway and arterial traffic
+interact frequently via ramps, they are controlled separately with very little, if
+any, communication. This often leads to severe traffic congestion problems such
+as off-ramp queue overspill where the red light queue at an arterial intersection
+extends all the way back to the side lane of freeway via the off-ramp. To prevent
+the problem, the arterial signal needs to adjust its timing to accommodate more
+off-ramp demands before the occurrence of overspill.
+
+Figure 1: Road network
+On the other hand, in spite of the evolution of traffic signal control (TSC)
+techniques in past decades, TSC by itself has difficulty maintaining the expected
+performance under high arterial traffic demands. Recent developments of ecodriving motivates us to incorporate vehicle speed control with TSC in order to
+increase the progression bandwidth and improve traffic mobility.
+With the above considerations, we design a new arterial control strategy
+that coordinates traffic signal timing, offset and dynamic speed limits with the
+objective to reduce arterial travel time and size of queues at off-ramps and
+intersections. A Q-learning framework is adopted due to its ability to coordinate
+different control components and fast real-world implementations. The off-ramp
+queue is taken into account as a state variable and included in the reward
+function to avoid off-ramp overspill.
+
+5
+
+4
+
+Methodology
+
+In this section, we provide a detailed description of the proposed Q-learningbased arterial traffic control strategy. The road network depicted in Fig. 1
+consists of a freeway segment and an adjacent arterial corridor with multiple
+signalized intersections. The freeway traffic flow is characterized by a modified
+cell transmission model (CTM) that considers the capacity drop phenomenon
+and bounded accelerations [13]. Each CTM section contains at least one ramp
+and each ramp connects to the East leg of an arterial intersection. Note that
+some ramp connections are omitted in Fig. 1 due to limited drawing space.
+The proposed arterial traffic control is operated by two agents: a traffic signal
+control (TSC) agent that computes the signal plan (with zero offset) for each
+intersection and a dynamic speed offset (DSO) agent that determines the proper
+signal offset and vehicle speed between two intersections.
+
+4.1
+
+TSC Agent
+
+The TSC agent computes the signal plan which includes the cycle length and
+phase split for each arterial signal based on the observations of traffic states as
+shown in Fig. 2. We introduce a network-level controller to receive the outputs
+of all the TSC agents and generate final signal plans. The network control
+unifies the signal plan for all intersections so that the progression bandwidth on
+the horizontal arterial in Fig. 1 can be maximized with the assistance of the
+DSO agent. This unification mechanism can be either activated or deactivated.
+The control cycle is set to 5 min, which means the signal plan is updated every
+5 min during the simulation. To apply QL algorithms, we first introduce the
+definition of states, actions and reward function for the TSC agent.
+
+Figure 2: Traffic signal control (TSC) agent
+
+6
+
+4.1.1
+
+States:
+
+The states of the TSC agent are defined as
+Xts = [ws , d˜S , d˜E , d˜N , d˜W ]
+
+(1)
+
+where ws is the queue length of the off-ramp that is connected to the freeway side
+of the corresponding intersection, and d˜S , d˜E , d˜N , d˜W are measured incoming
+demands of the intersection from four directions in vehicles per hour (veh/h),
+with the superscript denoting the direction (e.g. S for Southbound). These
+traffic states are measured every 30 seconds. The demand is estimated as the
+average measured flow rate of the upstream link in the past control cycle. ws is
+set to 0 at the beginning of each simulation, and then calculated as the average
+observed off-ramp queue length in the past control cycle.
+We use Sw to denote the state space of ws and Sd to denote the state
+space of d˜∗ (∗ stands for the direction). To reduce the problem dimension and
+improve the training efficiency, we discretize the continuous state space so that
+Sw = {0, 50, 100, ..., 500} and Sd = {0, 100, 200, ..., 4000}. Note that 500 m is
+slightly larger than the length of the longest off-ramp and 4000 veh/h is larger
+than the maximal historical link flow. Therefore we choose these two values as
+the upper limit of the discrete state spaces.
+4.1.2
+
+Actions:
+
+The actions executed by the TSC agent are expressed as
+Ats = [Tc , g1 , g2 ]
+
+(2)
+
+where Tc is the cycle length, which is the sum of green time of all the phases
+plus the lost time during phase transitions. g1 , g2 are phase-split ratios to be
+used to compute the green time of each phase, and below we will present the
+exact expressions used to calculate them.
+The default phase scheme involves 6 phases as depicted in Fig. 3.
+
+Figure 3: Traffic signal phases
+The green time of each phase is denoted as Tg,j where j = 1, 2, ..., 6 is the
+phase index. To simplify the phase split computation, we assume the phase with
+the same color in Fig. 3 has the same green time, i.e. Tg,1 = Tg,3 , Tg,4 = Tg,6 .
+In addition, Tg,1 /Tg,2 = Tg,4 /Tg,5 .
+With the above assumptions, we only need two ratios to compute the green
+time of each phase - g1 is the green time of first 3 phases divided by the green
+
+7
+
+time of all 6 phases, g2 is the green time of the first phase divided by the green
+time of first 3 phases, i.e.
+Tg,1 + Tg,2 + Tg,3
+Tg,1 + Tg,2 + Tg,3 + Tg,4 + Tg,5 + Tg,6
+Tg,1
+g2 =
+Tg,1 + Tg,2 + Tg,3
+
+g1 =
+
+(3)
+
+Note that the green time of all 6 phases is not equal to the cycle length Tc ,
+instead we have
+Tg,1 + Tg,2 + Tg,3 + Tg,4 + Tg,5 + Tg,6 = Tc − Tl
+
+(4)
+
+where Tl is the loss time, defined as the time period during which no vehicles
+pass through the intersection due to phase transitions.
+The action space of the cycle length Ac is set to {40, 50, 60, ..., 180} in seconds
+according to [13]. The action space of g1 is Ag1 = {0.2, 0.3, 0.4, ..., 0.8}. The
+action space of g2 is Ag2 = {0.1, 0.2, 0.3, 0.4}. After choosing g1 and g2 , the
+phase split can be computed as follows:
+Tg,1 = Tg,3 = (Tc − Tl )g1 g2
+Tg,2 = (Tc − Tl )g1 (1 − 2g2 )
+Tg,4 = Tg,6 = (Tc − Tl )(1 − g1 )g2
+
+(5)
+
+Tg,5 = (Tc − Tl )(1 − g1 )(1 − 2g2 )
+4.1.3
+
+Reward:
+
+The first objective of the traffic signal control is to reduce the average travel
+time for a square area centered at the intersection as depicted in Fig. 4.
+
+Figure 4: The square area for TSC to compute the average travel time
+The side length of the square area Ls is chosen to be long enough to measure
+and monitor the queues at the intersection. In this paper, we set Ls = 400 m.
+8
+
+The average travel time Tt is computed as
+N
+
+Tt =
+
+v
+1 X
+(ti,out − ti,in )
+Nv i=1
+
+(6)
+
+where Nv is the number of vehicles traveling through the square area during the
+last control cycle, ti,in and ti,out is the time vehicle i enters and exits the square
+area.
+The TSC agent also interacts with the off-ramp queue. An effective reward
+function should exhibit a negative correlation with the average travel time Tt
+and the average off-ramp queue length ws . Considering the above requirements,
+the reward function is defined as
+Rts = max{0, 1 −
+
+Ls
+ws
+}·
+wsr
+Tt va
+
+(7)
+
+where wsr is the reference off-ramp queue length that we do not want ws to
+reach. va is the default arterial speed limit. wsr should be slightly less than
+the off-ramp queue capacity to prevent the overspill. In the simulations, we set
+wsr = 400 m and va = 60 km/h.
+Rts has a maximum value of 1, which is obtained when there is no queue
+at the off-ramp and the average travel time Tt = Ls /va . This is a rare case
+which occurs when there is no travel delay at the intersection. Rts reaches the
+minimum value of 0 when ws exceeds the reference value wsr , which effectively
+prevents off-ramp queue overspill. In general, a higher Rts reflects less off-ramp
+queue length and average travel time. Note that the objective of Q-learning is
+not only to maximize the immediate reward defined in (7), but to maximize a
+cumulative long-term reward where the reward of each time step is computed
+by (7).
+4.1.4
+
+Network Control:
+
+The network controller receives the intended actions from all TSC agents within
+the arterial network and selects a unified action for each action variable of all
+signals based on a majority rule as follows:
+• If the most common action is the intended action of more than half TSC
+agents, it selects it as the unified action for all signals.
+• If the most common action is supported by half TSC agents or less, it
+computes the average of all intended actions and selects the common action
+to be the one that is closest to the average value. If the average value lies
+in the middle of two actions exactly, it selects the larger one.
+To demonstrate the majority rule proposed above, we provide an example
+of an arterial corridor with four signalized intersections and discuss three cases
+as follows:
+
+9
+
+• Case 1: the intended signal cycles are {60, 60, 60, 70}s. Since more than
+half agents favors 60s, the network controller selects 60s as the common
+cycle.
+• Case 2: the intended signal cycles are {60, 60, 70, 80}s. No action is favored
+by more than half agents. The average cycle length is 67.5s. The network
+controller selects the cycle that is closest to 67.5s, i.e. 70s.
+• Case 3: the intended signal cycles are {60, 60, 70, 70}s. No action is favored
+by more than half agents. The average cycle length is 65s, which lies in
+the middle of two available options - 60s and 70s. The network controller
+selects the larger one, i.e. 70s.
+Although the unification may compromise the travel time of some particular
+intersection areas, it benefits the overall arterial travel time and traffic mobility
+in most circumstances with the collaboration of the DSO agent. The unification
+mechanism is deactivated during the training process so that more state-action
+pair can be visited.
+
+4.2
+
+DSO Agent
+
+The DSO agent searches for the optimal offset and speed recommendations
+between two adjacent arterial signals based on the observations of signal plans,
+intersection queue length and link distance as shown in Fig. 5. The control
+cycle is set to 5 min to be consistent with the TSC agent. The states, actions
+and reward function for the DSO agent are described as follows:
+
+Figure 5: Dynamic speed offset agent
+4.2.1
+
+States:
+
+The states of the DSO agent are defined as
+Xso = [TcU , TcD , waU , waD , L]
+
+10
+
+(8)
+
+where TcU is the cycle length of the upstream signal, TcD is the cycle length of
+the downstream signal, waU is the queue length at the Northbound approach of
+the upstream intersection, waD is the queue length at the Southbound approach
+of the downstream intersection, and L is the link distance.
+TcU and TcD are determined by the TSC agent after each control cycle. waU
+is observed every 30 seconds and we take the average of all observed values of
+waU during each control cycle as its state value. The same applies to waD . The
+link distance L is assumed known for each pair of adjacent intersections within
+the network.
+The state space of each state variable is also discretized to accelerate the
+training process. The state space of TcU and TcD , denoted as Sc , is the same as
+the action space of the cycle length Ac , i.e. Sc = {40, 50, 60, ..., 180} in seconds.
+The state space of waU and waD , denoted as Swa , is set to {0, 50, 100, ..., 250} in
+meters. The state space of L, denoted as SL , is defined as {1000, 1100, 1200, ..., 2500}
+in meters.
+4.2.2
+
+Actions:
+
+The actions executed by the DSO agent are expressed as
+Aso = [To , vrD , vrU ]
+
+(9)
+
+where To is the offset of signal j with respect to signal j −1 expressed in seconds,
+which means that the cycle initiation of signal j is later than signal j − 1 by To
+seconds. vrD is the recommended speed for downstream traffic in link j − 1, and
+vrU is the recommended speed for upstream traffic in link j − 1.
+It is unnecessary for the offset To to be larger than the cycle length of signal j − 1 [29], and thus, the action space of To , denoted as Ao , is defined as
+{0, 5, 10, ..., Tc′ − 5} in seconds, where Tc′ is the cycle length of the upstream signal. The action space of vrD and vrU , denoted as Avr , is set to {40, 45, 50, ..., 80}
+in km/h.
+4.2.3
+
+Reward:
+
+The task for the DSO agent is to reduce the average travel time on link j − 1
+and the queue lengths at both intersections by setting a proper offset and speed
+recommendations. Note that higher speed does not necessarily reduce the travel
+time as the vehicle may run into the red phase at the signal. In that case, we
+prefer to let the vehicle approach the signal with lower speed so that it passes
+directly under the green light and does not join the red light queue.
+Guided by the above ideas, we define the reward function for the DSO agent
+as follows:
+wD
+3L
+wU
+Rso = max{0, 1 − ar } · max{0, 1 − ar } ·
+(10)
+wa
+wa
+4Tt′ va
+where war is the reference queue length of an intersection approach and Tt′ is the
+average travel time for both directions on link j − 1. Tt′ is calculated using (6).
+In the simulations, we set war = 200 m.
+11
+
+Rso reaches the maximum value of 1 if all vehicles pass through the link at
+maximum possible speed (80 km/h) and the two approaches have no queue at
+all. The minimum value of Rso is 0, which is obtained when either queue at the
+two approaches exceeds the reference value war . A larger value of Rso reflects
+less intersection queue length and link travel time. Note that the objective of
+Q-learning is to maximize a cumulative long-term reward where the reward of
+each time step is computed by (10).
+
+4.3
+
+Q-Learning
+
+A crucial factor to enhance the effectiveness of the proposed arterial traffic control method is the coordination between the TSC agent and the DSO agent.
+Most rule-based and simulation-based algorithms have each control component
+accomplish its own objective without any coordination [30, 31, 32]. The use
+of optimization framework may provide a solution that facilitates the coordination as multiple sub-controllers working toward a common objective function
+[33, 2, 8]. However, the optimization problem formulation for the road network under consideration is overly complex considering the network size and the
+mixed freeway and arterial environment, which leads to very time-consuming
+computations which limit its practicality. A more computationally feasible approach that also takes the coordination and optimality into account is reinforcement learning (RL) [12, 3, 4].
+During the RL training process, the agent learns the best policy π that
+maximizes the total expected discounted rewards Vπ (x) for each state x via trial
+and error. Note that Vπ (x) is a long-term return and should not be confused
+with the immediate reward of both agents defined in (7) and (10). Vπ (x) is
+expressed as follows
+∞
+X
+Vπ (x) = Eπ [
+γ k Rk |x]
+(11)
+k=0
+
+where x is the current state defined in (1) and (8), π is a policy that suggests
+which action should be taken for each possible state, k = 0 is the current time
+step, Rk is the reward defined in (7) and (10) at time step k, γ ∈ [0, 1) is the
+discount factor that determines the importance of the future reward. A γ close
+to 0 makes the agent short-sighted (only considering current rewards), while a γ
+close to 1 makes it far-sighted (considering future rewards). The future reward
+gets more and more discounted as it steps away from the current time.
+Without loss of generality, we assume the states of both TSC and DSO
+agents are memoryless, which means their future states only depend on the
+current states and actions. Therefore, searching the optimal policy π can be
+formulated as a Markov Decision Process (MDP) problem and solved by the
+Bellman equation [34, 35]. To express Vπ (x) using the Bellman equation, we
+first split it into the immediate reward and the discounted future rewards
+Vπ (x) = Eπ [R0 + γ
+
+∞
+X
+k=1
+
+12
+
+γ k−1 Rk |x]
+
+(12)
+
+P∞
+The term k=1 γ k−1 Rk is the sum of discounted future rewards starting from
+the next time step k = 1, which is essentially Vπ (x′ ) where x′ is the state at
+k = 1. Therefore, we can rewrite Vπ (x) as
+Vπ (x) = Eπ [R0 + γVπ (x′ )|x]
+
+(13)
+
+Then we expand the expectation form by considering the policy π and transition probability to derive the Bellman equation [34] for Vπ (x) as
+X
+X
+Pa (x, x′ )(Ra (x, x′ ) + γVπ (x′ ))
+(14)
+Vπ (x) =
+π(a|x)
+x′
+
+a
+
+where π(a|x) is the probability of taking action a in the current state x under
+policy π, Pa (x, x′ ) is the transition probability from x to the future state x′ via
+action a, and Ra (x, x′ ) is the reward obtained from the above transition. x, a, R
+are the states, actions and reward specified by (1)(2)(7) for the TSC agent and
+(8)(9)(10) for the DSO agent respectively.
+Vπ (x) in (14) is an iterative term and its optimal value can be potentially
+solved using dynamic programming (DP). However, the transition probability
+Pa (x, x′ ) is unknown in the traffic environment, which motivates us to adopt
+model-free techniques such as Q-learning (QL) [35]. The Q-value Q(x, a) is
+defined as the total expected discounted rewards after we take action a in state
+x. Q(x, a) directly tells us the expected return without needing a model to
+calculate it for each action.
+According to the definition of Q(x, a) and the Markov property, the optimal
+Vπ (x) is derived by selecting the best action at each state
+Vπ∗ (x) = max Q∗ (x, a)
+
+(15)
+
+a
+
+Therefore, searching the optimal policy π is equivalent to finding the action that
+maximizes the Q-value for each state
+π ∗ (x) = arg max Q∗ (x, a)
+
+(16)
+
+a
+
+Plugging the above optimal policy into (14), we have
+X
+Q∗ (x, a) =
+Pa (x, x′ )(Ra (x, x′ ) + γ max
+Q∗ (x′ , a′ ))
+′
+a
+
+x′
+
+(17)
+
+Equivalently
+Q∗ (x, a) = Ra (x, x′ ) + γ
+
+X
+x′
+
+Pa (x, x′ ) max
+Q∗ (x′ , a′ )
+′
+a
+
+(18)
+
+where maxa′ Q∗ (x′ , a′ ) represents the maximum possible future return after
+moving to the future state x′ and taking the best action a′ .
+The Q-value iteration equation (18) cannot be solved since the transition
+probability is unknown. However, it indicates that the optimal Q-value for each
+13
+
+state-action pair should converge to Ra (x, x′ ) + γ maxa′ Q∗ (x′ , a′ ), according to
+which the following Q-value update equation is motivated [35].
+Q(x, a) ← Q(x, a) + η[R(x, a) + γ max
+Q(x′ , a′ ) − Q(x, a)]
+′
+a
+
+(19)
+
+where η is the learning rate that determines to what extent the newly acquired
+information will override the old information. R(x, a) + γ maxa′ Q(x′ , a′ ) is the
+newly acquired estimate of Q-value which consists of both the immediate reward
+and the discounted future rewards. The discount factor γ is selected as 0.9 [36].
+We consider the convergence of Q(x, a) is achieved when the difference between
+the updated Q(x, a) and the previous Q(x, a) is less then 0.01.
+In the case of TSC agents, the state x refers to Xts specified by (1). The
+action a refers to Ats specified by (2). The immediate reward R(x, a) is computed by (7). In the case of DSO agents, the state x refers to Xso specified by
+(8). The action a refers to Aso specified by (9). The immediate reward R(x, a)
+is computed by (10).
+The learning rate η is a crucial parameter in QL algorithms. A commonly
+practiced training approach is to gradually reduce η during the process so that
+the convergence of the Q-value is achieved with reasonable efficiency. Note that
+a simple time-dependent decrease of η is not effective, as different states and
+actions are visited at different stages of learning. Instead, a specific η should be
+assigned to each state-action pair, and its value decreases each time the pair is
+visited [37]. Therefore,
+
+η(x, a) =
+
+1
+1 + n(x, a)(1 − γ)
+
+0.6
+(20)
+
+where n(x, a) is the number of times the state-action pair (x, a) has been visited.
+To maintain the balance between exploration and exploitation in the learning
+process, we adopt an action selection strategy based on the Softmax function
+as follows [38]
+exp (Q(x, a)/T )
+p(a|x) = P
+(21)
+b∈A exp (Q(x, b)/T )
+where p(a|x) is the probability of selecting action a at state x, and T is the
+temperature. T is a hyperparameter that controls the level of exploration.
+Lower T makes the policy more deterministic, favoring exploitation, while higher
+T increases exploration by making the policy more stochastic. In our design,
+we want both agents to favor exploitation slightly more than exploration and
+thus select T = 0.5 [36].
+
+4.4
+
+Training Process
+
+The training process depicted in Fig. 6 is carried out using microscopic simulation software PTV VISSIM 10 in a simulation network that will be illustrated in
+section 5. The freeway demands are generated using hourly traffic volume data
+from the Caltrans Performance Measurement System (PeMS) in April 2019.
+14
+
+The arterial demands are generated using hourly traffic counts from LADOT
+Database in April 2019. The Q-value for each state-action pair is initialized
+randomly using a uniform distribution on [0, 1] to encourage exploration [35].
+This range is consistent with the range of the rewards of both agents so that
+overshooting can be effectively avoided.
+
+Figure 6: Training process
+As shown in Fig. 6, the simulator starts by loading corresponding traffic
+demand at each entrance of the road network and assigning default signal plans
+and speed limits. The training of both TSC and DSO agents begins after a
+10-min warm-up. At the beginning of each control cycle, the TSC agent first
+collects the state Xts for each signal, and selects an action Ats using (21) based
+on current Q-values. The network control is deactivated during the training
+process to encourage the exploration, and the TSC action of different signals
+may vary. At the end of the control cycle, a reward value is computed using (7)
+′
+for each signal. The new state Xts
+is collected. Then we update the Q-value for
+the state-action pair (Xts , Ats ) using (19). Since there are K signals within the
+arterial network, the Q-values are updated K times in total after one control
+cycle. The training of the DSO agent follows a similar procedure except its
+Q-values are updated (K − 1) times due to the number of links being (K − 1).
+The training process completes when Q(x, a) converges for all state-action
+pairs of both agents. Considering the restrictions of VISSIM, each training simulation run lasts for 12 hours and the whole training process may take hundreds
+of simulation runs to complete. To fully utilize the traffic data, the 12-hour
+window of each simulation run shifts afterward by 1 hour from the previous
+15
+
+run. For example, if the current run uses the traffic data from 6 a.m. to 6 p.m.
+of a specific day, the next run will use the traffic data from 7 a.m. to 7 p.m. of
+the same day.
+The arterial incident is not considered in this paper. However, a freeway
+incident is introduced with two purpose: the first one is to bring new traffic
+conditions into the training to encourage the exploration of more state-action
+pairs by both agents; the second purpose is to activate the full version of freeway
+traffic control which consists of variable speed limit (VSL), lane change (LC)
+and ramp metering (RM), so that the agents in the arterial network can be
+trained to work with the freeway control. During the training, the incident on
+freeway has a probability of 0.25 to occur at the beginning of each hour and is
+cleared in 20 minutes.
+
+5
+
+Experimental Study
+
+5.1
+
+Simulation Network and Parameters
+
+We implement the proposed arterial traffic control strategies with the freeway
+traffic control strategies designed in [13] simultaneously and perform microscopic
+simulations using the commercial software PTV Vissim 10 over a mixed freeway
+and arterial road network which is depicted in Fig. 7. The network consists of
+a 16-km segment of the I-710 freeway and an adjacent arterial corridor with 7
+signalized intersections in Los Angeles, California, United States. The freeway
+segment is divided into 6 CTM sections and one upstream section, where the
+freeway controller deploys the first VSL sign dynamically [39]. There are 5
+on-ramps and 6 off-ramps that connect the freeway segment with the arterial
+region. The real-world locations of 7 arterial intersections are marked by orange
+squares in Fig. 8. The selected intersections are major ones whose traffic states
+are strongly correlated with the traffic states of neighboring freeway sections.
+To simplify the simulation network, some minor arterial streets and vertical
+freeways are ignored, and the selected intersections are directly linked.
+
+Figure 7: Simulation road network
+
+16
+
+Figure 8: Simulation road network on Bing Map
+Traffic demands are produced at one freeway entrance and 16 arterial entrances as implied by arrows in Fig. 7. The freeway demands are generated
+using hourly traffic volume data from the Caltrans Performance Measurement
+System (PeMS) in April 2019. The arterial demands are generated using hourly
+traffic counts from LADOT Database in April 2019. The turning ratio at an
+intersection approach or a ramp is determined by the ratio of the historical average traffic counts of each direction based on the LADOT data. The incident
+indicated in Fig. 7 triggers a side-lane-closure on freeway and potentially impacts both freeway and arterial traffic. To evaluate the trained agents, three
+levels of traffic demands are considered: a low-demand level based on 1-3 a.m.
+weekday traffic, a moderate-demand level based on 12-2 p.m. weekday traffic,
+and a high-demand level based on 5-7 p.m. weekday traffic. Each evaluation
+simulation run lasts for 40 min. In the presence of an incident, it occurs after a
+10-minute warm-up and is cleared at 30 minutes.
+With three demand levels and the incident occurrence option, we have a total
+of six evaluation scenarios. The interested control strategies to be evaluated
+under these scenarios are listed as follows:
+• No freeway control (NFC): the available freeway control components (variable speed limit, lane change, ramp metering) are all inactive.
+• Integrated freeway control (IFC): a freeway control strategy that coordinates all the control components, proposed in [13].
+• Fixed-time arterial traffic signal control (FAC): each signal has a fixed
+cycle of 120 s, a fixed split and zero offset. The arterial speed limit is
+fixed to 60 km/h.
+• MAXBAND: a classic arterial signal control algorithm that maximizes the
+progression bandwidth [19].
+• QL-based arterial traffic control without unification (QAC): the proposed
+arterial traffic control strategy without unifying the cycle and split.
+• QL-based arterial traffic control with unification (QACU): the proposed
+arterial traffic control strategy with active unification logic.
+
+17
+
+5.2
+
+Evaluation Criteria
+
+We evaluate the performance of a few combinations of the above control strategies for each interested scenario. Note that the warm-up period is excluded in
+any type of evaluation. The evaluation criteria are listed as follows [40, 13]:
+• Freeway average travel time (Ttf ): the average time spent for each vehicle
+to travel through the freeway segment. The computation of Ttf follows
+(6). Vehicles that enter or exit from ramps are excluded.
+• Arterial average travel time (Tta ): the average time spent for each vehicle to travel through the entire arterial region. The computation of Tta
+follows (6). Only vehicles that have travelled from intersection 1 (I1 ) to
+intersection 7 (I7 ) through the arterial road are counted.
+• Arterial average number of stops (s̄): the average number of stops performed by each vehicle when traveling through the entire arterial region.
+N
+
+s̄ =
+
+v
+1 X
+si
+Nv i=1
+
+(22)
+
+where si is the number of stops performed by vehicle i. Only vehicles that
+have travelled from I1 to I7 through the arterial road are counted.
+• Arterial average emission rates of CO2 (E): calculated using the MOVES
+model proposed by the Environment Protection Agency [41].
+E=
+
+Nv
+X
+
+Ei /
+
+i=1
+
+Nv
+X
+
+li
+
+(23)
+
+i=1
+
+where Ei is the emission produced by vehicle i and li is the travelled
+distance of vehicle i. Only vehicles that have travelled from I1 to I7
+through the arterial road are counted.
+• Average off-ramp queue length (w̄s ):
+w̄s =
+
+N
+X
+
+w̄s,i /Ns
+
+(24)
+
+i=1
+
+where N is the number of freeway sections, w̄s,i is the average queue length
+of off-ramp i during the simulation, Ns is the number of off-ramps.
+• Average queue length of arterial intersections (w̄a ):
+w̄a =
+
+K
+X
+
+(w̄kN + w̄kS + w̄kE + w̄kW )/4K
+
+(25)
+
+k=1
+
+where K is the number of arterial intersections, w̄kN is the average queue
+length of the Northbound approach of intersection k during the simulation.
+18
+
+5.3
+
+Evaluation Results
+
+We present the evaluation results of six interested scenarios in six tables respectively. Each value in these tables is the average of ten random simulation runs.
+There are two freeway control strategies and four arterial control strategies to
+be evaluated as illustrated in section 5.1. However, some options may not be
+necessary for some specific scenarios. For instance, the integrated freeway control (IFC) is not needed when there is no incident on freeway since the freeway
+demand is always within its normal capacity. Thus, we only focus on representative combinations of freeway and arterial control strategies for the sake of
+simplicity.
+Table 1 presents the evaluation results of a low-demand scenario without
+the freeway incident. In table 1, the freeway travel time Ttf is not affected by
+the variation of arterial control since the freeway traffic always follow the freeflow speed without any restriction. The fixed-time policy (FAC) serves as the
+reference method and delivers the worst performance under all arterial performance measurements. The percentages in brackets quantify the performance
+improvement by implementing the corresponding control scheme versus FAC.
+The QL-based control (QAC and QACU) performs better than the MAXBAND,
+especially in terms of the travel time and the number of stops. The unification
+logic also slightly improves the overall performance as we compare the results
+of QAC with QACU.
+Table 1: Low-Demand without Incident
+Freeway control
+Arterial control
+Ttf (s)
+Tta (s)
+s̄
+E(g/veh/km)
+w̄s (m)
+w̄a (m)
+
+FAC
+634
+968
+4.5
+246.9
+0
+15
+
+MAXBAND
+634
+853(12%)
+3.3(27%)
+231.8(6%)
+0
+7.8(48%)
+
+NFC
+QAC
+633
+816(16%)
+2.5(44%)
+226.7(8%)
+0
+7.1(53%)
+
+QACU
+633
+800(17%)
+2.3(49%)
+221.3(10%)
+0
+6.7(55%)
+
+Table 2 presents the evaluation results of a moderate-demand scenario without the freeway incident. The demand change significantly increases the queue
+measurements (w̄s and w̄a ) compared with table 1. The percentage improvements of each arterial traffic control strategies are close to those in table 1 in
+terms of the travel time, the number of stops and the emission rates. The QLbased control has a strong effect in off-ramp queue (w̄s ) dissipation because
+the off-ramp queue is part of the TSC agent’s reward function. The QL-based
+control also outperforms the MAXBAND with regard to the intersection queue
+(w̄a ), which is taken into account in the DSO agent’s reward function.
+Table 3 presents the evaluation results of a high-demand scenario without the
+freeway incident. The demand increase creates longer queues at off-ramps and
+
+19
+
+Table 2: Moderate-Demand without Incident
+Freeway control
+Arterial control
+Ttf (s)
+Tta (s)
+s̄
+E(g/veh/km)
+w̄s (m)
+w̄a (m)
+
+FAC
+637
+981
+4.8
+254
+52.6
+47.1
+
+MAXBAND
+639
+861(12%)
+3.5(27%)
+237.2(7%)
+46.7(11%)
+34.2(23%)
+
+NFC
+QAC
+638
+841(14%)
+2.9(40%)
+228.4(10%)
+8.8(83%)
+28.4(40%)
+
+QACU
+638
+834(15%)
+2.7(44%)
+226.5(11%)
+8.6(84%)
+27.1(42%)
+
+intersections that potentially introduces congestion at these areas. Comparing
+with table 1 and 2, the percentage improvements brought by the QL-based control diminish in terms of the arterial travel time and the number of stops, closer
+to those of the MAXBAND. The reason is that the QL-based algorithms prioritize the queue dissipation at off-ramps when it reaches the capacity. They still
+outperform the MAXBAND in both queue measurements as the MAXBAND
+does not consider real-time queues at all. Another interesting observation is
+that the freeway travel time is improved by implementing the QL-based arterial control, because the off-ramp queue does not accumulate and no bottleneck
+exists on freeway.
+Table 3: High-Demand without Incident
+Freeway control
+Arterial control
+Ttf (s)
+Tta (s)
+s̄
+E(g/veh/km)
+w̄s (m)
+w̄a (m)
+
+FAC
+755
+1037
+6.4
+272.6
+457.3
+176.1
+
+MAXBAND
+752
+948(7%)
+5.5(14%)
+250.7(8%)
+356.6(22%)
+150.9(14%)
+
+NFC
+QAC
+704(7%)
+947(7%)
+5.6(12%)
+243.8(11%)
+82.2(82%)
+83.8(40%)
+
+QACU
+705(7%)
+940(8%)
+5.2(19%)
+239.4(12%)
+80.1(82%)
+81.5(42%)
+
+Table 4 presents the evaluation results of a low-demand scenario with the
+freeway incident. To alleviate the congestion brought by the incident, we implement an integrated freeway traffic control method proposed in [13]. Meanwhile
+we incorporate different arterial traffic control strategies and examine their performance in the occurrence of the freeway control. The percentage improvements of each type of arterial control over FAC in table 4 are close to those in
+table 1, which implies that the freeway control has no significant impact on the
+arterial performance under low demands. It is also verified by comparing the
+NFC+QACU case with IFC+QACU case as they deliver similar performance.
+
+20
+
+Table 4: Low-Demand with Incident
+Freeway control
+Arterial control
+Ttf (s)
+Tta (s)
+s̄
+E(g/veh/km)
+w̄s (m)
+w̄a (m)
+
+IFC
+FAC
+653
+979
+4.4
+246.1
+0
+13.9
+
+MAXBAND
+653
+852(13%)
+3.4(23%)
+232.1(6%)
+0
+7.9(43%)
+
+QAC
+651
+835(15%)
+3.2(27%)
+229.6(7%)
+0
+7.4(47%)
+
+QACU
+651
+817(17%)
+2.8(36%)
+225.1(9%)
+0
+6.6(53%)
+
+NFC
+QACU
+730
+807(18%)
+2.4(45%)
+221.9(10%)
+0
+6.3(55%)
+
+Table 5 presents the evaluation results of a moderate-demand scenario with
+the freeway incident. The percentage improvements of each type of arterial
+control over FAC in this table are close to those in table 2. The off-ramp and
+intersection queue dissipation by QL-based control is also observed under the
+existence of the freeway incident and the freeway control.
+Table 5: Moderate-Demand with Incident
+Freeway control
+Arterial control
+Ttf (s)
+Tta (s)
+s̄
+E(g/veh/km)
+w̄s (m)
+w̄a (m)
+
+IFC
+FAC
+669
+991
+5.3
+253.9
+46.7
+49.2
+
+MAXBAND
+670
+887(10%)
+3.8(28%)
+237(7%)
+40.8(13%)
+39.5(20%)
+
+QAC
+660
+874(12%)
+3.5(34%)
+232.5(8%)
+5.6(88%)
+35.3(28%)
+
+QACU
+659
+863(13%)
+3.3(38%)
+228.6(10%)
+5.3(89%)
+27.6(44%)
+
+NFC
+QACU
+745
+872(12%)
+3.5(34%)
+231.2(9%)
+5.8(88%)
+34(31%)
+
+Table 6 presents the evaluation results of a high-demand scenario with the
+freeway incident. By implementing the QL-based control, the trade-off between
+the queue lengths and other performance measurements as mentioned in table 3
+is observed as well in table 6. The trade-off also leads to a faster travel time on
+freeway as the off-ramp queue does not accumulate. Under the high demand,
+the performance of NFC+QACU is slightly worse than IFC+QACU, which is
+different from the moderate demand or low demand case. The possible reason
+is that the incident produces unbalanced off-ramp traffic flows that lead to the
+incompatibility between the unified signal plan and some intersection demands.
+The integrated freeway control is effective in balancing off-ramp traffic flows,
+and thus, improves the performance of QACU.
+The evaluation results in the above six tables reveal a consistent performance ranking of the listed arterial traffic control strategies, that is QACU,
+QAC, MAXBAND, FAC from best to worst. Under low traffic demands, the
+QL-based arterial control produces more benefit than the classic MAXBAND
+
+21
+
+Table 6: High-Demand with Incident
+Freeway control
+Arterial control
+Ttf (s)
+Tta (s)
+s̄
+E(g/veh/km)
+w̄s (m)
+w̄a (m)
+
+IFC
+FAC
+766
+1057
+7.2
+273.8
+159.4
+132.8
+
+MAXBAND
+763
+955(10%)
+5.3(26%)
+247.1(10%)
+121.9(24%)
+105.8(20%)
+
+QAC
+726(5%)
+943(11%)
+4.7(35%)
+244(11%)
+49.4(69%)
+66.7(50%)
+
+QACU
+728(5%)
+932(12%)
+4.3(40%)
+239.7(12%)
+45.1(72%)
+57.8(56%)
+
+NFC
+QACU
+847
+945(11%)
+5.1(29%)
+240.6(12%)
+86.7(46%)
+73.8(44%)
+
+in terms of the travel time, the number of stops and the emission rates at the
+arterial region. Under high traffic demands, the above-mentioned performance
+difference is less obvious because the QL agents are designed to prevent queue
+spillbacks at off-ramps and intersections, while the MAXBAND does not consider that. As a result, the QL-based control reduces the average queue lengths
+at off-ramps and intersection significantly. Another interesting observation is
+that the freeway traffic control and the arterial traffic control improves the performance of each other under high traffic demands. The reason is that the
+arterial control dissipates the off-ramp queue and prevents freeway bottlenecks,
+and the freeway control balances the off-ramp flow rates and the demands of
+arterial intersections, which suits the unified signal plan.
+
+6
+
+Conclusion
+
+In this paper, we proposed an arterial traffic control strategy that combines
+traffic signal control (TSC) and dynamic speed offset (DSO) coordination using
+a Q-learning (QL) framework. The TSC agent determines the signal cycles and
+the splits based on intersection demands and off-ramp queue. Then a network
+controller unifies the cycles and splits of different intersections with a majority
+rule to facilitate the arterial traffic progression with the assistance of the DSO
+agent. The DSO agent determines the relative offset and the recommended
+speeds between two consecutive intersections based on their physical distance,
+queue lengths and signal cycles. We demonstrated the effectiveness of the proposed approach using microscopic simulations in a mixed freeway and arterial
+road network with real-world traffic demands. The proposed QL-based control delivers a significantly higher performance than MAXBAND and fixed-time
+control in terms of travel time and number of stops under low and moderate
+demands. In high-demand scenarios, the QL-based control trades the traveltime benefit for queue dissipation at off-ramps and intersections, resulting in
+freeway travel time reduction. The freeway traffic control also improves the
+performance of the proposed arterial control by providing balanced off-ramp
+flows in accordance with the unified signal timing.
+
+22
+
+Potential extensions of the proposed approach involve a more elaborate discretization of the state and action space, a simpler signal phasing scheme for
+low-demand scenarios and a more sophisticated QL framework to coordinate
+freeway and arterial traffic control.
+
+References
+[1] Yizhe Wang, Xiaoguang Yang, Hailun Liang, Yangdong Liu, et al. A review
+of the self-adaptive traffic signal control system based on future traffic
+environment. Journal of Advanced Transportation, 2018, 2018.
+[2] Yiheng Feng, K Larry Head, Shayan Khoshmagham, and Mehdi Zamanipour. A real-time adaptive signal control in a connected vehicle environment. Transportation Research Part C: Emerging Technologies, 55:460–473,
+2015.
+[3] Junchen Jin and Xiaoliang Ma. A group-based traffic signal control with
+adaptive learning ability. Engineering applications of artificial intelligence,
+65:282–293, 2017.
+[4] Weibin Zhang, Chen Yan, Xiaofeng Li, Liangliang Fang, Yao-Jan Wu, and
+Jun Li. Distributed signal control of arterial corridors using multi-agent
+deep reinforcement learning. IEEE Transactions on Intelligent Transportation Systems, 24(1):178–190, 2022.
+[5] Ye Tian, Zhiheng Li, Dabing Zhou, Jingyan Song, and Deyun Xiao. Interactive signal control for over-saturated arterial intersections using fuzzy logic.
+In 2008 11th International IEEE Conference on Intelligent Transportation
+Systems, pages 1067–1072. IEEE, 2008.
+[6] Kancharla K Chandan, Alvaro JM Seco, and Ana Bastos Silva. Real-time
+incident-responsive signal control strategy under partially connected vehicle
+environment. Journal of Advanced Transportation, 2022, 2022.
+[7] Hamdi Abdulkareem Mohammed Al-Nuaimi. The application of variable
+speed limits to arterial roads for improved traffic flow. PhD thesis, University of Southern Queensland, 2014.
+[8] Giovanni De Nunzio, Gabriel Gomes, Carlos Canudas-de Wit, Roberto
+Horowitz, and Philippe Moulin. Speed advisory and signal offsets control
+for arterial bandwidth maximization and energy consumption reduction.
+IEEE Transactions on Control Systems Technology, 25(3):875–887, 2016.
+[9] Giovanni De Nunzio, Carlos Canudas De Wit, Philippe Moulin, and
+Domenico Di Domenico. Eco-driving in urban traffic networks using traffic
+signals information. International Journal of Robust and Nonlinear Control, 26(6):1307–1324, 2016.
+
+23
+
+[10] Peng Hao, Guoyuan Wu, Kanok Boriboonsomsin, and Matthew J Barth.
+Eco-approach and departure (ead) application for actuated signals in realworld traffic. IEEE Transactions on Intelligent Transportation Systems,
+20(1):30–40, 2018.
+[11] Hao Yang, Fawaz Almutairi, and Hesham Rakha. Eco-driving at signalized
+intersections: A multiple signal optimization approach. IEEE Transactions
+on Intelligent Transportation Systems, 22(5):2943–2955, 2020.
+[12] Juan C Medina, Ali Hajbabaie, and Rahim F Benekohal. Arterial traffic control using reinforcement learning agents and information from adjacent intersections in the state and reward structure. In 13th international IEEE conference on intelligent transportation systems, pages 525–
+530. IEEE, 2010.
+[13] Tianchen Yuan and Petros A Ioannou. Integrated freeway and arterial
+traffic control to improve freeway mobility without compromising arterial
+traffic conditions using q-learning. arXiv preprint arXiv:2310.16748, 2023.
+[14] Fo Vo Webster. Traffic signal settings. Technical report, 1958.
+[15] Alan J Miller. Settings for fixed-cycle traffic signals. Journal of the Operational Research Society, 14(4):373–386, 1963.
+[16] FV Webster. Traffic signals. Road research technical paper, 56, 1966.
+[17] Alvaro J Calle-Laguna, Jianhe Du, and Hesham A Rakha. Computing optimum traffic signal cycle length considering vehicle delay and fuel consumption. Transportation Research Interdisciplinary Perspectives, 3:100021,
+2019.
+[18] Fred L Orcutt Jr. The traffic signal book. 1993.
+[19] John DC Little, Mark D Kelson, and Nathan H Gartner. Maxband: A
+versatile program for setting signals on arteries and triangular networks.
+1981.
+[20] Nathan H Gartner, Susan F Assman, Fernando Lasaga, and Dennis L Hou.
+A multi-band approach to arterial traffic signal optimization. Transportation Research Part B: Methodological, 25(1):55–74, 1991.
+[21] Tugba Arsava, Yuanchang Xie, and Nathan H Gartner. Arterial progression
+optimization using od-band: case study and extensions. Transportation
+Research Record, 2558(1):1–10, 2016.
+[22] Dennis I Robertson. Transyt: a traffic network study tool. 1969.
+[23] PB Hunt, DI Robertson, RD Bretherton, and M Cr Royle. The scoot online traffic signal optimisation technique. Traffic Engineering & Control,
+23(4), 1982.
+
+24
+
+[24] Pitu Mirchandani and Fei-Yue Wang. Rhodes to intelligent transportation
+systems. IEEE Intelligent Systems, 20(1):10–15, 2005.
+[25] Kok-Lim Alvin Yau, Junaid Qadir, Hooi Ling Khoo, Mee Hong Ling, and
+Peter Komisarczuk. A survey on reinforcement learning models and algorithms for traffic signal control. ACM Computing Surveys (CSUR), 50(3):1–
+38, 2017.
+[26] Lior Kuyer, Shimon Whiteson, Bram Bakker, and Nikos Vlassis. Multiagent reinforcement learning for urban traffic control using coordination
+graphs. In Machine Learning and Knowledge Discovery in Databases: European Conference, ECML PKDD 2008, Antwerp, Belgium, September 1519, 2008, Proceedings, Part I 19, pages 656–671. Springer, 2008.
+[27] Elise Van der Pol and Frans A Oliehoek. Coordinated deep reinforcement
+learners for traffic light control. Proceedings of learning, inference and
+control of multi-agent systems (at NIPS 2016), 8:21–38, 2016.
+[28] Tian Tan, Feng Bao, Yue Deng, Alex Jin, Qionghai Dai, and Jie Wang.
+Cooperative deep reinforcement learning for large-scale traffic grid signal
+control. IEEE transactions on cybernetics, 50(6):2687–2700, 2019.
+[29] Myungeun Eom and Byung-In Kim. The traffic signal control problem for
+intersections: a review. European transport research review, 12:1–20, 2020.
+[30] François Dion and Bruce Hellinga. A rule-based real-time traffic responsive
+signal control system with transit priority: application to an isolated intersection. Transportation Research Part B: Methodological, 36(4):325–343,
+2002.
+[31] Wael Ekeila, Tarek Sayed, and Mohamed El Esawey. Development of
+dynamic transit signal priority strategy. Transportation research record,
+2111(1):1–9, 2009.
+[32] K Chandan, Alvaro M Seco, and Ana Bastos Silva. Real-time traffic signal
+control for isolated intersection, using car-following logic under connected
+vehicle environment. Transportation research procedia, 25:1610–1625, 2017.
+[33] Wei-Hua Lin and Chenghong Wang. An enhanced 0-1 mixed-integer lp
+formulation for traffic signal control. IEEE Transactions on Intelligent
+transportation systems, 5(4):238–245, 2004.
+[34] EN Barron and H Ishii. The bellman equation for minimizing the maximum
+cost. NONLINEAR ANAL. THEORY METHODS APPLIC., 13(9):1067–
+1090, 1989.
+[35] Richard S Sutton and Andrew G Barto. Reinforcement learning: An introduction. MIT press, 2018.
+
+25
+
+[36] Ian Goodfellow, Yoshua Bengio, and Aaron Courville. Deep learning. MIT
+press, 2016.
+[37] Zhibin Li, Pan Liu, Chengcheng Xu, Hui Duan, and Wei Wang. Reinforcement learning-based variable speed limit control strategy to reduce
+traffic congestion at freeway recurrent bottlenecks. IEEE transactions on
+intelligent transportation systems, 18(11):3204–3217, 2017.
+[38] Dongbin Zhao, Xuerui Bai, Fei-Yue Wang, Jing Xu, and Wensheng Yu.
+Dhp method for ramp metering of freeway traffic. IEEE Transactions on
+Intelligent Transportation Systems, 12(4):990–999, 2011.
+[39] Tianchen Yuan, Faisal Alasiri, and Petros A Ioannou. Selection of the speed
+command distance for improved performance of a rule-based vsl and lane
+change control. IEEE Transactions on Intelligent Transportation Systems,
+23(10):19348–19357, 2022.
+[40] Yihang Zhang and Petros A Ioannou. Combined variable speed limit and
+lane change control for highway traffic. IEEE Transactions on Intelligent
+Transportation Systems, 18(7):1812–1823, 2016.
+[41] U Epa. Motor vehicle emission simulator (moves) user guide. US Environmental Protection Agency, 2010.
+
+26
+
+

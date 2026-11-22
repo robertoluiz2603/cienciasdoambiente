@@ -1,0 +1,928 @@
+JONER & VOLPI (2013)
+
+SINCRONIZAÇÃO DE SEMÁFOROS: MODELO MATEMÁTICO PARA UMA APLICAÇÃO AO
+TRÁFEGO DE CURITIBA
+S. Joner¹ e N. M. P. Volpi2
+¹Campus Geraldo Werninghaus – Instituto Federal de Santa Catarina
+2
+Depto de Matemática – Universidade Federal do Paraná
+sander.jonerl@ifsc.edu.br - mnpv@mat.ufpr.br
+
+Artigo submetido em fevereiro/2013 e aceito em abril/2013
+
+RESUMO
+Em função do crescimento das cidades e
+consequentemente do número de semáforos se faz
+necessário uma abordagem científica na sincronização
+dos mesmos. Entende-se por sincronização, a
+defasagem entre os centros dos vermelhos dos
+semáforos de uma região, de modo que os
+estabelecimentos dos tempos de verde e vermelho
+sejam tais que, um motorista trafegando numa via
+encontre sinais verdes ao longo dela. A porção de um
+ciclo de um semáforo para o qual isto é possível
+denomina-se largura de banda. O objetivo deste
+trabalho é aplicar um modelo matemático
+
+computacional para sincronizar semáforos, objetivando
+maximizar largura de banda ao longo das artérias mais
+importante e particularizada para a situação do tráfego
+em Curitiba. Tal abordagem acarretaria em economia,
+qualidade de vida e segurança no trânsito. O modelo
+aplicado baseia-se nos trabalhos de (LITTLE, 1966) e
+(GARTNER, 1981), de programação linear inteira mista e
+envolve restrições de ciclo, restrições de velocidade, de
+mudança de velocidade entre trechos, com tempos de
+espera para virar à esquerda e tempo de espera do
+pelotão semafórico.
+
+PALAVRAS-CHAVE: largura de banda, sincronização e programação linear inteira mista.
+
+SYNCHRONIZING TRAFFIC LIGHTS: MATHEMATICAL MODEL FOR AN APPLICATION TO TRAFFIC
+CURITIBA
+ABSTRACT
+Due to the city growth and consequently to the
+increasing number of the traffic signals, a scientific
+approach is necessary to establish the synchronization
+among them. Synchronization means the relative phase
+of signals of a region such that, the fraction of the green
+and red time of a cycle are such that, a driver has
+uninterrupted flow traffic throughout a main arterial.
+The portion of the cycle for which this is possible is
+called bandwidth. The main goal of this work is to
+develop a computational mathematical model to
+synchronize traffic signals so that the bandwidth can be
+
+as big as possible throughout the most important
+avenues. Such model is being developed specifically to
+Curitiba traffic network. Such approach implies in saving
+money and time, improving the quality of life and
+making the streets safer. This model is based on the
+works of (LITTLE,1966) and (GARTNER,1981), about
+mixed integer linear programming and contains
+restrictions of cycles, speed, changing speed among
+signals, protecting left-turn movements and considering
+the time to wait at the signals platoons. Some tests are
+being done at sub areas in Curitiba.
+
+KEY-WORDS: bandwidth, synchronization and mixed integer linear programming.
+
+HOLOS, Ano 29, Vol. 2
+
+3
+
+JONER & VOLPI (2013)
+
+SINCRONIZAÇÃO DE SEMÁFOROS: MODELO MATEMÁTICO PARA UMA APLICAÇÃO AO
+TRÁFEGO DE CURITIBA
+1 INTRODUÇÃO
+1.1 Identificação e Caracterização do Problema
+Em decorrência da urbanização acelerada e desorganizada, um dos problemas que mais
+afeta as grandes cidades é de como fazer o trânsito de pessoas, veículos e mercadorias fluir de
+maneira harmoniosa.
+O transporte rodoviário domina o mercado nacional, seja no espaço rural ou no urbano.
+Estima-se que no Brasil 96% das viagens de pessoas e 64% das cargas transportadas ocorram em
+rodovias. Logo, o transporte rodoviário, no total, consome muito mais energia que qualquer
+outro tipo de transporte. O número de veículos automotivos no país tem crescido rapidamente
+nas últimas décadas, passando de 430.000 em 1950 para 3,1 milhões em 1970 e chegando a 25
+milhões em 1995. Atualmente, a frota está em cerca de 29 milhões de veículos ,conforme (PNT:
+Política Nacional de Trânsito) e (GARCIA ,1995).
+Uma das formas de promover a harmonia no trânsito, melhorando a mobilidade de
+pessoas e veículos, é a sincronização dos semáforos, onde faz-se uma abordagem científica dos
+tempos de verde e vermelho dos mesmos. A suavização do tráfego nas cidades melhoraria a
+segurança do trânsito e a qualidade de vida dos habitantes. Melhorar a qualidade de vida em
+relação ao trânsito significa promover melhores condições de acessibilidade de pessoas e
+mercadorias, evitar problemas ambientais e destruição do patrimônio histórico devido à abertura
+de novas vias, diminuir a irritabilidade do motorista em relação ao trânsito caótico, evitando até
+muitos acidentes, enfim, repelir qualquer mal que possa atrapalhar os cidadãos no presente ou
+no futuro.
+Já no quesito segurança, a principal meta seria evitar acidentes, embora não se resuma a
+essa finalidade. Os pedestres, principalmente idosos e deficientes, devem ter as mesmas
+prioridades que os veículos de se locomoverem, pois representam uma grande parcela da
+população. E os veículos devem ter uma movimentação contínua sobre as vias, para chegarem
+aos seus destinos no menor tempo possível, sem exceder a velocidade máxima imposta por lei.
+Com os veículos em constante movimento evitam-se assaltos, bloqueios em cruzamentos e
+congestionamentos, melhorando a fluidez do tráfego, o conforto e a segurança dos usuários do
+sistema viário.
+Economicamente, o país também perde com o atual estado do trânsito. Estima-se que os
+gastos resultantes do congestionamento nas capitais (quando a capacidade das vias está
+esgotada) atingem a cifra absurda de R$ 450 milhões ao ano (BRASIL, 2011). Caso fossem
+incluídas no cálculo as outras cidades médias e grandes, o valor chegaria à casa dos bilhões de
+reais anuais, sem contar as perdas provocadas pelos acidentes.
+Vários países já desenvolveram estudos sobre a sincronização de semáforos,
+comprovando sua importância e eficiência. Contudo, esses trabalhos envolvem aplicações aos
+casos de seus respectivos países de origem. Poucos trabalhos brasileiros são apresentados na
+bibliografia da área, por isso é importante desenvolver estudos e modelos considerando as
+HOLOS, Ano 29, Vol. 2
+
+4
+
+JONER & VOLPI (2013)
+
+particularidades do tráfego regional brasileiro. Essa é justamente a proposta apresentada: a
+partir dos modelos já testados em outros países, apresentar um modelo adequado à realidade
+brasileira.
+Em contatos feitos com a DIRETRAN em Curitiba, foi confirmado que seria muito útil
+discutir e apresentar sugestões sobre uma maneira de sincronizar semáforos, e que tal medida
+acarretaria em economia, melhoria na mobilidade urbana e qualidade de vida e segurança no
+trânsito.
+
+1.2 Objetivo
+Desenvolver uma proposta de modelo matemático computacional para sincronizar os
+semáforos de uma malha viária. O tempo que o motorista tem para atravessar uma via (artéria)
+encontrando verde em todos os sinais deve ser o maior possível, dentro dos limites de velocidade
+e adequado ao fluxo de pedestres. A ideia é que os carros que trafegarem com velocidade dentro
+de um certo intervalo preestabelecido não fiquem parados nos semáforos, e que no tempo de
+vermelho, os pedestres (lembrando dos idosos e deficientes) possam atravessar a faixa com
+segurança. Isto gera segurança no trânsito e bem-estar para todos.
+
+2. REVISÃO DA LITERATURA
+Na literatura especializada existem vários enfoques para resolver tal situação. Alguns
+trabalhos são considerados clássicos como o de Morgan e Little (1964), e Little (1966). A partir
+destes, alguns programas foram desenvolvidos como o TRANSYT e MAXBAND, citados nos
+trabalhos de Cohen (1986) e Little et. al. (1981). Outros enfoques também podem ser
+encontrados nos trabalhos de Cohen e Pillai (1998), Gartner (1972), Gartner et. al. (1975) e Porto
+Jr. e Ferreira (1993). A maior parte dos trabalhos citados apresentam estudos de casos de seus
+países de origem.
+
+3 DESENVOLVIMENTO DA PROPOSTA
+3.1 Metodologia
+A metodologia usada será avaliar as possibilidades de solução em função dos artigos
+revistos, e então será proposto um trabalho adequado à realidade brasileira com possibilidades
+de implantação do sistema. As etapas consideradas serão:
+
+
+
+Formular e desenvolver um modelo de programação linear inteira mista e resolvê-lo pelo
+método de Branch and Bound e heurística, caso necessário.
+Escolher as principais vias de uma região (cidade) e seus respectivos semáforos a serem
+sincronizados.
+
+HOLOS, Ano 29, Vol. 2
+
+5
+
+JONER & VOLPI (2013)
+
+
+
+
+Testar o modelo formulado, desenvolvendo um programa para a sua execução, aplicável
+na solução direta do problema.
+Aplicar o modelo à região escolhida, almejando o melhor resultado possível.
+Para desenvolver as etapas citadas, exige-se o conhecimento de:
+
+
+
+
+
+
+
+Informações das artérias principais da cidade;
+Informações do número de semáforos de cada artéria e de sua posição geográfica;
+Limite superior e inferior no período do semáforo;
+Limite superior e inferior nas velocidades permitidas nas artérias;
+Limites permitidos de mudança de velocidade nos trajetos compreendidos entre os
+semáforos.
+Com esses dados e através da execução do modelo proposto, pode-se encontrar:
+
+
+
+
+
+
+Um período comum para todos os semáforos, caso necessário;
+Tempos de verde e vermelho de cada semáforo;
+Velocidade e tempo gasto entre os semáforos;
+Diferença de fases entre os semáforos.
+
+A seguir, será descrito como o problema de sincronização dos semáforos será resolvido.
+Inicialmente, abordar-se-á a sincronização de uma artéria, e depois da malha viária toda,
+considerando as interseções das artérias principais.
+A sincronização dos semáforos:
+Define-se a sincronização dos semáforos como o conjunto de valores  ( j1 , j 2 ) , medido
+pelo tempo entre o centro do vermelho de S j1 até o próximo centro de vermelho de S j 2 ,
+que é a fase relativa entre os semáforos S j1 e S j 2 .
+Desta forma, o objetivo é encontrar a fase relativa entre os semáforos, de modo que o
+fluxo de pedestres e veículos ocorra mais suavemente.
+O problema da artéria:
+O termo artéria será usado para referir-se a qualquer rua onde a progressão é desejada,
+isto é, da qual é definida uma largura de banda. A porção de um ciclo do semáforo onde um
+carro, saindo da extremidade de uma artéria principal e se deslocando com uma certa
+velocidade, passa de semáforo em semáforo sem parar em sinal vermelho, é definida como a
+largura de banda (bandwidth).
+Será considerada uma rua dupla tendo n semáforos. Os sentidos da rua são identificados
+como inbound e outbound. Os sinais serão denotados por S1, S2,....,Sn no sentido outbound.
+O conjunto de possíveis trajetórias desimpedidas em um dado sentido formam uma
+banda verde (green band), da qual a largura horizontal é a largura de banda naquele sentido.
+HOLOS, Ano 29, Vol. 2
+
+6
+
+JONER & VOLPI (2013)
+
+O programa matemático proposto maximizará a soma das larguras de banda nos dois
+sentidos da artéria, sujeito a restrições de limites de velocidade, limites de taxas de variação de
+velocidade nos trechos compreendidos entre semáforos e restrições inteiras de avaliações dos
+ciclos.
+O problema da rede viária:
+O problema da rede viária consiste em problemas arteriais para ruas individuais mais as
+restrições de ciclos que conectam as ruas que se interceptam.
+O objetivo, neste caso, será maximizar as larguras de banda de todas as artérias da rede,
+utilizando de ponderação para garantir o grau de importância entre as artérias.
+Um conjunto de restrições, chamado de restrições de ciclos, é introduzido sempre que
+várias artérias se interceptam para formar um ciclo fechado (loop).
+A terminologia da Teoria dos Grafos pode ser usada para descrever as redes, como em
+Wilson e Watkins (1990). Semáforos são denominados de nós. Comprimento das ruas entre sinais
+adjacentes são arcos ou extremidades. Cada arco tem um sentido e é indicado por uma flecha. A
+seqüência de arcos formará um ciclo.
+Um semáforo na interseção de duas artérias pode ser crítico para uma artéria mas não
+para a outra. Por crítico entende-se aquele semáforo cuja largura de banda não pode ser maior
+porque o tempo de verde do mesmo não permite. Então, a alteração do tempo de verde de uma
+rua em um cruzamento pode aumentar a largura de banda em uma artéria sem reduzir a da
+outra. Assim, o tempo de vermelho nas interseções arteriais pode, às vezes, ser uma variável de
+decisão útil. A fração de tempo de vermelho em cada rua pode ser limitada em função do fluxo.
+O tempo do vermelho também pode ser limitado para permitir uma travessia segura dos
+pedestres e, ao mesmo tempo, solucionar o tempo de espera do motorista. Todos esses fatos
+serão descritos nas restrições denominadas tempo de vermelho (red-time).
+Então, para resolver um problema da rede viária, seguem-se os seguintes passos:
+
+
+
+
+
+
+
+Determinar quais das ruas da rede serão as artérias principais;
+Descrever a função objetivo e as restrições para cada artéria principal;
+Descrever a restrição de período dos semáforos;
+Descrever as restrições inteiras de ciclos entre dois semáforos consecutivos;
+Descrever as restrições de ciclos das artérias que formam um loop;
+Adicionar restrições tempo de vermelho.
+
+3.2 Modelo matemático
+A seguir, serão descritas as equações matemáticas que geram as variáveis de controle, as
+quais permitem a sincronização dos semáforos de uma rede.
+O modelo matemático apresentado consiste em:
+
+
+
+Descrever equações para as artérias individualmente;
+Descrever a função objetivo, que será a soma ponderada das larguras de banda de todas as
+artérias da rede, garantindo uma ordem de importância entre as artérias;
+
+HOLOS, Ano 29, Vol. 2
+
+7
+
+JONER & VOLPI (2013)
+
+
+
+
+Descrever as restrições de ciclos;
+Descrever as restrições tempo de vermelho de controle dos tempos de movimento e espera.
+
+Dados do modelo:
+
+T1, T2 :
+
+valores mínimo e máximo dos períodos permitidos;
+
+i
+i
+vmin
+, vmax
+:
+
+valores mínimo e máximo das velocidades permitidas no sentido outbound;
+
+i
+
+i
+
+v min , v max :
+
+valores mínimo e máximo das velocidades permitidas no sentido inbound;
+
+ai :
+
+grau de prioridade da artéria i relativo à artéria de referência, artéria 0,
+considerada a mais importante da rede;
+
+di ( j1, j2 ) :
+
+distância entre os semáforos S j1 e S j 2 da artéria i;
+
+L:
+
+número de ciclos independentes da malha viária;
+
+q:
+
+número de artérias principais da malha viária;
+
+Ji :
+
+número de semáforos da artéria i;
+
+Sij :
+
+semáforo j da artéria i;
+
+RMIM ij :
+
+valor mínimo do tempo de vermelho permitido nos sentidos outbound e inbound
+da artéria i , do semáforo j.
+
+RMAX ij :
+
+valor máximo do tempo de vermelho permitido nos sentidos outbound e inbound
+da artéria i , do semáforo j.
+
+Variáveis de decisão e controle:
+bi :
+
+largura de banda da artéria i;
+
+z:
+
+freqüência dos sinaleiros;
+
+vi :
+
+velocidade do veículo na artéria i;
+
+ui 
+
+1
+:
+vi
+
+wij :
+
+velocidade recíproca do veículo na artéria i;
+tempo de folga após a abertura do verde, que o motorista tem para entrar na
+banda verde da artéria no sinaleiro j da artéria i ;
+
+t ( j1, j2 ) :
+
+tempo gasto pelo veículo para ir de S j1 até o S j 2 ;
+
+HOLOS, Ano 29, Vol. 2
+
+8
+
+JONER & VOLPI (2013)
+
+m( j1, j2 ) :
+
+tempo que o motorista leva para sair do centro do vermelho do semáforo S j1 e
+voltar para o mesmo ponto passando pelo semáforo adjacente S j 2 ;
+
+c( j1,..., j p ) : tempo que o motorista tem para percorrer um loop fechado partindo do centro do
+vermelho de S j1 e chegando no mesmo semáforo após passar por S j 2 , S j 3 ,..., S jp
+. , sendo que os semáforos considerados são só os das interseções das artérias que
+compõe o loop;
+tempo de vermelho do semáforo j na artéria i.
+
+rij :
+
+Todos os tempos são medidos em ciclos do período usado nos semáforos.
+Na Figura 1 estão representados os dados e as variáveis de decisão.
+
+Distância
+wij2 Vermelho
+
+Verde
+
+Vermelho
+
+Verde
+
+Vermelho wij2 Verde
+
+Sj2
+(j1,j2)
+(j1,j2)
+d(Sj1,Sj2)
+
+(j1,j2)
+b
+b
+
+Sj1
+
+Vermelho
+
+Verde
+
+Vermelho
+
+Tempo
+wij1
+
+Verde
+
+wij1
+
+Vermelho
+t(j1,j2)
+
+t(j1,j2)
+
+Figura 1: Representação dos dados e variáveis de decisão
+Função objetivo do modelo:
+Maximizar as larguras de banda de todas as artérias principais ponderadas ao grau de
+prioridade entre as artérias consideradas.
+
+max b0  a1b1  ...  a q bq
+
+(1)
+
+Restrições do modelo:
+(1) Restrições de proporcionalidade das larguras de banda de cada artéria i,
+HOLOS, Ano 29, Vol. 2
+
+1 i  q.
+9
+
+JONER & VOLPI (2013)
+
+São consideradas q restrições que limitam os valores de largura de banda à proporções
+adequadas, evitando grandes diferenças entre as larguras de banda, relativamente a uma
+artéria principal, artéria 0, de largura de banda b0 .
+
+bi  aib0 , i  1,..., q
+
+(2)
+
+(2) Restrições de limite de frequência dos semáforos.
+Neste modelo está sendo considerada uma freqüência única para todos os semáforos,
+limitada a valores preestabelecidos T1 e T2 . De uma forma geral consideram-se grupos de
+semáforos com mesma freqüência.
+
+1 / T2  z  1 / T1
+
+(3)
+
+(3) Restrições de velocidade nos trechos entre os semáforos de cada artéria i .
+
+O Código Nacional de Trânsito (CNT) prevê limites de velocidade nas artérias, (CNT- Código
+Nacional de Trânsito) e para o bom andamento do fluxo uma velocidade mínima é necessária,
+assim, limita-se a velocidade do veículo na artéria i, através das restrições:
+i
+i
+vmin
+ vi  vmax
+
+Como o tempo será medido em ciclos e T 
+
+z(
+
+1
+i
+vmax
+
+)  ui  (
+
+1
+i
+vmin
+
+i = 0, ... , q
+
+1
+, tal restrição pode ser reescrita por:
+z
+
+) z, i  0,..., q no sentido outbound
+
+(4)
+
+onde ui é a velocidade recíproca multiplicada pela freqüência, medida em ciclos/metro,
+representando quantos ciclos do semáforo S j ocorrem por metro de deslocamento do
+veículo até o mesmo.
+Da mesma forma, no sentido inbound, existem mais outras q+1 restrições da forma:
+z(
+
+1
+i
+v max
+
+)  ui  (
+
+HOLOS, Ano 29, Vol. 2
+
+1
+i
+v min
+
+) z, i  0,..., q
+
+(5)
+
+10
+
+JONER & VOLPI (2013)
+
+(4) Restrições de tempo, para cada semáforo S j de cada artéria i
+
+wij  bi  rij  1 , i  0,..., q,
+
+j  1,..., Ji
+
+(6)
+
+Artéria i
+Sj+1
+
+bi
+rij
+
+wij
+
+Vermelho
+
+rij
+
+Verde
+
+Vermelho
+
+Figura 2: Representação das variáveis nas restrições de tempo
+Esta restrição diz que a folga do tempo do verde para entrar na banda, mais o tempo de
+banda, mais o tempo de vermelho, não deve ultrapassar um ciclo (tempo de verde mais
+vermelho).
+Da mesma forma, no sentido inbound,
+
+wij  bi  r ij  1, i  0,..., q,
+
+j  1,..., Ji
+
+(7)
+
+(5) Restrições inteiras para cada semáforo S j de cada artéria i
+(wij1  wij1 )  (wij2  wij2 )  d ( j1, j2 )(ui  ui )  rij1  rij2  m( j1, j2 )
+
+i  0,..., q, j  1,..., Ji
+
+HOLOS, Ano 29, Vol. 2
+
+(8)
+
+11
+
+JONER & VOLPI (2013)
+Vermelho
+
+w
+
+Verde
+
+Vermelho
+r
+
+Verde
+
+w
+
+Sj2
+
+t
+
+t
+1 r
+2
+Sj1
+
+w
+
+Vermelho
+
+w
+Verde
+
+Vermelho
+
+Verde
+
+Vermelho
+
+Verde
+
+1r
+2
+Vermelho
+
+Figura 3: Representação das variáveis nas restrições inteiras.
+Esta restrição representa o número de ciclos ou o tempo que um veículo levaria para
+percorrer o trajeto entre o centro do vermelho do semáforo S j1 e o centro do vermelho do
+semáforo adjacente S j 2 e retornar ao centro do vermelho do semáforo S j1 inicial.
+
+(6) Restrições de ciclos
+Supõe-se que o número L de ciclos da malha seja conhecido. O número de restrições de
+ciclos necessário é menor que o número de ciclos (equivale ao número de áreas distintas
+envolvidas pelas artérias do loop);
+
+Para cada l  1,..., L , considera-se uma restrição da forma:
+cl ( j1,..., j p )   ( j1, j2 )  ...   ( j p , j1)  1 p
+2
+
+(9)
+
+Onde:
+
+S jk são os semáforos de interseção das artérias do loop l,  ( jk , jm ) representa o tempo
+que o veículo leva para ir do centro do vermelho do semáforo S jk até o centro do vermelho
+do semáforo S jm e p é o número de trechos entre os semáforos das interseções do loop.
+
+cl ( j1,..., j p ) é uma variável inteira medida em ciclos, representando o tempo que o veículo
+levaria para percorrer o trecho do centro do vermelho do semáforo S j1 e voltar para o
+mesmo algum centro de vermelho posterior. Considerando o percurso no sentido contrário,
+tem-se uma expressão análoga:
+
+HOLOS, Ano 29, Vol. 2
+
+12
+
+JONER & VOLPI (2013)
+
+cl ( j1,..., j p )   ( j1, j2 )  ...   ( j p , j1)  1 p
+2
+
+(10)
+
+Adicionando as expressões (9) e (10), e sabendo que
+
+m( jk , jm )   ( jk , jm )   ( jk , jm ) , tem-se:
+2cl ( j1,..., j p )  m( j1, j2 )  ...  m( j p , j1)  p = número inteiro
+Como p é inteiro, a restrição simplificada fica:
+
+2cl ( j1,..., j p )  m( j1, j2 )  ...  m( j p , j1) , l  1,2,..., L
+
+(11)
+
+(7) Restrições de tempo de vermelho para alguns semáforos;
+Às vezes, interessa controlar o tempo de vermelho de alguns semáforos importantes. Neste
+caso, consideram-se limites para estes tempos da forma:
+
+RMIM ij  rij  RMAX ij ,
+
+para alguns i´s e s´s, no sentido
+outbound;
+
+RMIM ij  rij  RMAX ij
+
+(12)
+
+para alguns i´s e s´s, no sentido
+inbound;
+
+(13)
+
+(8) Restrições de positividade
+
+Todas as variáveis de decisão são positivas, algumas podem assumir valores reais e outras só
+inteiras, a saber:
+Variáveis Reais:
+bi  0, z  0, ui  0, ui  0, wij  0, wij  0, i  0,..., q
+
+j  1,...Ji
+
+Variáveis Inteiras:
+
+m( j k , j m )  0,
+
+HOLOS, Ano 29, Vol. 2
+
+cl ( j1 ,..., j p )  0
+
+13
+
+JONER & VOLPI (2013)
+
+3.3. Sincronização dos Semáforos
+Executando o modelo, obtém-se a sincronização através da diferença de fase entre
+semáforos, que pode ser calculada da forma:
+Seja i ( j1, j2 ) a fase relativa dos semáforos S ji e S j2 da artéria i medida pelo tempo do
+centro do vermelho de S ji para o próximo centro de vermelho de S j2 .
+
+i ( j1, j2 ) = mantissa  ( j1 , j 2 ) .
+Fazendo este cálculo relativo ao primeiro semáforo da artéria i, tem-se:
+j 1
+
+1
+2
+
+ i (1, j )  mantissa [ wi1  wij   t ( j k , j k 1 )  (ri1  rij )]
+k 1
+
+,
+
+j = 2, ... , Ji
+
+O conjunto {i (1, j ), j  2,..., Ji } é chamado de sincronização dos semáforos da artéria i. A
+partir destes valores, a sincronização pode ser executada.
+
+3.4. Dimensão e execução do modelo
+Em relação ao número de variáveis do modelo, tem-se:
+b 0 ,..., b q
+z
+u 0 , u1 ,..., u q
+u 0, u 1 ,..., u q
+w01 , w11 ,..., w1 j1 , wq1 ,..., wqjq
+w01 , w11 ,..., w1 j1 , w q1 ,..., w qjq
+
+m1 (1,2),...., m1 ( J1  1, J1 ),...., mq (1,2),...., mq ( J q  1, J q )
+
+c1,..., cL
+r11 ,.....r1J 1 ,......, rq1 ,......., rqJ q
+
+O número de variáveis está representado na Tabela 1.
+Tabela 1: Número de variáveis do modelo
+
+HOLOS, Ano 29, Vol. 2
+
+14
+
+JONER & VOLPI (2013)
+
+VARÍAVEL
+
+NÚMERO DE VARIÁVEIS
+
+b:
+
+q+1
+
+z:
+
+1
+
+u:
+
+2q
+
+w:
+
+2q( J1  ...  J q )  2q( J1  ...  J q )
+
+m:
+
+q
+
+J1  1  ...  J q  1   J1  q
+i 1
+
+c:
+
+L
+
+r:
+
+q
+
+ Ji
+
+i 1
+
+O número total será então 2q  4  L  3J  JJ , onde:
+q : número de artérias principais
+L : número de restrições – loops
+
+ J i  J : número de todos os semáforos da rede
+JJ : número de semáforos com controle de tempo de vermelho
+Em relação ao tamanho da matriz de restrições, suas dimensões serão da ordem
+representada na Tabela 2. Neste caso, tem-se um total de 4q  6  3J  L  JJ restrições.
+Para avaliar o tamanho do problema, considerando uma rede com 50 artérias a serem
+sincronizadas e 10 semáforos em cada uma, formando 20 loops na malha e JJ = 20. Neste caso, o
+número de variáveis será de 1644 variáveis, sendo que 470 variáveis são inteiras. O número de
+restrições é de 1746.
+Em função do número possível de variáveis e restrições, que podem gerar um problema
+de médio porte, a sua execução vai exigir computadores pessoais de alta performance.
+Tabela 2: Número de restrições do modelo
+RESTRIÇÃO
+NÚMERO DE RESTRIÇÕES
+(R1)
+HOLOS, Ano 29, Vol. 2
+
+q restrições
+15
+
+JONER & VOLPI (2013)
+
+(R2)
+
+2 restrições
+
+(R3)
+
+4(q  1) restrições
+q
+
+(R4)
+
+q ( J i ) restrições
+i 1
+
+q
+
+(R5)
+
+ Ji  q restrições
+i 1
+
+(R6)
+
+L restrições
+
+(R7)
+
+JJ, sendo JJ<<J restrições
+
+Vários algoritmos podem ser utilizados para resolver este modelo de programação linear
+mista. Sugere-se o Método Branch and Bound ou alguma variante associada a uma heurística.
+Tais métodos são bastante usados em problemas deste porte e tipo.
+
+A forma geral da matriz de restrições pode ser observada na Tabela 3.
+Tabela 3 : Matriz de restrições do modelo.
+b z u u W w m R c
+R1
+R2
+R3
+R4
+R5
+R6
+R7
+
+4. CONSIDERAÇÕES FINAIS
+
+HOLOS, Ano 29, Vol. 2
+
+16
+
+JONER & VOLPI (2013)
+
+Espera-se que a implementação do modelo matemático numa área no trânsito de Curitiba
+ocorra uma melhora na estrutura da malha viária e uma maior organização no tráfego, refletindo
+em aumento da segurança no trânsito. Com os resultados obtidos, espera-se que o fluxo no
+trânsito melhore, promovendo a diminuição do stress do motorista, e assim, em um ambiente
+mais agradável, o número de acidentes tenderá a diminuir consideravelmente. A redução de
+acidentes consiste em benefício indireto da sincronização dos semáforos, quando associado a
+medidas de controle de velocidade, de adequação da capacidade das vias e de respeito ao
+pedestre e ciclistas.
+Algumas cidades obtiveram ótimos resultados com a implantação de sincronização
+semafórica, como Recife, onde foram sincronizados 21 semáforos na Avenida Boa Vista, havendo
+um ganho de 22% a 50% de velocidade. Houve também ganhos no tempo de percurso, como na
+Avenida Bernardo Vieira de Melo, onde o trajeto, antes feito em 17min30s, foi reduzido para
+6min53s. Outro exemplo é a cidade de Santos, onde o congestionamento foi reduzido em até
+40% em algumas avenidas (JORNAL DO COMÉRCIO, 2001).
+O crescimento acelerado de Curitiba tem tornado o trânsito da cidade desorganizado e
+lento. Sabendo dos resultados positivos da sincronização em outras cidades nota-se a
+necessidade da implantação do sistema em Curitiba.
+O passo seguinte seria partir para a automação dos resultados através de um sistema de
+controle automático à distância, conforme já proposto em outros trabalhos, como o citado por
+Rosseti (1998).
+5. REFERÊNCIAS BIBLIOGRÁFICAS
+1. BRASIL. Instituto Brasileiro de Geografia e Estatística - IBGE. Produção Agrícola
+Municipal.2010. Disponível em: http://www.sidra.ibge.gov.br/. Acesso em : 10 mai. 2011.
+2. CNT- Código Nacional de Trânsito. LEI Nº 9.503, DE 23 DE SETEMBRO DE 1997.
+3. COHEN, S. L., LIU C. C. The bandwidth-constrained TRANSYT signal-optimization program.
+Transportation Research Record, v. 1057, p. 1-7, 1986.
+4. COHEN, S. L., PILLAI R. S. A restricted Branch and Bound approach for generating maximum
+bandwidth signal timing plans for traffic networks. Transportation Research, v. 32, n. 8, p.
+517-529, 1998.
+5. GARCIA, H. C. e GARAVELLO, T. M. Geografia do Brasil, Dinâmica e Contrastes, Editora
+Scipione, 6ª edição, São Paulo, 1995.
+6. GARTNER, N. H. Constraining relations among offsets in synchronized signal networks.
+Transportation Science, v. 6, p. 88-93, 1972.
+7. GARTNER, N. H., LITTLE, J. C. and GABBAY, H. Optimization of traffic signal settings by mixedinteger linear programming. Part I: the network coordination problem. Transportation
+Science, v. 9, p. 321-343, 1975 a.
+8. JORNAL DO COMÉRCIO. Recife 12 de dezembro de 2001.
+
+HOLOS, Ano 29, Vol. 2
+
+17
+
+JONER & VOLPI (2013)
+
+9. LITTLE, J. C. The synchronization of traffic signals by mixed-integer linear programming.
+Operations Research, v. 14, p. 568-594, 1966.
+10. LITTLE, J. C., KELSON M. D. and GARTNER, N. H. Maxband: A program for setting signals on
+arteries and triangular networks. Transportation Research Record ,v.795, p. 40-46, 1981.
+11. MORGAN, J. T. e LITTLE, J. D. C. Synchronization traffic Signals for Maximal Bandwith,
+Operations Research, v. 12, p. 896-912, 1964.
+12. PNT: Política Nacional de Trânsito - Versão para debate apresentado no 12º Congresso
+Brasileiro de Transportes e Trânsito, ANTP, 14 a 18 de Junho de 2001, Recife.
+13. PORTO Jr, W., FERREIRA, A. C. M. Avaliação e sugestões para um plano semafórico. Anais do
+VII Congresso da ANPET, São Paulo, v. 2, 831-840, 1993.
+14. ROSSETI, R.J.F. Um ambiente para suporte à simulação de sistemas de tráfego urbano,
+dissertação de mestrado, CPGCC, UFRGS, 1998.
+15. WILSON, R. J. e WATKINS, J. J. Graphs an introductory approach. New York: Willey, 1990.
+
+HOLOS, Ano 29, Vol. 2
+
+18
+
+

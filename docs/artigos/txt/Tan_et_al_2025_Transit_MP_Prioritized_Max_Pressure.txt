@@ -1,0 +1,3076 @@
+Tan et al.– Transit-MP
+
+1
+
+Transit-MP: Transit-Prioritized Max-Pressure Control
+in Sparse Connected Vehicle Environments
+arXiv:2511.00309v1 [math.OC] 31 Oct 2025
+
+Chaopeng Tana,b , Hao Liuc,∗ , Dingshan Suna , Marco Rinaldia , and Hans van Linta
+a Department of Transport and Planning, Delft University of Technology, Gebouw 23, Stevinweg 1, Delft, 2628CN,
+
+The Netherlands
+b Chair of Traffic Process Automation, Technische Universität Dresden, Hettnerstraße 3, Dresden, 01069, Germany
+c Department of Civil and Environmental Engineering, University of Maine, 168 College Ave., Orono, ME 04469,
+
+USA
+
+Keywords:
+Maxpressure control
+Transit signal priority
+Connected vehicle
+Network stability
+Transit dwell
+
+Max-pressure (MP) control stands out among real-time network traffic signal control methods due to its simplicity, decentralized nature,
+and theoretical stability. However, existing MP control methods have
+limited consideration of public transportation and do not address the
+network stability problem of transit-prioritized MP in partially connected vehicle (CV) environments. In this study, we propose TransitMP, which realizes transit-prioritized MP control in partially CV environments by considering real-time vehicle occupancy and the impact of transit dwell at stations. Theoretically, we demonstrate that
+Transit-MP, while using different traffic state measures for upstream
+and downstream links for pressure calculation, still achieves road network stability even in partially CV environments. Note that for MP
+controllers in sparse CV environments, some movements may have
+missing CV observations, leading to link spillovers, which create the
+queue starvation phenomenon: a movement no longer receives the
+green phase despite the queue spillover. Therefore, we further propose a modified Transit-MP (mTransit-MP) that incorporates historical traffic data to address this issue. We rigorously prove that the proposed mTransit-MP can effectively avoid the queue starvation phenomenon. Experimental results on a real-world corridor in Amsterdam with 15 transit lines and 31 stations show that our method significantly reduces the real-time vehicle and spillover count, and improves delays for both private vehicles and transit vehicles compared
+to a state-of-the-art MP controller for transit signal priority. In sparse
+CV environments, our mTransit-MP is effective in mitigating link
+spillovers while enhancing the overall performance of multi-modal
+traffic.
+
+* Corresponding author. E-mail address: hao.liu1@maine.edu.
+
+Tan et al.– Transit-MP
+
+1
+
+2
+
+Introduction
+
+Traffic signal control is a critical component in managing urban traffic flows, directly impacting travel
+efficiency, fuel consumption, and urban air pollution (Guo et al., 2019). Among real-time network traffic
+signal control methods, the Max-Pressure (MP) or Back-Pressure (BP) control algorithm stands out due
+to its simplicity, decentralized nature, and theoretical stability characteristic (Varaiya, 2013). The basic
+idea of an MP control is to switch the green phase to those movements exerting the highest pressure on
+the road network, where the movement is defined as a pair of incoming and outgoing links, and the movement pressure is calculated as the weighted traffic measure difference between the paired links. Unlike
+centralized network traffic signal control methods requiring extensive communication infrastructure and
+high computational capability (Lin et al., 2012; Yan et al., 2019; Wang et al., 2020), MP control operates
+effectively with local traffic state information on the connecting links and allows each intersection to make
+independent signal decisions, making it scalable and cost-effective. Furthermore, the guarantees of queue
+stability and throughput optimality for MP control ensure that it can maintain efficient traffic flow within
+admissible demand regions (Varaiya, 2013).
+Existing studies on MP control can be generally categorized into two main streams: variants of MP
+control and extensions of MP control. The former stream of MP control variants focuses on investigating
+the use of various traffic measures for calculating movement pressure while ensuring network queue stability. The early Q-MP proposed by Varaiya (2013) uses queue length, which is essentially the number
+of vehicles on the link due to the assumption of the point queue model, for pressure calculation. In the
+case of considering the priority of links with different features, such as dedicated bus lanes or short links,
+the weighted queue length can also be used. However, Q-MP assumes infinite queue capacities for stability analysis, which deviates from the real world. Then, Gregoire et al. (2014) proposed Capacity-Aware
+MP (CA-MP) to incorporate link capacity constraints, but its impact on road network stability has not
+been demonstrated. Nonetheless, these early models relied on aggregated traffic measures, such as vehicle
+counts, due to the limited capabilities of early detection technology.
+Recent advancements in information technology have enabled real-time vehicle-to-everything (V2X)
+communications, allowing connected vehicles (CVs) to provide real-time location and speed data. Unlike
+fixed-location detectors, CVs offer two-dimensional spatiotemporal traffic observations, enhancing traffic
+state estimation (Zheng and Liu, 2017; Cao et al., 2021; Tan et al., 2021b,a) and traffic flow management
+(Yao et al., 2019; Tan et al., 2025a,c; Tan and Yang, 2024; Wang et al., 2024). Consequently, recent
+studies have leveraged CV data to calculate movement pressure for MP control. For example, Li and
+Jabari (2019) introduced Position-Weighted MP (PW-MP), which gives more weight to queues near road
+inlets to mitigate spillback risks. Furthermore, Wang et al. (2022) proposed a learning-curve-based MP
+(Learning-MP) that employs reinforcement learning to assign distinct weights to stopped and moving
+vehicles for optimized performance.
+Despite these advances, the above studies only account for the instantaneous spatial distribution of
+vehicles, which can cause excessive delays on branch roads in unbalanced flow scenarios (Wu et al.,
+2018). To address this, some studies have explored time-cumulative vehicle measures. For example, Wu
+et al. (2018) proposed a Head-of-Line Delay-based MP (HD-MP) to reduce delays for smaller queues,
+while Mercader et al. (2020) validated that MP with average travel time for pressure calculation, termed
+TT-MP, performs well in field tests. Further refinements include delay-based MP (D-MP) considering
+cumulative queue lengths during the last decision horizon and total-delay-based MP (TD-MP) using the
+total delay of vehicles (Liu and Gayah, 2022, 2023), though the network queue stability is unproven in the
+latter study. It is worth noting that although most of these MP controls utilizing vehicle-level information
+
+Tan et al.– Transit-MP
+
+3
+
+are essentially based on CV information, most of them have only proved network stability in 100% CV
+scenarios or have not investigated stability explicitly. Most recently, Tan et al. (2025b) proposed CVMP for MP control in partially CV environments, where the link travel time of CVs is used for pressure
+calculation, thus accounting for both spatial-temporal information of traffic measures. In particular, the
+proof of network queue stability when vehicles are partially connected and heterogeneously distributed
+is pioneered. However, in low CV penetration rate scenarios, some links may spill over due to the longtime absence of CV observations, leading to destabilization of the road network and degrading the signal
+control performance. Therefore, MP control with missing traffic observations due to low CV penetration
+rates needs to be further addressed.
+The other stream of MP control focuses on extending MP control to wider applications. For instance, Zaidi et al. (2016) and Chen et al. (2022) integrated dynamic vehicle routing with MP control for
+enhanced network performance, where the local movement pressure information is used to adjust route
+choices of vehicles in real-time. Liu and Gayah (2024) proposed a novel MP algorithm that incorporates
+regional traffic states into the MP framework, thus achieving perimeter metering control at the boundary
+intersections. By modifying the calculation of pressure, Xu et al. (2024a) and Ahmed et al. (2024a) extended MP control for arterial coordination. Given that signalized intersections in practice usually need
+to accommodate multi-modal traffic flows, Xu et al. (2024b) and Liu et al. (2024) extended MP control
+with consideration of the need for pedestrians crossing at intersections. Regarding transit vehicles, MP
+control, considering transit signal priority (TSP) is still in its infancy. Only a few MP control studies
+have achieved TSP. For instance, (Xu et al., 2022) added hard constraints to Q-MP to force the triggering
+of transit signals for transit prioritization, which was shown to still maintain the network queue stability.
+Nevertheless, this study assumes dedicated lanes for buses. (Ahmed et al., 2024b) proposed to weight the
+queue-based pressure of movements with average occupancy of vehicles on incoming links, i.e., OCC-MP,
+which prioritizes high-occupancy vehicles in mixed traffic scenarios. However, OCC-MP assumes constant occupancy for stability analysis. Though these studies have shown promising results in prioritizing
+transit vehicles in certain conditions, they do not consider more realistic transit operation scenarios where
+transit vehicles dwell at stops for passengers to board and alight. This will result in dynamic changes in
+transit vehicle occupancy along links, and dwelling at stops will have additional impacts on traffic operations. In addition, although the performance of the model in partially CV scenarios is tested, the stability
+of MP control considering TSP in partially CV scenarios is unproven. Therefore, we believe MP control
+for TSP in sparse CV environments, which explicitly considers actions of more realistic transit operation,
+is worth investigating.
+This study proposes Transit-MP, a controller scheme designed to achieve transit-prioritized MP control in partially connected vehicle environments. The major contributions are threefold. 1) We propose to
+use the occupancy-weighted link travel time of vehicles as the traffic measure for MP control, which takes
+into account both the spatial distribution (e.g., vehicle position distribution) and time-accumulated measures (e.g., delay) of vehicles and achieves TSP by prioritizing high-occupancy vehicles. 2) We prove that
+Transit-MP control while prioritizing transit vehicles achieves network queue stability even in partially CV
+environments. The challenge in this stability proof lies in the first-time use of different traffic states for
+upstream and downstream pressure calculations. 3) We address the short-link spillover problem, which is
+caused by missing real-time CV observations in sparse CV environments, by modifying Transit-MP with
+historical traffic data.
+
+Tan et al.– Transit-MP
+
+2
+
+Preliminaries
+
+2.1
+
+Network definition
+
+4
+
+We model a signalized network as shown in Fig. 1. The set of signalized intersections, i.e., nodes, is
+denoted by N . For a node n ∈ N , the set of controlled movement is denoted by Mn , which is indexed by
+a pair of incoming and outgoing links (i, o). Correspondingly, we use n′ to denote a neighboring node of
+n that is connected by the link o. Then, the related movements of node n′ are indexed by (o, k). The signal
+state of movement (i, o) is denoted by a binary decision variable si,o ∈ s n , where si,o = 1 indicates the green
+state of the signal of movement (i, o) and the red state otherwise. We use s n to denote the column vector of
+the signal state of node n and s to denote the combination of sn on the whole network. Correspondingly,
+we have Sn and S to denote the feasible space of signal states. We use ci,o to denote the saturated flow rate
+of movement (i, o) at the stopline position and ri,o to denote the corresponding turning ratio.
+For stability analysis, we introduce fictitious source links and fictitious nodes to load traffic demand
+from exogenous real links, as Li and Jabari (2019) and Tan et al. (2025b) have done. The set of fictitious
+nodes is denoted by F. In particular, the fictitious source links have no physical length, so they are
+assumed to have infinite jam densities. The traffic flow is modeled as point queues concentrated at source
+nodes, where the queue lengths can accumulate without bound. Note that due to the minimum vehicle time
+headway constraint, the inflow and outflow rates remain finite. Since real links have finite jam densities,
+the network is said to be unstable if the congestion spills over to the fictitious sourced links and the queue
+length is accumulated infinitely on the fictitious sourced link.
+cv ,
+Considering a mixed CV and non-CV (NV) scenario, on the incoming link of movement (i, o), Vi,o
+hv , and V
+Vi,o
+i,o are used to denote the sets of CVs, NVs and all vehicles, respectively. Obviously, Vi,o =
+S hv
+cv
+cv . For all CVs,
+Vi,o Vi,o . For transit vehicles, we assume that they are all connected and belong to Vi,o
+it is assumed that the occupancy information pv , i.e., the number of passengers (including the driver)
+riding on the vehicle v, can be shared for traffic signal control. Note that in practice, even though the
+real-time occupancy information of CVs is not available, we can use historical statistics as an alternative.
+For example, the occupancy of private cars can be assumed as a constant value, and that of public transit
+vehicles can be estimated from the historical boarding and alighting data between stations (Kuchár et al.,
+2023). Since most of the CVs are currently vehicles using map navigation services, whose routes are
+planned in advance. Therefore, in this study, it is also assumed that their turn intentions at intersections
+are known.
+
+2.2
+
+CV-MP
+
+In the study by Tan et al. (2025b), an MP control using CV data only, i.e., CV-MP, is proposed, in which
+the real-time link travel time of CVs is used for pressure calculation, thus accounting for both spatialtemporal information of traffic measures. Nevertheless, CV-MP is (i) designed for private traffic only,
+and (ii) it may suffer from spillovers on short links, i.e., fail to stabilize the network queue, in sparse CV
+environments due to the long-time absence of CV observations. In this study, we will extend CV-MP to
+multi-modal traffic scenarios and address the possible spillover problem in sparse CV environments.
+
+5
+
+Tan et al.– Transit-MP
+
+Figure 1: Network definition
+For a smooth read, we briefly introduce the control policy of CV-MP:
+
+
+
+X
+X
+X
+X
+X
+
+ro,k (t)
+τv (t) ,
+s ∗ (t) = arg max
+si,o (t)ci,o 
+τv (t) −
+s ∈S
+
+n∈N
+
+∀(i,o)∈Mn
+
+cv
+v∈Vi,o
+
+(o,∀k)∈Mn′
+
+(1)
+
+cv
+v∈Vo,k
+
+where τv denotes the normalized link travel time of CV v at the decision moment t and
+τv =
+
+LT Tv
+.
+ET T i,o
+
+(2)
+
+LT Tv denotes the real-time link travel time of vehicle v calculated from the moment the vehicle enters
+the link. ET T i,o denotes the expected free flow travel time on link i for movement (i, o). The study by
+Tan et al. (2025b) has demonstrated that CV-MP can stabilize the road network queue if the following
+sufficient condition on CV observations is satisfied:
+Theorem 1 (Necessary condition of CV-MP stability in partially CV environments Tan et al. (2025b)).
+Let Mnp denote the set of movements served by phase p at intersection n ∈ N . A necessary condition of
+CV-MP to stabilize the network queue in partially CV environments is that there must NOT exist any time
+t ∗ such that
+cv
+Vi,o
+=∅
+
+and
+
+max
+ρi,o (x,t ∗ ) = ρi,o
+
+∀x ∈ [0, Li ] ∀(i, o) ∈ Mnp
+
+(3)
+
+for all phases at all intersections, where ρi,o (x,t ∗ ) denotes the traffic density at position x (measured from
+max denotes the maximum traffic density,
+the inlet), moment t ∗ on the incoming link of movement (i, o) and ρi,o
+and Li denotes the corresponding link length.
+Eq. (3) can be interpreted as at moment t ∗ , the traffic density of all movements in the phase p has
+reached its maximum while no CVs are observed. Obviously, in such a case, these movements will no
+longer have CV observations; thus, the phase pressure will always be 0 despite the presence of spillover
+by NVs. Please see Tan et al. (2025b) for a more detailed proof of Theorem 1.
+
+6
+
+Tan et al.– Transit-MP
+
+The opposite of Theorem 1 is to say that if the condition of Eq. (3) occurs, CV-MP can no longer
+stabilize the network queue. Note that, in sparse CV environments, there is a high probability that the
+condition of Eq. (3) will happen, especially for short links, as the traffic density of short links is easier to
+reach the maximum. In this study, when we extend CV-MP to multi-modal traffic scenarios, we will also
+design a modification mechanism to address this unsolved problem in Tan et al. (2025b).
+
+3
+
+Transit-MP in partially CV environments
+
+3.1
+
+Transit-MP
+
+Fig. 2 illustrates the approaching process of CVs on a link. For transit vehicles, they may dwell at
+transit stations for passengers to board and alight. Obviously, the signal priority for transit vehicles is not
+necessary until they leave the nearest station to the intersection. Here, we introduce a binary parameter βv
+to indicate whether the vehicle contributes to the pressure calculation according to their real-time position
+xv and vehicle type.
+
+
+1, if αv = 0,
+(4)
+βv = 1, if αv = 1, and xv ≥ Lts ,
+
+
+0, if αv = 1, and xv < Lts .
+where αv denotes the vehicle type; αv = 0 indicates that the vehicle is a private car and, otherwise, a
+transit vehicle; Lts denotes the position of the nearest transit station to the intersection; xv is the real-time
+position of CV v. Both positions are measured from the inlet of the link. βv = 1 indicates that the vehicle
+will contribute to the pressure calculation. Eq. (4) means that all connected private cars (αv = 0) will
+contribute to the pressure calculation, and connected transit vehicles will only contribute after they pass
+the nearest transit station, i.e., xv ≥ Lts .
+Since the actual dwell time of transit vehicles is related to the number of boarding and alighting passengers (Kwesiga et al., 2025), we only determine βv based on the real-time location of transit vehicles,
+which can be achieved with simple connected vehicle functionality. However, if transit vehicles are required to run strictly according to the timetable, i.e., when departure times at stations can be accurately
+predicted, βv can be determined in a more precise manner (see Appendix A for details).
+Then, at time step t, the proposed Transit-MP in partially CV environments is applied by:
+
+
+
+X
+X
+X
+X
+X
+
+s ∗ = arg max
+si,o ci,o 
+βv pv τv −
+ro,k
+βv τv 
+s∈S
+
+n∈N
+
+∀(i,o)∈Mn
+
+cv
+v∈Vi,o
+
+(o,∀k)∈Mn′
+
+where we let
+(
+P
+P
+P
+0 if
+cv βv τv < 0
+cv βv τv −
+v∈Vi,o
+(o,∀k)∈Mn′ ro,k
+v∈Vo,k
+ci,o =
+ĉi,o else
+
+(5)
+
+cv
+v∈Vo,k
+
+.
+
+(6)
+
+Recall that pv denotes the occupancy of the vehicle. The time factor t is omitted for simplicity, ĉi,o
+is the average saturated flow rate, and the other parameters are the same as in Fig. 1. PIn particular,
+Eq. (6) means that if the original pressure weight without occupancy information, i.e., v∈V cv βv τv −
+i,o
+
+Tan et al.– Transit-MP
+
+7
+
+Figure 2: Vehicle information for wi,o (t)
+P
+
+(o,∀k)∈Mn′ ro,k
+
+P
+
+cv βv τv is negative, which indicates a longer queue on the outgoing link o compared
+v∈Vo,k
+
+to the incoming link i for the movement (i, o), the saturated flow ci,o is forced to be 0. This correction is
+posed for our theoretical stability analysis in Section 3.2.2. Given the optimal signal policy of Transit-MP,
+we have
+
+
+X
+X
+X
+s∗i,o ci,o 
+ro,k
+βv τv −
+βv τv  ≥ 0
+(7)
+cv
+v∈Vi,o
+
+(o,∀k)∈Mn′
+
+cv
+v∈Vo,k
+
+X
+
+X
+
+
+s∗i,o ci,o 
+
+
+X
+
+cv
+v∈Vi,o
+
+βv pv τv −
+
+(o,∀k)∈Mn′
+
+ro,k
+
+βv τv  ≥ 0
+
+(8)
+
+cv
+v∈Vo,k
+
+for ∀(i, o) ∈ MN . The latter is obtained as pv ≥ 1. Eqs. (7) and (8) ensure that the movement pressure is
+non-negative.
+Compared to CV-MP presented in Eq. 1, the proposed Transit-MP further incorporates the real-time
+occupancy information of CVs and excludes the impact of transit dwell at stations. Essentially, Transit-MP
+prioritizes the movement with the greatest total passenger travel time from CV observations. In particular,
+as suggested by Ahmed et al. (2024b), we only incorporated the occupancy information of the upstream
+movement for pressure calculation to avoid downstream supply issues. This is because the downstream
+term actually reflects the supply ability of the downstream link to accommodate vehicles, while a larger
+number of passengers downstream does not necessarily mean a larger number of vehicles on the link if
+there are high occupancy transit vehicles.
+However, it is worth clarifying that, while OCC-MP by Ahmed et al. (2024b) also utilized occupancy
+information of upstream movements for
+upstream occupancy pi,o with
+P TSP, theyPmultiplied the average
+P
+the final movement pressure, i.e., pi,o ( v∈Vi,o 1 − (o,∀k)∈M ′ ro,k v∈Vo,k 1) in vehicular form. Besides,
+n
+they only proved the stability of the OCC-MP at an isolated intersection in fully connected vehicle environments, given a very strong assumption that pi,o is fixed over time, and the impact of transit dwell
+at stations is not considered. In our Transit-MP, the real-time vehicular occupancy information is only
+incorporated
+in the upstream traffic state calculation
+with the consideration of transit dwell at stations,
+P
+P
+i.e., v∈V cv βv pv τv for upstream (i, o) and v∈V cv βv τv for downstream (o, k). In addition, we will rigi,o
+
+o,k
+
+8
+
+Tan et al.– Transit-MP
+
+orously prove that the proposed Transit-MP also achieves stability of the road network in partially CV
+environments with time-varying occupancy information.
+
+3.2
+
+Network stability of Transit-MP
+
+3.2.1
+
+Definitions and Lemmas
+
+Let zi,o denote the number of vehicles of the movement (i, o). Then it can be represented in density form
+as below:
+(
+ρ (t), if (i, o) ∈ MF
+zi,o (t) = R (i,o)
+(9)
+Li
+ρ
+(x,t)dx,
+if
+(i,
+o)
+∈
+M
+N
+(i,o)
+0
+where ρ(i,o) (x,t) denotes the traffic density at position x and moment t of movement (i, o). As fictitious
+links have no physical length, their traffic density ρ(i,o) (t) is independent of position x and can be increased
+infinitely.
+In density form, the Transit-MP policy in partially CV environments is rewritten as
+Traffic density form:
+
+∗
+
+s (t) = arg max
+s ∈S
+
+X
+
+Z Li
+
+X
+
+si,o (t)ci,o
+
+
+n∈N
+
+∀(i,o)∈Mn
+
+0
+
+u
+cv
+τi,o
+(x,t)ρi,o
+(x,t)dx
+
+−
+
+X
+(o,∀k)∈Mn′
+
+Z Lo
+ro,k (t)
+0
+
+
+d
+cv
+(x,t)dx ,
+τo,k
+(x,t)ρo,k
+
+(10)
+u (x,t) and τ d (x,t) are the weights on traffic flow density of upstream and downstream movewhere τi,o
+o,k
+ments, respectively, and
+Z Li
+X
+u
+cv
+τi,o
+(x,t)ρi,o
+(x,t)dx =
+βv pv τv ≜ wu,cv
+(11)
+i,o (t),
+0
+
+Z Li
+0
+
+cv
+v∈Vi,o
+
+d
+cv
+(x,t)ρo,k
+(x,t)dx =
+τo,k
+
+X
+
+βv τv ≜ wd,cv
+o,k (t),
+
+(12)
+
+cv
+v∈Vo,k
+
+cv (x,t) and ρ cv (x,t) denote the traffic flow density of CVs; wu,cv (t) and wd,cv (t) represents the
+where ρi,o
+i,o
+o,k
+o,k
+traffic states of the movements for pressure calculation of Transit-MP.
+
+Lemma 1 (Upper bounds of related parameters (Tan et al., 2025b)). For any x ∈ [0, Li ], t > 0, and (i, o) ∈
+MN , the following inequalities hold if the weight yi,o (x,t) satisfies 0 ≤ y(i,o) (x,t) ≤ ymax
+(i,o) < ∞.
+max
+ρi,o (x,t) ≤ ρi,o
+< ∞,
+
+(13)
+
+qi,o (x,t) ≤ qmax
+i,o < ∞,
+|∂x qi,o (x,t)| ≤ q̇max
+i,o < ∞
+
+(14)
+(15)
+
+9
+
+Tan et al.– Transit-MP
+
+Z Li Z Li
+0
+
+Z Li
+0
+
+0
+
+max 2
+ρi,o (x,t)ρi,o (x′ ,t)dx′ dx ≤ (Li ρi,o
+) < ∞,
+
+max
+yi,o (x,t)ρi,o (x,t)dx ≤ ymax
+i,o Li ρi,o ,
+
+Z Li−
+−
+0+
+Z Li−
+
+∂ qi,o (x,t)
+dx ≤ qmax
+i,o ,
+∂x
+
+−yi,o (x′ ,t)
+
+0+
+
+∂ qi,o (x′ ,t) ′
+max
+dx ≤ ymax
+i,o Li q̇i,o .
+′
+∂x
+
+(16)
+(17)
+(18)
+(19)
+∂ q (x,t)
+
+where qi,o (x,t) denotes the flow rate at position x and moment t of movement (i, o); q̇i,o (x,t) = i,o∂ x
+max , qmax , and q̇max are upper bounds of corresponding parameters, which are positive constants.
+ρi,o
+i,o
+i,o
+
+;
+
+The detailed proof of Lemma 1 can be found in Tan et al. (2025b). As real links have physical lengths,
+their traffic state parameters, ρi,o (x,t) and qi,o (x,t) are naturally bounded, which gives the first and second
+inequalities. The third inequality is due to the gradual changes in traffic flow. The remaining inequalities
+can be easily derived from the first three inequalities.
+Recall that S denotes the feasible space of network signal states s under predefined signal phase
+constraints. We further use S ch to denote the convex hull of S. Then, the admissible demand region Λ of
+the traffic network is defined as
+Definition 1 (Admissible demand region). For a signalized network given feasible signal space S, turning
+ratio r , and saturated flow rate c , the admissible demand region Λ of the traffic network is defined as:
+∃s̄ ∈ S co },
+
+Λ = {a | a ⪯ (I − r )c s̄ ,
+
+(20)
+
+where a ∈ R|MF ∪N |×1 denotes the column vector of the average exogenous
+PTarrival demands of the nets ; r denotes the matrix of
+work; s̄ denotes the long term average of signal state s , i.e., s̄ = limT →∞ T1 t=1
+turning ratio ri,o and c is a diagonal matrix of saturated flow rate ci,o . Both r , c ∈ R|MF ∪N |×|MF ∪N | .
+The definition 1 implies that we can always find a ε > 0 that makes
+a − (I − r )c s̄ ⪯ −ε1 ,
+
+∃ε > 0
+
+(21)
+
+for a ∈ Λ int , where Λ int denotes the interior of Λ .
+As demonstrated in Tan et al. (2025b), if the exogenous demand a ∈ Λ int , the vehicle link travel time
+τv is upper bounded by a positive constant τ max . Then, we have the following lemma about the weight of
+Transit-MP.
+Lemma 2 (Properties of weights of Transit-MP). If the exogenous demand a ∈ Λ int , we have
+u,max
+u
+(x,t) ≤ τi,o
+< ∞,
+0 ≤ τi,o
+
+(22)
+
+u
+τi,o
+(0,t) = 0,
+
+(23)
+
+u,max
+u
+0 ≤ |∂t τi,o
+(x,t)| ≤ τ̇i,o
+< ∞.
+
+(24)
+
+d (x,t) with
+where ∂t denotes the partial differentiation in terms of t. Similar properties also apply to τi,o
+d,max
+d,max
+upper bounds τi,o
+and τ̇i,o
+.
+
+Tan et al.– Transit-MP
+
+10
+
+u (x,t)ρ (x,t) is essentially the density form of β p τ , the first equality is equivalent to
+Proof. As τi,o
+i.o
+v v v
+proving that βv pv τv is upper bounded. Recall that βv is a binary variable and pv indicates the occupancy
+of the vehicle, which is obviously upper bounded by the vehicle capacity pmax . Then we have βv pv τv ≤
+u,max
+u (x,t) ≤
+pmax τ max < ∞, which equally means there exists a positive constant τi,o
+that makes 0 ≤ τi,o
+u,max
+τi,o
+< ∞.
+
+Recall that τv = LT Tv /ET T i,o and LT Tv > 0 only when xv > 0. That is to say, the vehicle participates
+u (0,t) = 0.
+in pressure calculation only when xv > 0, which obviously leads to τi,o
+u (x,t)|, it is equivalent to considering |∂ τ |, i.e., changes in vehicle link travel time.
+Regarding |∂t τi,o
+t v
+Considering a small period ∆t, if the vehicle just enters in or stays on the link, |τv (t + ∆t) − τv (t)| ≤ ∆t;
+if the vehicle leaves the link, |τv (t + ∆t) − τv (t)| = τv (t) ≤ τ max . This leads to the existence of a positive
+u,max
+u (x,t)| ≤ τ̇ u,max < ∞.
+constant τ̇i,o
+that makes |∂t τi,o
+i,o
+d (x,t). Thus, Lemma 2 is proved.
+Similar analysis also applies to τi,o
+
+Definition 2 (Traffic network stability (Neely, 2010; Li and Jabari, 2019; Tan et al., 2025b)). Given a
+traffic signal control policy, the traffic network is said to be strongly stable if the following condition on
+the total queues holds:
+
+
+Z T
+X
+1
+lim sup
+E
+z(i,o) (t) dt < ∞
+(25)
+T →∞ T 0
+(i,o)∈MF ∪N
+
+Definition 2 indicates that the traffic network is stable if the signal control policy ensures that the
+network queues will not grow infinitely in the long term. As those real links have a physical upper-bound
+jam capacity, the network queues for movement (i, o) ∈ MN are naturally bounded. Then, the network is
+unstable when the congestion spills over to fictitious links and the queue of movement (i, o) ∈ MF grows
+infinitely.
+For brevity, hereafter we use bold to indicate the corresponding vector or matrix of a variable, e.g., ρ
+denotes the vector of ρi,o of all movement (i, o) over the network.
+Definition 3 (Lyapunov function). Given the traffic flow density ρ (t) of the network, a Lyapunov function
+is defined as
+Z Li Z Li 
+
+1 X
+1 X
+2
+d
+d
+ρi,o (t) +
+τi,o
+(x,t) + τi,o
+(x′ ,t) ρi,o (x,t)ρi,o (x′ ,t)dx′ dx,
+V (ρ (t)) ≡
+2
+2
+0
+0
+(i,o)∈MF
+
+(i,o)∈MN
+
+(26)
+d (x,t) is the weight that varies spatiotemporally on traffic flow density (corresponding to the
+where τi,o
+d (x,t) ≥ 0, ∀ (i, o) ∈ M , x ∈ [0, L ], t ≥ 0, which ensures that V (ρ (t)) ≥ 0
+downstream movement) and τi,o
+i
+N
+and V (ρ (t)) = 0 if and only if ρ (t) = 0.
+
+The Lyapunov function is essentially the total sum of the double integral of traffic flow density with
+certain weights. In our Transit-MP, traffic states of upstream and downstream movements are calculated
+differently, i.e., upstream incorporates vehicle occupancy and downstream does not. The Lyapunov function defined in this study uses the downstream weight only, which is essentially the sum of the double
+integral of the travel-time-weighted traffic flow density.
+
+11
+
+Tan et al.– Transit-MP
+
+Reproduced from Li and Jabari (2019) and Tan et al. (2025b), a sufficient condition for network
+stability is derived as
+Lemma 3 (Sufficient condition for traffic network stability). Given V (ρ (t)) defined in Eq. (26), if there
+exist positive and upper bounded constants K and ε ′ , i.e., 0 < K < ∞ and 0 < ε ′ < ∞, such that the
+Lyapunov drift
+
+
+
+
+X
+dV (ρ (t))
+Eρ (t)
+≤ K − ε ′E 
+z(i,o) (t)
+(27)
+dt
+(i,o)∈MF ∪N
+
+holds for ∀t ≥ 0 and all possible ρ (t), the traffic network is stable by satisfying Eq. (25).
+The detailed proof of Lemma 3 can be found in Varaiya (2013); Li and Jabari (2019); Tan et al.
+(2025b), which can be easily obtained by integrating both sides of Eq. (27) over period [0, T ] with expectation and re-ordering the terms.
+3.2.2
+
+Stability of Transit-MP
+
+In this section, we first demonstrate that the proposed Transit-MP, which prioritizes high-occupancy transit
+vehicles with consideration of the impact of transit stations, can stabilize the network queues in partially
+CV environments. Note that, though both Li and Jabari (2019) and Tan et al. (2025b) also considered
+continuous traffic flow dynamics for stability proof, this study differentiates from them as Transit-MP
+u and τ d , on upstream and downstream traffic
+uses different spatial-temporal varying weights, i.e., τi,o
+i,o
+state, respectively.
+Theorem 2 (Stability of Transit-MP in partially CV environments). Given the admissible demand region
+Λ in Definition 1, if the exogenous demand a ∈ Λ int , the proposed Transit-MP presented in Eq. (5) (or
+Eq. (10) in density form) can strongly stabilize the traffic network queues in partially CV environments.
+Proof. For brevity, the partial differentiation in terms of t (or x) is denoted by ∂t (or ∂x ). If not specified,
+all variables indicate movement (i, o), thus, the subscript is omitted.
+First, we simplify the Lyapunov drift. According to Lemma 3, it is equivalent to proving that
+Eq. (27) holds for all t ≥ 0 under the control of Transit-MP.
+ the idea of Li and Jabari (2019) and
+ Following
+dV (ρ (t))
+ρ
+(t)
+based on the Leibniz integral rule and
+Tan et al. (2025b), we first decompose and simplify E
+dt
+the product rule of partial differentiation as below,
+
+ X
+
+
+ρ (t))
+dρ(t)
+ρ (t) dV (ρ
+ρ (t)
+=
+E
+ρ(t)
+E
+dt
+dt
+MF
+|
+{z
+}
+δ1
+
++
+
+X
+
+E
+
+ρ (t)
+
+Z Li Z Li
+
++
+
+MN
+
+|
+
+{z
+
+}
+
+δ2
+
+E
+
+ρ (t)
+
+
+
+0
+
+|
+X
+
+′
+
+[∂t τ (x,t)]ρ(x,t)ρ(x ,t)dx dx
+0
+
+MN
+
+′
+
+d
+
+Z Li Z Li 
+0
+
+
+
+′
+′
+τ (x,t) + τ (x ,t) ρ(x,t)[∂t ρ(x ,t)]dx dx
+d
+
+d
+
+′
+
+0
+
+{z
+δ3
+
+}
+
+(28)
+
+12
+
+Tan et al.– Transit-MP
+
+where x′ and x are equivalent in status and can therefore be interchanged to cancel out 1/2. Considering
+continuous traffic flow dynamics (Li and Jabari, 2019), we have
+dρi,o (t)
+= ai,o (t) − min{ci,o si,o (t), µi,o (t)}, for (i, o) ∈ MF ,
+dt
+∂t ρi,o (x,t) = −∂x qi,o (x,t) for x ∈ (0, Li ), (i, o) ∈ MN ,
+
+(29)
+(30)
+
+where ai,o (t) denotes the exogenous arrival demand rate; qi,o (x,t) denotes the flow rate; µi,o (t) denotes
+the the effective serviceable demand rate that depends on both the egress density of the upstream link i
+and the ingress density of the downstream link o, thus respecting both upstream vehicle availability and
+downstream storage constraints. At the boundary of real links, i.e., when x = 0 and x = Li , we have
+X
+∂t ρi,o (0,t) = −∂x qi,o (0,t) =
+ri,o min{ch,i sh,i (t), µh,i (t)} − qi,o (0,t),
+(31)
+(∀h,i)∈Mn′′
+
+∂t ρi,o (Li ,t) = −∂x qi,o (Li ,t) = qi,o (Li ,t) − min{ci,o si,o (t), µi,o (t)}
+
+(32)
+
+for (i, o) ∈ MN , where n′′ denotes the upstream node.
+Then, substituting Eq. (29) into δ1 , we have
+X
+δ1 =
+Eρ (t) ((a(t) − min{cs(t), µ(t)})ρ(t))
+
+(33)
+
+MF
+
+Based on Lemma 1 and Lemma 2, we have
+[∂t τ d (x,t)]ρ(x,t)ρ(x′ ,t) ≤ |∂t τ d (x,t)|ρ(x,t)ρ(x′ ,t) ≤ τ̇ d,max ρ(x,t)ρ(x′ ,t).
+Thus, we have
+δ2 ≤
+
+X
+
+E
+
+ρ (t)
+
+
+
+Z Li Z Li
+d,max
+′
+′
+τ̇
+ρ(x,t)ρ(x ,t)dx dx
+0
+
+MN
+
+≤
+
+X
+
+0
+
+τ̇ d,max (Li ρ max )2 ≜ K2
+
+(34)
+
+MN
+
+Replacing ∂t ρ(x′ ,t) based on Eq. (31) and (32), we have
+Z Li Z Li− 
+
+
+X
+ρ (t)
+d
+d ′
+′
+′
+δ3 =
+E
+τ (x,t) + τ (x ,t) ρ(x,t)[−∂x q(x ,t)]dx dx
+0
+
+MN
+
+0+
+
+|
++
+
+{z
+
+X
+
+ρ (t)
+
+E
+
+
+
+Z Li 
+
+d
+d
+[−∂x q(0,t)]
+τ (x,t) + τ (0,t) ρ(x,t)dx
+0
+
+MN
+
+{z
+
+|
++
+
+}
+
+δ3,1
+
+X
+MN
+
+|
+
+δ3,2
+ρ (t)
+
+E
+
+}
+
+
+
+Z Li 
+
+d
+d
+τ (x,t) + τ (Li ,t) ρ(x,t)dx
+[−∂x q(Li ,t)]
+0
+
+{z
+
+δ3,3
+
+}
+
+(35)
+
+13
+
+Tan et al.– Transit-MP
+
+where
+δ3,1 =
+
+X
+
+ρ (t)
+
+Z Li
+0
+
+X
+
+ρ (t)
+
+≤
+
+X
+
+0
+
+E
+
+
+
+Z Li
+
+max
+
+q
+
+0
+
+X
+
+
+
+
+
+d
+
+′
+
+′
+
+′
+
+
+
+
+
+−τ (x ,t)∂x q(x ,t)dx dx
+0+
+
+MN
+
+≤
+
+Z Li−
+ρ(x,t)
+
+E
+
+ρ (t)
+
+′
+
+0+
+
+Z Li
+
+MN
+
+′
+
+−∂x q(x ,t)dx dx
+
+τ (x,t)ρ(x,t)
+
+E
+
+MN
+
++
+
+Z Li−
+
+d
+
+
+
+Z
+1 X ρ (t) d,max max Li
+E
+τ
+Li q̇
+ρ(x,t)dx
+τ (x,t)ρ(x,t)dx +
+2
+0
+
+
+d
+
+MN
+
+(qmax τ d,max Li ρ max + τ d,max Li q̇max Li ρ max ) ≜ K3,1
+
+(36)
+
+MN
+
+based on Lemma 1 and Lemma 2;
+
+
+
+
+Z
+L
+i
+X
+X
+τ d (x,t) + τ d (0,t) ρ(x,t)dx
+r min{ch,i sh,i (t), µh,i (t)}]
+δ3,2 =
+Eρ (t) [
+| {z }
+0
+MN
+(∀h,i)∈Mn′′
+=0
+
+
+Z Li 
+
+X
+−
+Eρ (t) q(0,t)
+τ d (x,t) + τ d (0,t) ρ(x,t)dx
+0
+
+MN
+
+|
+
+{z
+
+}
+
+≤0
+
+
+≤
+
+X
+
+X
+
+Eρ (t) [
+
+MN
+
+Z Li
+r min{ch,i sh,i (t), µh,i (t)}]
+
+
+τ d (x,t)ρ(x,t)dx
+
+(37)
+
+0
+
+(∀h,i)∈Mn′′
+
+based on Lemma 2; and
+
+
+Z Li 
+
+X
+ρ (t)
+d
+d
+δ3,3 =
+E
+qi,o (Li ,t)
+τ (x,t) + τ (Li ,t) ρ(x,t)dx
+0
+
+MN
+
+
+
+Z Li
+X
+ρ (t)
+d
+−
+E
+min{cs(t), µ(t)}
+τ (x,t)ρ(x,t)dx
+0
+
+MN
+
+
+
+Z Li
+X
+ρ (t)
+d
+−
+E
+min{cs(t), µ(t)}
+τ (Li ,t)ρ(x,t)dx
+0
+
+MN
+
+|
+≤
+
+{z
+
+}
+
+≤0
+
+X
+
+ρ (t)
+
+E
+
+(2q
+
+max d,max
+
+τ
+
+Li ρ
+
+max
+
+)−
+
+X
+
+E
+
+ρ (t)
+
+
+
+Z Li
+d
+min{cs(t), µ(t)}
+τ (x,t)ρ(x,t)dx .
+0
+
+MN
+
+MN
+
+|
+
+{z
+
+}
+
+K3,3
+
+As such, we have
+
+δ3 ≤K3 +
+
+X
+MN
+
+Eρ (t) [
+
+X
+
+(∀h,i)∈Mn′′
+
+Z Li
+r min{ch,i sh,i (t), µh,i (t)}]
+0
+
+
+τ d (x,t)ρ(x,t)dx
+
+(38)
+
+14
+
+Tan et al.– Transit-MP
+
+−
+
+X
+
+ρ (t)
+
+E
+
+
+
+Z Li
+d
+min{cs(t), µ(t)}
+τ (x,t)ρ(x,t)dx ,
+
+(39)
+
+0
+
+MN
+
+where K3 = K3,1 + K3,3 .
+Then, Eq. (28) is bounded by
+
+
+X
+ρ (t) dV (ρ (t))
+≤K2 + K3 +
+E
+Eρ (t) ((a(t) − min{cs(t), µ(t)})ρ(t))
+dt
+MF
+
+
+Z Li
+X
+X
++
+Eρ (t) [
+r min{ch,i sh,i (t), µh,i (t)}]
+τ d (x,t)ρ(x,t)dx
+MN
+
+−
+
+X
+
+0
+
+(∀h,i)∈Mn′′
+
+E
+
+ρ (t)
+
+
+
+Z Li
+d
+min{cs(t), µ(t)}
+τ (x,t)ρ(x,t)dx
+0
+
+MN
+
+≜ K2 + K3 + η
+
+(40)
+
+RL
+For brevity, we let wd (t) = 0 i τ d (x,t)ρ(x,t)dx for downstream movements in MN . Similarly we
+RL
+also have wu (t) = 0 i τ u (x,t)ρ(x,t)dx for upstream movements in later derivation. For movements in
+MF , we have wu (t) = wd (t) = ρ(t). In vehicular form, we have
+Z Li
+
+d
+
+w (t) =
+
+τ d (x,t)ρ(x,t)dx ≡
+
+X
+
+τ u (x,t)ρ(x,t)dx ≡
+
+X
+
+0
+
+wu (t) =
+
+βv τv
+
+v∈V
+
+Z Li
+0
+
+βv pv τv ,
+
+(41)
+
+v∈V
+
+which are essentially the traffic states for the pressure calculation of Transit-MP in fully CV environments.
+Then, in matrix form, we have
+X
+η=
+Eρ (t) ((a(t) − min{cs(t), µ(t)})ρ(t))
+MF
+
+
++
+
+X
+MN
+
+Eρ (t) [
+
+X
+
+Z Li
+r min{ch,i sh,i (t), µh,i (t)}]
+
+
+τ d (x,t)ρ(x,t)dx
+
+0
+
+(∀h,i)∈Mn′′
+
+
+
+Z Li
+X
+ρ (t)
+d
+−
+E
+min{cs(t), µ(t)}
+τ (x,t)ρ(x,t)dx
+=E
+
+0
+
+MN
+ρ (t)
+
+({w d }⊤ (a − (I − r ) min{c s ∗ , µ })),
+
+(42)
+
+where w d ∈ R|MN ∪F |×1 is the column vector of wd for all movements. s ∗ is the signal decision by TransitMP. Here we further handle the term min{c s ∗ , µ } by adding and subtracting the term c s ∗ as below,
+η = Eρ (t) ({w d }⊤ (a − (I − r )c s ∗ )) + Eρ (t) ({w d }⊤ (I − r )(c s ∗ − min{c s ∗ , µ })) .
+{z
+} |
+{z
+}
+|
+η1
+
+η2
+
+(43)
+
+15
+
+Tan et al.– Transit-MP
+
+Here we handle η2 . Obviously, we have 0 ⪯ c s ∗ − min{c s ∗ , µ } ⪯ c s ∗ and s ∗ ⪯ 1. Recall that wd is
+unbounded for movement in MF . We assume that when µ(t) ≤ c, ρ(t) ≤ ρ µ for movements in MF .
+Then, we have
+(
+≤ (cs(t) − min{cs(t), µ(t)})ρ µ ≤ cρ µ if µ(t) ≤ c
+d
+w (cs(t) − min{cs(t), µ(t)})
+(44)
+= (cs(t) − cs(t))ρ µ = 0 if µ(t) > c
+for movements in MF . Then we have,
+η2 ≤ Eρ (t) ({w d }⊤ I (c s ∗ − min{c s ∗ , µ }))
+= Eρ (t) ({w d }⊤ (c s ∗ − min{c s ∗ , µ })MF + Eρ (t) ({w d }⊤ (c s ∗ − min{c s ∗ , µ })MN
+X
+X
+≤
+Eρ (t) (cρ µ ) + Eρ (t) ({w d }⊤ c s ∗ )MN ≤
+Eρ (t) (cρ µ ) + Eρ (t) ({w d }⊤ c )MN
+MF
+
+=
+≤
+
+X
+
+MF
+
+Eρ (t) (cρ µ ) +
+
+X
+
+Eρ (t) (c
+
+Z Li
+
+τ d (x,t)ρ(x,t)dx)
+
+MF
+
+MN
+
+0
+
+X
+
+X
+
+cτ d,max Li ρ max ≜ K4
+
+Eρ (t) (cρ µ ) +
+
+MF
+
+(45)
+
+MN
+
+Next, we handle η1 . Note that all vectors and matrices in η1 contain fictitious movements with the corresponding size becoming |MN ∪F |. Besides, η1 is associated with the signal decision s ∗ by the proposed
+Transit-MP controller. In matrix form, after including movements in MF , Transit-MP in partially CV
+environments is written as,
+s∗ = arg max({w
+wu,cv }⊤ − {w
+wd,cv }⊤ r )cc s.
+
+(46)
+
+s ∈S
+
+where w u,cv and w d,cv are the vectors of wu,cv and wd,cv of Transit-MP, respectively.
+Rewriting the pressure calculation of Transit-MP, we have
+({w u,cv }⊤ −{w d,cv }⊤ r )c s ∗ = max({w u,cv }⊤ − {w d,cv }⊤ r )c s = max ({w u,cv }⊤ − {w d,cv }⊤ r )c s̄
+s ∈S
+d,cv ⊤
+
+≥ ({w u,cv }⊤ − {w
+
+s∈S ch
+
+} r )c s̄ = {w d,cv }⊤ (I − r )c s̄ + ({w u,cv }⊤ − {w d,cv }⊤ )c s̄ ,
+
+(47)
+
+If we assume that the probability of a vehicle being a CV follows a Bernoulli distribution across the
+cv ) = π > 0, then we have
+network, i.e., Pr(v ∈ Vi,o
+wd ) = Eρ (t) (w
+wd,cv )
+πEρ (t) (w
+by assuming βv and τv are independent (Tan et al., 2025b).
+Then, we have
+1 ρ (t)
+E ({w d,cv }⊤ (I − r )c s ∗ )
+π
+1
+= Eρ (t) (({w u,cv }⊤ − {w d,cv }⊤ r )c s ∗ − ({w u,cv }⊤ − {w d,cv }⊤ )c s ∗ )
+π
+
+Eρ (t) ({w d }⊤ (I − r )c s ∗ ) =
+
+(48)
+
+16
+
+Tan et al.– Transit-MP
+
+≥
+
+1 ρ (t)
+wd,cv }⊤ (II − r )cc s̄ − ({w
+wu,cv }⊤ − {w
+wd,cv }⊤ )cc(ss∗ − s̄ )).
+E ({w
+|
+{z
+}
+π
+
+(49)
+
+χ1
+
+Back to η1 , according to Definition 1, there exists a positive ε that makes a − (I − r )c s̄ ⪯ −ε1 , then
+we have
+
+
+η1 =Eρ (t) {w d }⊤ a − {w d }⊤ (I − r )c s ∗
+
+
+1
+= Eρ (t) {w d,cv }⊤ a − π{w d }⊤ (I − r )c s ∗
+π
+
+ 1
+1
+≤ Eρ (t) {w d,cv }⊤ a − {w d,cv }⊤ (I − r )c s̄ + Eρ (t) (χ1 )
+π
+π
+ 1
+1 ρ (t)  d,cv ⊤
+= E
+{w } (a − (I − r )c s̄ ) + Eρ (t) (χ1 )
+π
+π
+1
+1 ρ (t)
+ρ (t)
+d,cv ⊤
+w } 1) + E (χ1 )
+≤ − ε E ({w
+π
+π
+1 ρ (t)
+ρ (t)
+d ⊤
+≤ − ε E ({w } 1 ) + E (χ1 )
+(50)
+π
+Note that, if the same weights are used for upstream and downstream movement states for pressure
+calculation, like Q-MP (Varaiya, 2013), D-MP (Liu and Gayah, 2022), and CV-MP (Tan et al., 2025b),
+χ1 = 0. This suggests that our stability proof is more generalized. Specifically, in our cases,
+(
+≤ wu,cv
+d,cv
+i,o (t) (i, o) ∈ MN
+0 ≤ wu,cv
+(t)
+−
+w
+(t)
+(51)
+i,o
+i,o
+= 0 (i, o) ∈ MF
+Obviously, for the second term of η1 we have
+1
+1
+1 ρ (t)
+E (χ1 ) ≤ Eρ (t) (({w u,cv }⊤ − {w d,cv }⊤ )c s ∗ ) ≤ Eρ (t) (({w u,cv }⊤ − {w d,cv }⊤ )c )
+π
+π
+π
+Z Li
+X
+1
+1 X u,max max
+≤
+Eρ (t) (c
+τ u (x,t)ρ cv (x,t)dx) ≤
+cτ
+Li ρ
+≜ K5 .
+π
+π
+0
+MN
+
+(52)
+
+MN
+
+As for the first term of η1 , recall that w d is the vector of wdi,o for all (i, o) ∈ MN ∪F and
+(R
+Li d
+d (t)z (t) (i, o) ∈ M
+τi,o (x,t)ρi,o (x,t)dx = τ̄i,o
+i,o
+N
+d
+0
+wi,o (t) =
+.
+ρi,o (t) = zi,o (t) (i, o) ∈ MF
+d (t) is a nonnegative constant that must exist.
+Here τ̄i,o
+d (t)}
+min{1, {τ̄i,o
+(i,o)∈MN ,τ̄ d (t)>0 } that makes
+
+(53)
+
+Then, there must exist τ min =
+
+i,o
+
+w d ⪰ τ min z ,
+
+(54)
+
+where z is the column vector of zi,o . Then we have
+
+η1 ≤ −ετ min Eρ (t) (z ⊤ 1 ) + K5 = −ετ min Eρ (t) 
+
+
+X
+(i,o)∈MF ∪N
+
+z(i,o) (t) + K5 .
+
+(55)
+
+17
+
+Tan et al.– Transit-MP
+
+In summary, we have
+
+
+ρ (t) dV (ρ (t))
+E
+= δ1 + δ2 + δ3 ≤ K2 + K3 + η1 + η2
+dt
+
+
+
+X
+
+≤ K2 + K3 + K4 + K5 − ετ min Eρ (t) 
+
+z(i,o) (t)
+
+(i,o)∈MF ∪N
+
+
+≜ K − ε ′ Eρ (t) 
+
+
+X
+
+z(i,o) (t) ,
+
+(56)
+
+(i,o)∈MF ∪N
+
+which proves the stability of the network controlled by Transit-MP in partially CV environments based on
+Lemma 3.
+Note that, in Theorem 2, the partially CV environments are restricted to scenarios where CV is
+uniformly distributed, i.e., the penetration rate across the road network is assumed to be identical, which
+maintained the admissible demand region in Definition 1. As demonstrated in Tan et al. (2025b), if CVs are
+heterogeneously distributed across the network, the admissible demand region of CV-based MP controllers
+will be reduced. Similar conclusion applies to Transit-MP, as shown in Appendix B.
+In summary, we demonstrate that Transit-MP, which uses different weights on upstream and downstream movement states for pressure calculation and prioritizes the high-occupancy vehicles while considering the impact of transit stations, can stabilize the road network queue in partially CV environments.
+
+4
+
+Modified Transit-MP for sparse CV environments
+
+Theorem 1 indicates that CV-MP may fail to stabilize the network queues in the case when no CVs are
+observed in the movements of a phase until spillovers. In fact, the theorem applies to all MP controllers
+based only on real-time CV data, including the proposed Transit-MP. In this section, we propose a modified
+Transit-MP, denoted by mTransit-MP, to address this issue. For those movement where real-time CV data
+is not available, we will incorporate historical CV data to provide pressure estimates to modify Transit-MP,
+thus avoiding the unfavorable situation in Theorem 1.
+
+4.1
+
+Estimated movement travel time
+
+When there are no CV observations, the expected arrival rate is first estimated by historical CV data,
+which has been extensively studied by existing research (Zheng and Liu, 2017; Tang et al., 2020; Tan
+et al., 2025e). We will therefore not dive into CV-based arrival rate estimates in this study. Since the
+CV data is sparse, the estimated arrival rate is essentially an average value over a time-of-day period
+for collecting multiple-day CV data. Considering the time-varying nature of traffic flow throughout the
+day, we can estimate an arrival rate for each period, e.g., 15 min or longer, that depends on the available
+CV data, to accommodate traffic flow variations. Besides, in this study, we assume that only CV data is
+available for MP control with TSP. In reality, if there are fixed-location detectors such as loop detectors
+deployed on the link, the expected arrival rate can be directly obtained by detector data.
+
+18
+
+Tan et al.– Transit-MP
+
+With the estimated arrival rate, the corresponding CV penetration rate ψ̂i,o can be further obtained
+ψ̂i,o =
+
+hcv |
+|Vi,o
+
+(57)
+
+λ̂i,o Ttod
+
+where Ttod denotes the time-of-day period. In some studies (Wong et al., 2019; Jia and Wong, 2023), they
+may use CV data to estimate the penetration rate first, and then estimate the arrival rate or traffic volume
+based on the penetration rate, which applies in the following steps of mTransit-MP as well.
+Besides, existing studies have demonstrated that, with even a single CV observed in the queue, the
+real-time queue length can be estimated (Tan et al., 2021b; Li et al., 2017). Combined with upstream
+signal information, such a queue length estimate can be more accurate (Yang and Menendez, 2018). Since
+this is not the focus of this paper, we assume that for those decision steps with CV observation, the queue
+length is estimated based on CVs.
+Given the expected arrival rate λ̂i,o and the corresponding penetration rate ψ̂i,o , we can have an estimate of the movement travel time even though no CVs are observed on the link. Based on the incremental
+queue accumulation (IQA) model (Strong et al., 2006), the real-time queue length at the stopline is calculated as
+Qi,o (t + 1) = Qi,o (t) + Ai,o (t) − Di,o (t),
+
+(58)
+
+where Qi,o denotes the accumulated vehicle at the stopline neglecting the physical length, Ai,o denotes
+the arrived vehicle, and Di,o denotes the departed vehicle. Ai,o (t) is determined by the real-time vehicle
+arrivals and Di,o (t) depends on the signal state.
+Recall that T0 denotes the decision step length of the MP controller, then we have
+Z t
+Z t
+Qi,o (t) = Qi,o (t − T0 ) +
+Ai,o (t)dt −
+Di,o (t)dt,
+t−T0
+
+(59)
+
+t−T0
+
+In expectation, we have
+depart
+E(Qi,o (t)) = max{0, E(Qi,o (t − T0 )) + λ̂i,o T0 − si,o (t − T0 )λi,o
+T0 }.
+
+(60)
+
+depart
+where λi,o
+denotes the expected departure rate at the stopline. In particular, for those moments with
+CVs, the queue length estimated by CVs can be used as a substitute for Qi,o (t − T0 ), which corrects the
+depart
+queue length estimates to avoid accumulated errors due to the error of λ̂i,o and λi,o
+.
+
+By using the IQA model, the spatial distribution of vehicles is ignored; thus, only the travel time of
+accumulated queuing vehicles is considered. For a vehicle v, its link travel time is approximated as
+LT Tv (t) = ET T i,o + Delayv (t),
+
+(61)
+
+where Delayv is the delay of vehicle v by IQA model. Recall that ET T i,o is the expected no-delay travel
+time. Then, the total travel time of the movement, denoted by T T Ti,o , is calculated as
+X
+X
+T T Ti,o (t) =
+LT Tv (t) = ET T i,o Qi,o (t) +
+Delayv (t),
+(62)
+v∈Qi,o (t)
+
+v∈Qi,o (t)
+
+where Qi,o denotes the set of queued vehicles calculated by the IQA model (corresponding to Qi,o ).
+
+Tan et al.– Transit-MP
+
+19
+
+Figure 3: Estimated total delay of vehicles on the link when no CVs are observed.
+P
+The calculation of v∈Qi,o (t) Delayv (t) is illustrated in Fig. 3. Note that since we are calculating the
+total travel time of vehicles on the link, the delay ofP
+those departure vehicles should be excluded. Rather
+than summing the queue length over the period T0 , v∈Qi,o (t) Delayv (t) is calculated as the triangle area
+that corresponds to the delay of vehicles in Qi,o (t). In expectation, we have
+
+
+X
+E(Qi,o (t))2
+.
+(63)
+E
+Delayv (t) =
+2
+λ̂
+i,o
+v∈Q (t)
+i,o
+
+Normalized by expected no-delay travel time ET T i,o , the final movement state for pressure calculation, denoted by τ̂i,o is estimated as
+τ̂i,o =
+
+ψ̂i,o E(T T Ti,o (t))
+ψ̂i,o E(Qi,o (t))2
+,
+= ψ̂i,o E(Qi,o (t)) +
+ET T i,o
+2λ̂i,o ET T i,o
+
+(64)
+
+where E(Qi,o (t)) is estimated by Eq. (60) at each signal decision step. Recall that ψ̂i,o is the estimated
+penetration rate of the movement. τ̂i,o actually represents the normalized link travel time in the context
+of partially CV environments when no CVs are observed on the movement. By multiplying the penetration rate, it can be ensured that all movement pressures are calculated in the context of partially CV
+environments.
+
+4.2
+
+mTransit-MP
+
+Given the estimated movement state τ̂i,o , the mTransit-MP in sparse CV environments is applied by:
+
+
+
+X
+X
+X
+m,p
+
+s ∗ = arg max
+si,o ci,o τi,o
+−
+ro,k τo,k  ,
+(65)
+s ∈S
+
+n∈N
+
+∀(i,o)∈Mn
+
+(o,∀k)∈Mn′
+
+Tan et al.– Transit-MP
+
+20
+
+m,p
+where τi,o
+is the modified upstream travel time incorporating occupancy information, τo,k is the downstream travel time, and
+(
+cv = ∅
+p̂i,o τ̂i,o
+if Vi,o
+m,p
+τi,o
+= P
+,
+(66)
+else
+cv βv pv τv
+v∈Vi,o
+X
+τo,k =
+βv τv .
+(67)
+cv
+v∈Vo,k
+
+In which p̂i,o is the average occupancy of the movement that can be obtained from historical CV data.
+Eq. (66) can be interpreted as that if there are no CVs observed, the movement travel time estimated by
+historical CVs is used as an alternative; otherwise, it uses the real-time CV data. In particular, similar to
+Transit-MP, the upstream average occupancy information p̂i,o , which is estimated using historical data, is
+incorporated to prioritize high-occupancy movements in mTransit-MP.
+
+4.3
+
+Queue starvation immunity of mTransit-MP
+
+Here we define the phenomenon of queue starvation as below:
+Definition 4 (Queue starvation). A movement (i, o) ∈ MN is said to experience queue starvation if, there
+exists a moment t0 with the number of vehicles zi,o (t0 ) > 0, for any t ≥ t0 , the signal state si,o (t) = 0.
+Definition 4 describes a phenomenon where a queue exists for the movement, but the movement can
+no longer receive a green phase. As shown in Figure 4, in sparse CV scenarios, this phenomenon could
+happen if the movement is spillover without any CV observations, thus violating the sufficient condition
+of CV observations in Theorem 1. The proposed Transit-MP, similar to CV-MP, which only uses real-time
+CV data for pressure calculation, may also experience queue starvation in sparse CV environments.
+
+Figure 4: Queue starvation phenomenon due to lack of CV observations.
+According to Theorem 3, after incorporating historical CV data for the modification of pressure
+calculation, the proposed mTransit-MP can effectively avoid the unfavorable case of queue starvation that
+will unstabilize the network queue.
+Theorem 3 (Queue starvation immunity of mTransit-MP). Given the admissible demand region Λ in
+Definition 1, if the exogenous demand a ∈ Λ int , the probability of a network controlled by mTransit-MP
+presented in Eq. (65) experiencing queue starvation is 0 even in sparse CV environments, indicating that
+mTransit-MP is queue starvation immunity.
+
+21
+
+Tan et al.– Transit-MP
+
+Proof. Definition 4 is equivalent to saying that if a movement (i, o) experiences queue starvation, in the
+long term, the average signal state s̄i,o of the movement asymptotes to 0, i.e.,
+t0
+T
+T
+X
+1X
+1 X
+1
+s̄i,o = lim
+si,o +
+si,o = lim (
+si,o ) = lim s̄i,o|≤t0 = 0,
+T →∞ T
+T →∞ T
+T →∞ T
+t=1
+t=1
+t=t +1
+| {z } | 0 {z }
+=s̄i,o|≤t0
+
+(68)
+
+=0
+
+where s̄i,o|<t0 is a constant and s̄i,o|≤t0 ≤ t0 .
+Then, Theorem 3 is equivalent to saying that for ∀(i, o) ∈ MN in the network controlled by mTransitMP, the average signal state s̄i,o asymptotes to a positive constant, i.e.,
+T
+
+1X
+si,o > 0.
+T →∞ T
+
+s̄i,o = lim
+
+(69)
+
+t=1
+
+In other words, we need to prove that such a t0 in Eq. (68) does not exist for any movement (i, o) ∈
+MN under the control of mTransit-MP.
+This can be easily proved by contradiction. Suppose that there exists a t0 such that for any t ≥ t0 , the
+signal state si,o (t) = 0. Then, looking into the modified traffic state of mTransit-MP presented in Eq. (66),
+we have
+(P
+cv ̸= ∅
+if Vi,o
+cv βv (t)pv (t)τv (t)
+v∈Vi,o
+m,p
+τi,o (t) =
+.
+(70)
+cv = ∅
+p̂i,o τ̂i,o (t) if Vi,o
+cv ̸= ∅, as the signal state s (t) = 0 always holds, we have V cv (t ) ⊆ V cv (t), where
+In the case of Vi,o
+i,o
+i,o 0
+i,o
+cv
+Vi,o (t0 ) denotes those CVs on the link at moment t0 . Obviously, we have
+m,p
+τi,o
+(t) =
+
+X
+
+βv (t)pv (t)τv (t) ≥
+
+X
+
+βv (t)pv (t)τv (t),
+
+(71)
+
+cv (t )
+v∈Vi,o
+0
+
+cv (t)
+v∈Vi,o
+
+Note that, if the signal state is always 0 during the period [to ,t], then the link travel time of a CV v at
+t−t0
+moment t is calculated as τv (t) = τv (t0 ) + ET
+. As
+T
+i,o
+
+X
+
+lim
+
+t→∞
+
+βv (t)pv (t)τv (t) = lim
+
+t→∞
+
+cv (t )
+v∈Vi,o
+0
+
+X
+
+βv (t)pv (t)(τv (t0 ) +
+
+cv (t )
+v∈Vi,o
+0
+
+t − t0
+) → ∞,
+ET T i,o
+| {z }
+
+(72)
+
+→∞
+
+m,p
+cv ̸= ∅.
+we have limt→∞ τi,o
+(t) → ∞ in the case of Vi,o
+cv = ∅, i.e., no CV is observed, as s (t) = 0 for t ≥ t , we have
+Regarding the case of Vi,o
+i,o
+0
+Z t
+E(Qi,o (t)) = E(Qi,o (t0 ) +
+Ai,o (t)dt) = Qi,o (t0 ) + (t − t0 )λ̂i,o ,
+
+(73)
+
+t0
+
+which gives
+τ̂i,o (t) = (Qi,o (t0 ) + (t − t0 )λ̂i,o )ψ̂i,o +
+
+(Qi,o (t0 ) + (t − t0 )λ̂i,o )2 ψ̂i,o
+2λ̂i,o ET T i,o
+
+(74)
+
+Tan et al.– Transit-MP
+
+22
+
+based on Eq. (64). Obviously, we have
+lim p̂i,o τ̂i,o (t) → ∞
+
+t→∞
+
+(75)
+
+m,p
+In summary, in both cases, we have limt→∞ τi,o
+(t) → ∞. Then, there must exist a moment t ′ ≥ t0
+that makes the pressure of movement (i, o) exceeding all other movements at the intersection, leading to
+si,o (t ′ ) = 1, which is a contradiction to the supposition that for any t ≥ t0 , the signal state si,o (t) = 0.
+Thereby, such a t0 in Eq. (68) does not exist for any movement (i, o) ∈ MN under the control of mTransitMP, which completes the proof of Theorem 3.
+
+5
+
+Evaluation Results
+
+5.1
+
+Experimental settings
+
+A multi-modal corridor with three signalized intersections in Amsterdam is simulated by SUMO to evaluate the performance of the proposed MP controllers under realistic transit operation scenarios. Within the
+area, 7 tram lines and 8 bus lines are operated between 31 transit stations, which are strategically located
+near intersections or mid-links. The lane and signal phase configuration of three intersections is presented
+in Figure 5. Three types of lanes are included: dedicated lanes for transit vehicles, mixed-use lanes for
+both private cars and transit vehicles, and general lanes for private cars. Movements within a box, indicated
+by arrows, constitute a phase, with arrow colors corresponding to different types of lanes. Specifically,
+within the same phase, trams have the highest priority, followed by buses, with private vehicles yielding
+last. In the Netherlands, transit vehicles emit a warning chime in practice when passing through the intersection, and private vehicles must yield. The MP controller can only activate the corresponding phase at
+each decision step.
+The departure intervals for public transit lines range from 10 minutes to 20 minutes, which are obtained from the published time schedule. To model the occupancy dynamics of transit vehicles, passengers
+with random OD demands are generated to simulate the boarding and alighting process. Similar to Tan
+et al. (2025b), during the three-hour simulation, the background traffic is input based on OD pairs, where
+the two-way main road OD demands (1-5 and 5-1) experience an increasing process and then decrease to
+model the time-varying traffic and test the capability of different controllers. Each experiment is repeated
+three times with different random seeds.
+The following methods are evaluated:
+• OCC-MP (Ahmed et al., 2024b): OCC-MP uses the average upstream occupancy pi,o to weight
+the final movement pressure that is calculated based on the queue length (essentially the number of
+vehicles). To reduce the impact of various link lengths1 , the queue length is actually weighted by
+the reverse of the square root of the link length (Varaiya, 2013). The impact of transit stations is not
+1 Varaiya (2013) offers two approaches to address long-link issues: link-length weighting and link segmentation into equal
+lengths. This paper primarily employs the former for experimentation. Since this is not the focus of this study and to alleviate
+reader concerns, we supplement the segmentation-based results in Appendix C.
+
+23
+
+Tan et al.– Transit-MP
+
+Figure 5: Real-world corridor with multi-modal traffic.
+considered. Specifically, the control policy of OCC-MP is
+
+P
+cv 1
+X
+X
+v∈Vi,o
+
+−
+s ∗ = arg max
+si,o ci,o pi,o  √
+s ∈S
+Li
+n∈N
+
+∀(i,o)∈Mn
+
+P
+X
+
+ro,k
+
+(o,∀k)∈Mn′
+
+cv
+v∈Vo,k
+
+√
+Lo
+
+1
+
+
+
+
+(76)
+
+where only CV data is used in partially CV environments.
+• eOCC-MP: eOCC-MP is the extended version of OCC-MP, which further considers the impact of
+transit stations by introducing parameter βv presented in Eq. (4), i.e.,
+
+P
+
+P
+β
+cv
+β
+cv
+X
+X
+X
+v
+v
+v∈Vo,k
+v∈Vi,o
+
+
+ro,k √
+−
+(77)
+s ∗ = arg max
+si,o ci,o pi,o  √
+s ∈S
+Li
+Lo
+n∈N
+
+∀(i,o)∈Mn
+
+(o,∀k)∈Mn′
+
+• Transit-MP: Transit-MP is the proposed extension of CV-MP controller for transit signal priority, which further incorporates the real-time vehicle occupancy at upstream links and considers the
+impact of transit stations, i.e., Eq. (5).
+• mTransit-MP: mTransit-MP is the proposed modified version of Transit-MP that is specialized for
+sparse CV environments, which can mitigate the queue starvation phenomenon by incorporating
+historical CV data, i.e., Eq. (65).
+The decision step T0 is set to 10 seconds for all MP controllers, with the phase transition period
+consisting of Ty = 3 seconds of yellow time and no red clearance time. Considering the lost time due to
+the phase transition period, the saturated flow rate discount is considered by multiplying (T0 − Ty − Tl )/T0
+when switching phases, where Tl = 1 is the green start-up lost time.
+The following metrics are used to evaluate the performance of different MP controllers:
+• Average vehicle delay (s/veh): the average time loss of vehicles during the network. According to
+vehicle types, we also have CV delay (private car only), NV delay, and transit delay.
+
+Tan et al.– Transit-MP
+
+24
+
+• Average passenger delay (s/veh): the average control delay of passengers taking transit vehicles.
+• Vehicle count (veh): The real-time number of vehicles on the network. With the same traffic load,
+a lower vehicle count indicates a higher operational efficiency. We can use the maximum vehicle
+count to evaluate the overall performance of the controller during the whole simulation.
+• Spillover count (veh): The real-time number of vehicles that are blocked from loading due to
+spillover at source links. Continuous increases in spillover count indicate that the network is unstable as the demand exceeds the capacity. Similarly, we can also use the maximum spillover count
+to evaluate the overall performance of the controller during the whole simulation.
+• Unserved count (veh): If we define the served vehicle as a vehicle that left the network, then the
+unserved vehicle is defined as the sum of the vehicle count and the spillover count. The lower the
+unserved count, the higher the throughput capacity of the controller, as more vehicles are served
+given the same traffic load. The maximum unserved count can also be used to evaluate the overall
+performance of the controller during the whole simulation.
+
+5.2
+
+Performance in fully CV environments
+
+We first test the ideal performance of three MP controllers, i.e., OCC-MP, eOCC-MP, and Transit-MP, in a
+fully CV environment. Note that in such an environment, mTransit-MP is exactly the same as Transit-MP.
+Figure 6 shows that factoring transit-station effects into the controller (eOCC-MP) markedly improves network performance relative to the original OCC-MP. Under the control of eOCC-MP, transit
+vehicle delay falls by 23–30%, yielding a 31.6% reduction in passenger delay, while private car delay also
+drops by 16.9%. Throughput performance also shows improvement. The peaks in vehicle count, spillover
+count, and unserved count are all noticeably lower, indicating better throughput capability once the impact of transit stations is captured. Building on those gains, the proposed transit-prioritized controller,
+Transit-MP, delivers still stronger results. Compared to eOCC-MP, it cuts transit-vehicle delay by a further 5–43%, trimming passenger delay by an additional 17.9%, and lowering private-car delay by another
+21.8%. Throughput benefits are even more pronounced by Transit-MP. The maximum spillover shrinks
+to 5.3 vehicles, which is 94.2% less than eOCC-MP, while the maximum vehicle count and the maximum unserved count also decline sharply. The above results demonstrate the superiority of the proposed
+Transit-MP in smoothing the operation of multi-model traffic networks while maximizing the network
+throughput with mitigated spillovers.
+
+Figure 6: Overall performance of three MP controllers in fully CV environments.
+
+Tan et al.– Transit-MP
+
+25
+
+Figure 7: Real-time throughput performance of three MP controllers in fully CV environments.
+Figure 7 presents the real-time throughput performance throughout the simulation. The vehicle count
+panel shows that the traffic demand builds rapidly during the first 2000 s and peaks between 6000 s and
+8000 s. Among three MP controllers, Transit-MP keeps the number of vehicles in the network lowest,
+topping out at roughly 330 vehicles, while eOCC-MP peaks at around 380 vehicles, and OCC-MP climbs
+to about 450 vehicles. Once demand subsides after 10000 s, Transit-MP also clears the residual vehicles
+in the network fastest. A similar trend appears in the unserved count panel, indicating that Transit-MP
+can better accommodate traffic under the same traffic loading compared to OCC-MP and eOCC-MP. The
+difference is most striking in the spillover count pane. Transit-MP almost eliminates spillovers, whereas
+eOCC-MP reaches modest spikes up to 80 vehicles, and OCC-MP suffers the largest overflows, brief
+surges exceeding 120 vehicles around 9000 s. Taken together, the three panels confirm that factoring
+station effects in MP control can improve multi-modal traffic performance, and the proposed Transit-MP
+yields the most stable and efficient real-time performance, achieving lower in-network vehicles, minimal
+spillover, and faster recovery once the peak has passed.
+The primary reason for the poor performance of OCC-MP in our cases lies in its practice of incorporating vehicles into pressure calculations immediately upon their entry into the link. When dealing with
+longer links, as exemplified in this study, prematurely factoring in vehicles with high occupancy without
+considering their distance from intersections results in granting priority green lights to transit vehicles too
+early. This leads to significant green light wastage, thereby increasing delays and spillovers for vehicles
+in other movements. Additionally, when transit vehicles require station stops along the link, the persistent
+priority assignment of OCC-MP similarly causes green light wastage. For issues arising from excessively
+long links, a feasible improvement involves segmenting the link (Varaiya, 2013; Ahmed et al., 2024b),
+though the optimal segmentation method remains open for discussion. eOCC-MP addresses the second
+issue by accounting for station impacts, effectively preventing priority green light wastage during transit
+vehicle stops at stations and achieving better performance than OCC-MP. Transit-MP, by using vehicle
+travel time as the basis for calculating pressure, accounts for distance from intersections. This allows it to
+better balance transit priority with private vehicle delays, making it less susceptible to the effects of long
+links. Furthermore, by also considering the impact of station stops, Transit-MP allocates green light time
+more reasonably, achieving the best overall performance.
+
+5.3
+
+Performance in partially CV environments
+
+Figure 8 contrasts four controllers, i.e., OCC-MP, eOCC-MP, Transit-MP, and its modified version
+mTransit-MP, over rising CV penetration rates from 10% to 70%. Note that, since we do not specify
+the arrival rate estimator for mTransit-MP, we use the average 30-minute flow rate of the first experiment
+
+Tan et al.– Transit-MP
+
+26
+
+as the arrival rate estimate. In this case, the average arrival rate for the second and third experiments is
+actually with errors, as the input demand varies given different random seeds. As for the real-time queue
+length in Eq. (58), we directly extract it from the simulation. We do this in order to first test the performance of mTransit-MP in the ideal case, and in subsequent sections, we will further test the impact of
+parameter estimation errors.
+
+Figure 8: Overall performance of four MP controllers at different penetration rates.
+Overall, as CV penetration rate rises, all network performance metrics, i.e., average vehicle delay,
+maximum unserved vehicle count, and maximum spillover count, decline almost monotonically. This is
+because, with more CV data, the pressures fed to the MP-based controllers better reflect actual demand,
+allowing them to respond more effectively. Passenger delay, the key transit performance metric, moves
+in the opposite direction. For mTransit-MP, OCC-MP, and eOCC-MP, it increases as the penetration rate
+grows. This is because private vehicles dominate the pressure calculation at higher penetration rate levels;
+transit vehicles receive proportionally less weight and thus enjoy less priority. Note that passenger delay
+results of Transit-MP show a different trend in sparse CV environments when the penetration rate is no
+more than 0.2; it decreases when the penetration rate grows to 0.3. This is due to the fact that in some of
+the experiments in sparse CV scenarios, significant spillover occurs at some links due to the more extreme
+CV distributions, resulting in an overall degradation of the road network performance. OCC-MP and
+eOCC-MP experience spillover in all penetration rate scenarios, so the trend is consistent; mTansitMP
+almost mitigates spillover in sparse CV scenarios, so the trend is also consistent.
+Across all penetration rates, the same performance hierarchy holds. OCC-MP consistently performs
+the worst. Factoring transit station effects in pressure calculation helps eOCC-MP narrow the gap, improving both network and transit performance. Even so, the two proposed MP controllers, Transit-MP and
+mTransit-MP, outperform the others on every measure and are notably less sensitive to penetration rate
+changes, which confirms the superiority of the proposed method.
+
+Tan et al.– Transit-MP
+
+27
+
+When the penetration rate reaches 0.5, the performance difference between Transit-MP and mTransitMP virtually disappears. At this point, it is rare for a short link to have no observed CVs, so Transit-MP
+almost has no spillover, and the modification mechanism unique to mTransit-MP is seldom triggered. As
+shown in Figure 9, at 0.5 penetration rates, the real-time performance of Transit-MP and mTransit-MP has
+no significant difference.
+
+Figure 9: Real-time performance of mTransit-MP at a 0.5 penetration rate.
+In sparse CV environments (0.1 and 0.2 penetration rates), however, short links can suffer spillovers
+when no CVs are observed for Transit-MP and eOCC-MP, sharply increasing the vehicle delay, unserved
+count, and spillover count compared to mTransit-MP. By leveraging historical traffic data, mTransit-MP
+prevents these spillovers, maintaining network performance under low penetration rate conditions.
+
+5.4
+
+Detailed performance in sparse CV environments
+
+Figure 10 compares three MP controllers, eOCC-MP, Transit-MP, and mTransit-MP, under a sparse CV environment (0.1 penetration). In terms of vehicle count, the three controllers show insignificant differences
+for most of the time. Overall, mTransit-MP maintains the lowest count, Transit-MP is slightly higher, and
+eOCC-MP performs the worst. Nevertheless, after roughly 9000 seconds, the vehicle count of eOCC-MP
+rises sharply.
+A closer look at spillover behavior explains this phenomenon. eOCC-MP begins accumulating
+spillover vehicles almost from the early stage of simulation, which is a clear sign of the queue starvation phenomenon. Because in our simulation, any vehicle waiting more than 1000 s will be teleported
+downstream to prevent permanent gridlock, the spillover backlog finally clears once demand on competing links subsides; hence the sudden increase in vehicle count after 9000 s. Transit-MP also experiences
+spillovers, but only intermittently. In Experiment 2, where demand is higher, these spillover episodes last
+longer. By contrast, mTransit-MP, which is augmented with historical traffic data for modification, greatly
+suppresses both the frequency and duration of spillovers, demonstrating the benefit of its modification
+mechanism in CV data-sparse conditions.
+The unserved vehicle counts provide a more intuitive view of the effectiveness of each controller in
+maximizing throughput in sparse CV environments. Consistent with vehicle count and spillover count,
+mTransit-MP is the most efficient, Transit-MP follows, and eOCC-MP remains a distant third.
+
+Tan et al.– Transit-MP
+
+28
+
+Figure 10: Real-time performance of mTransit-MP in sparse CV environments.
+
+5.5
+
+Impact of parameter estimation errors
+
+Recall that we use the accurate parameters, i.e., arrival rate λ̂i,o and queue length Qi,o , for each decision
+step of mTransit-MP in our previous sections to test its performance in the ideal cases. In this section, we
+manually add different estimation errors to the arrival rate and the queue length to test the performance of
+mTransit-MP in more realistic scenarios. The base scenario is experiment 1 at a 0.1 penetration rate.
+This section sets 9 error levels for both the arrival rate and the queue length, ranging from -50% to
+50% with a step of 10%, where negative errors indicate the underestimation and positive errors indicate
+overestimation. Each error level represents the expectation of the error, and the actual error for each
+parameter will be randomly generated within a range of 5% up or down. For example, at -20%, random
+errors are generated between [-25%, -15%]. Repetition experiments are conducted five times with different
+random seeds.
+Table 1 lists the detailed results of mTransit-MP for different error levels. As the absolute error
+increases, the overall performance of mTransit-MP decreases slightly, mainly in the impact on background traffic. When the absolute error is larger, the vehicle delay and the maximum spillover count
+are increased, but the passenger delay is almost unchanged. Comparing the results of over-estimation
+and under-estimation, it can be seen that the increase in vehicle delay and maximum spillover counts
+is greater in the over-estimation scenario than in the under-estimation scenario. However, mTransit-MP
+
+29
+
+Tan et al.– Transit-MP
+
+Table 1: Performance of mTransit-MP with different levels of parameter errors at 0.1 CV penetration rates
+Method
+
+mTransit-MP
+
+Transit-MP
+eOCC-MP
+
+Error level
+
+Vehicle delay
+(s)
+
+Passenger
+delay (s)
+
+Max. spillover
+(veh)
+
+Max. unserved
+(veh)
+
+-50%
+-30%
+-20%
+-10%
+0
+10%
+20%
+30%
+50%
+STD
+
+285.8
+281.2
+281.6
+281.1
+281.0
+279.6
+284.6
+291.0
+285.0
+3.6
+
+31.0
+30.0
+30.1
+29.9
+30.2
+29.9
+30.3
+31.1
+29.9
+0.5
+
+8.4
+12.6
+10.8
+10.0
+10.4
+10.0
+10.4
+11.6
+12.0
+1.3
+
+383.2
+380.4
+373.6
+381.8
+372.4
+372.8
+373.0
+383.0
+380.0
+4.7
+
+–
+–
+
+336.7
+384.4
+
+33.0
+34.8
+
+37
+214
+
+417
+527
+
+still significantly outperforms Transit-MP and eOCC-MP even at high absolute error levels, which again
+proves the necessity and effectiveness of our modification mechanism and that the modification mechanism is relatively robust, i.e., effective even with significant errors. The standard deviation (STD) results
+across different error levels show that the proposed mTransit-MP is insensitive to parameter errors, which
+demonstrates its potential for easy practical applications.
+
+6
+
+Conclusion and Future Work
+
+On the basis of CV-MP (Tan et al., 2025b), we proposed Transit-MP for transit signal priority in partially
+CV environments. To prioritize high-occupancy transit vehicles, the real-time occupancy information of
+CVs at upstream links is incorporated into the pressure calculation. Besides, the impact of transit stations
+is also considered by counting transit vehicles only after they leave the nearest station. The incorporation
+of upstream occupancy information leads to a distinction of traffic state calculation for upstream and
+downstream links, which is the source of our contribution to the stability proof, more generally, and
+inclusive of existing MP controllers. We prove that Transit-MP can guarantee network stability even with
+partially CVs. In addition, considering the queue starvation phenomenon in sparse CV environments,
+i.e., a movement may no longer receive the green phase despite the queue spillover due to the lack of
+CV observations, we proposed modified Transit-MP, i.e., mTransit-MP, that incorporates historical traffic
+information, which has been shown to theoretically avoid this phenomenon that will lead to network
+destabilization.
+Through comprehensive simulation experiments at a real-world multi-modal corridor in Amsterdam
+with multiple tram and bus lines, we found that: 1) considering the impact of transit stations can further
+improve both the background and transit traffic performance, as evidenced by the improved performance
+(17.0% reduction in multi-modal vehicle delays and 31.6% reduction in passenger delays) of the extended
+OCC-MP (i.e., eOCC-MP) with considering transit stations compared with original OCC-MP without
+such a consideration (Ahmed et al., 2024b); 2) Transit-MP significantly outperforms eOCC-MP in various
+
+Tan et al.– Transit-MP
+
+30
+
+penetration rates with reduced transit and private vehicle delay as well as fewer real-time vehicle count and
+spillover count; at 0.2 penetration rates, the multi-modal vehicle delay reduced 21.9% and the maximum
+spillover vehicles reduced 94.3%; this is attributed to transit-MP taking into account the cumulative delay
+of vehicles; 3) mTransit-MP can further reduce spillover vehicles compared with Transit-MP by incorporating historical traffic information for a modification mechanism, especially in sparse CV environments;
+at a 0.1 penetration rate, the spillover vehicle reduced 61.8% along with 14.2% reduction in multi-modal
+vehicle delay and 11.7% reduction in passenger delay; 4) the estimation error of historical traffic information has negligible impacts on mTransit-MP, demonstrating its potential for easy practical applications
+without careful and laborious calibrations. 5) An appropriate link segmentation strategy can enhance the
+performance of MP controllers (See Appendix C).
+In the future, more traffic modes, including bicycles and pedestrians (Liu et al., 2024; Xu et al., 2022)
+need to be considered together, which pose extra challenges on the design of pressure calculation as well
+as the stability of the network. Besides, the utilization of vehicular data for pressure calculation in CVbased MP controllers may impose privacy issues; thus, future work needs to integrate privacy-preserving
+mechanisms with MP controllers to protect the private data of CVs (Tan and Yang, 2024; Tan et al.,
+2025d). Finally, although our sensitivity tests indicate that appropriately segmenting links can improve the
+performance of MP controllers, the optimal segmentation strategies differ across various MP controllers.
+How to segment long links remains worthy of further exploration in both theoretical and experimental
+contexts for MP control.
+
+Acknowledgment
+Chaopeng Tan, Marco Rinaldi, and Hans van Lint would like to acknowledge the financial contribution
+of the EU Horizon Europe Research and Innovation Programme, Grant Agreement No. 101103808 ACUMEN; Hao Liu was supported by the NSF, United States Grant CMMI-2501601.
+
+A
+
+Determination of βv in more intelligent scenarios
+
+In more intelligent scenarios, if the remaining dwell time of the transit vehicle is known, then we can
+determine βv in a more precise manner. At each signal decision step, we let
+
+
+1, if αv = 0,
+βv = 1, if αv = 1, and tvEAT < T0 ,
+(78)
+
+
+EAT
+0, if αv = 1, and tv ≥ T0 .
+where T0 denotes the signal decision step length for MP control, and tvEAT is the expected arrival time of
+the transit vehicle v. Note that there are many existing studies focused on the estimation of tvEAT (Tan et al.,
+2008; Cvijovic et al., 2022). For the sake of methodological integrity, here we provide a simple estimate:
+(
+Lts −xv
+dwell + L−Lts + θ , if x ≤ L
+v
+ts
+ϕ max + Tv
+ϕ max
+.
+(79)
+tvEAT = L−x
+v
++
+θ
+,
+if
+x
+>
+L
+max
+v
+ts
+ϕ
+where ϕ max denotes the maximum speed; Tvdwell denotes the remaining dwell time, which is assumed to
+be known if the system is intelligent enough; θ is a buffer value to compensate for the acceleration and
+
+31
+
+Tan et al.– Transit-MP
+
+deceleration process. In the case of xv ≤ Lts , i.e., the transit vehicle is on the upstream of the station or
+L−Lts
+ts
+dwelling in the station, xϕv −L
+max and ϕ max calculates the period arriving the station and the period leaving
+for stopline, respectively. In more complex scenarios with mixed private and public traffic, some methods
+also take into account the impact of residual queues for tvEAT estimation (Liang et al., 2023). Since this is
+not the focus of our method, we will not discuss it further here.
+
+B
+
+Stability of Transit-MP in heterogeneously distributed CV environments
+
+Theorem 4 (Stability of Transit-MP in heterogeneously distributed CV environments). Given the reduced
+min
+admissible demand region Λ ′ = {a | a ⪯ ξξ max (I − r )c s̄ , ∃s̄ ∈ S co } and Λ ′ ⊆ Λ , if the exogenous demand
+′
+
+a ∈ Λ int (the interior of Λ ′ ), the proposed Transit-MP presented in Eq. (5) (or Eq. (10) in density form)
+can strongly stabilize the traffic network queues in heterogeneously distributed CV environments.
+Proof. The first part for proving Theorem 4 is identical to Theorem 2, diverging after Eq. (47).
+According to Tan et al. (2025b), if we assume that the probability of a vehicle being a CV follows a
+cv ) = π > 0, where π can vary across different movements, then
+Bernoulli distribution, i.e., Pr(v ∈ Vi,o
+i,o
+i,o
+we have
+π min Eρ (t) (w d ) ⪯ Eρ (t) (w d,cv ) ⪯ π max Eρ (t) (w d )
+
+(80)
+
+where π min and π max are two constants determined by the penetration rates π(i,o) with (i, o) ∈ MN ∪F
+across the network.
+Based on Eq. (7), we have the original pressure for each movement is non-negative, i.e., {{w d }⊤ (I −
+r )c s ∗ }∀(i,o)∈MN ≥ 0, then we have
+Eρ (t) ({w d }⊤ (I − r )c s ∗ ) ≥
+=
+≥
+
+1
+π max
+1
+π max
+1
+π max
+
+Eρ (t) ({w d,cv }⊤ (I − r )c s ∗ )
+Eρ (t) (({w u,cv }⊤ − {w d,cv }⊤ r )c s ∗ − ({w u,cv }⊤ − {w d,cv }⊤ )c s ∗ )
+Eρ (t) ({w d,cv }⊤ (I − r )c s̄ − ({w u,cv }⊤ − {w d,cv }⊤ )c (s ∗ − s̄ )). (81)
+|
+{z
+}
+χ1
+
+Back to η1 , according to the definition of the reduced admissible region, there exists a positive ε that
+min
+makes a − ππmax (I − r )c s̄ ⪯ −ε1 , then we have
+
+
+η1 =Eρ (t) {w d }⊤ a − {w d }⊤ (I − r )c s ∗
+≤
+
+1
+π min
+
+Eρ (t) ({w d,cv }⊤ a − π min {w d }⊤ (I − r )c s ∗ )
+
+π min d,cv ⊤
+1
+ρ (t)
+d,cv ⊤
+E
+({w
+}
+a
+−
+{w } (I − r )c s̄ ) + max Eρ (t) (χ1 )
+min
+max
+π
+π
+π
+
+
+min
+1
+π
+1
+wd,cv }⊤ (aa − max (II − r )cc s̄ ) + max Eρ (t) (χ1 )
+≤ min Eρ (t) {w
+π
+π
+π
+
+≤
+
+1
+
+32
+
+Tan et al.– Transit-MP
+
+≤−
+
+1
+
+π
+
+wd,cv }⊤ 1) +
+εEρ (t) ({w
+min
+
+≤ − εEρ (t) ({w d }⊤ 1 ) +
+
+1
+π max
+
+1
+π max
+
+Eρ (t) (χ1 )
+
+Eρ (t) (χ1 )
+
+(82)
+
+Note that, if the same weights are used for upstream and downstream movement states for pressure
+calculation, like Q-MP (Varaiya, 2013), D-MP (Liu and Gayah, 2022), and CV-MP (Tan et al., 2025b),
+χ1 = 0. This suggests that our stability proof is more generalized. Specifically, in our cases,
+(
+≤ wu,cv
+d,cv
+i,o (t) (i, o) ∈ MN
+(83)
+0 ≤ wu,cv
+(t)
+−
+w
+(t)
+i,o
+i,o
+= 0 (i, o) ∈ MF
+Obviously, for the second term of η1 we have
+1
+
+π
+
+1 ρ (t)
+ρ (t)
+u,cv ⊤
+d,cv ⊤
+∗
+E
+(({w
+}
+−
+{w
+}
+)c
+s
+)
+≤
+E (({w u,cv }⊤ − {w d,cv }⊤ )c )
+max
+max
+π
+π
+Z Li
+1 X ρ (t)
+1 X u,max max
+≤ max
+E (c
+τ u (x,t)ρ cv (x,t)dx) ≤ max
+cτ
+Li ρ
+≜ K5 . (84)
+π
+π
+0
+
+Eρ (t) (χ1 ) ≤
+max
+
+1
+
+MN
+
+MN
+
+The remainder of the proof, starting from Eq. (52), is identical to Theorem 2.
+
+C
+
+Impact of link segmentation
+
+As we discussed in Section 5.2, including all vehicles directly on the link in pressure calculations may
+cause premature inclusion of vehicles on long links, resulting in wasted green time, particularly when
+prioritizing vehicles with high occupancy. Therefore, this section will test the effects of several link
+segmentation strategies on MP controllers in fully CV environments. The segmentation strategies vary by
+the length of the links and the decision steps used. S0 uses the actual link length with no segmentation
+(default no segmentation), S1 segments links based on the shortest link length (about 90 m), while S2-S5
+segment links based on decision steps, ranging from the travel distance of free-flow vehicles during one
+decision step (S2) to multiples of decision steps (S3-S5), with S2 at 140 m, S3 at 280 m, S4 at 420 m, and
+S5 at 560 m. Note that when segmenting the links, we only change the set of vehicles used to calculate
+pressure, without recalculating the state of the vehicles. The vehicle delay in this section is corrected by
+considering the time loss of spillover vehicles.
+Fig. 11 presents the performance of three MP controllers, i.e., Transit-MP, OCC-MP, and eOCCMP, under various link segmentation strategies. It can be observed that different MP controllers exhibit
+distinct preferences for link segmentation strategies. Transit-MP performs best at S3 (420m) and even
+surpasses no segmentation (S0, with actual links longer than 900 m). Without segmentation, all vehicles
+on a long link influence pressure, even those far from the stop line; Transit-MP, using travel time as the
+basis for pressure calculation does discount distant vehicles, but including extremely long upstream tails
+does not improve control. Conversely, overly short segments (S1, 90 m) fragment queues and reduce
+inter-movement travel-time contrast inside segments, causing the controller to misread relative pressures.
+S3 can effectively cover vehicle queues and exclude the impact of upstream tail vehicles most of the time,
+providing a more accurate reflection of road traffic conditions and thus delivering superior performance.
+
+Tan et al.– Transit-MP
+
+33
+
+It is worth emphasizing that Transit-MP consistently avoids spillovers, underscoring its adaptability to
+various link lengths.
+eOCC-MP outperforms OCC-MP in every scenario because it accounts for transit station effects in
+the pressure calculation. It should be noted that this advantage diminishes as link lengths are segmented
+shorter. This is because in scenarios with shorter links, the green lights wasted by OCC-MP due to transit
+priority can be reduced, thereby weakening the advantage gained from accounting for station impacts. For
+both counted-based controllers, OCC-MP and eOCC-MP, any segmentation strategies (S1–S5) beat S0 on
+delay, with shorter segments generally yielding lower measured delays but substantially more spillovers.
+Mechanistically, when links are segmented into short (S1-S2), queues often extend beyond the segmented
+link boundaries. OCC-MP and eOCC-MP, relying on vehicle counts, tend to allocate green time more
+evenly across movements, which is sub-optimal when long queues concentrate on specific movements. In
+our corridor, this manifests as spillovers, particularly at traffic generation point 5. In S3-S5 with longer
+segmented links, the vehicle counts within segmented links better reflect movement queues, thereby accelerating the dissipation of long queues and reducing spillovers. However, this comes at the cost of allowing
+more vehicles to enter the road network, which increases vehicle delays.
+In summary, when comparing the optimal performance of each MP controller under various segmentation strategies, Transit-MP at S3 (420 m) still outperforms OCC-MP and eOCC-MP at S1/S2 (140 m/280
+m), achieving lower vehicle delays and fewer spillover vehicles.
+
+Figure 11: Performance of MP controllers under various link segmentation strategies.
+
+References
+Ahmed, T., Liu, H., and Gayah, V. V. (2024a). C-mp: A decentralized adaptive-coordinated traffic signal
+control using the max pressure framework. arXiv preprint arXiv:2407.01421.
+
+Tan et al.– Transit-MP
+
+34
+
+Ahmed, T., Liu, H., and Gayah, V. V. (2024b). Occ-mp: A max-pressure framework to prioritize transit
+and high occupancy vehicles. Transportation Research Part C: Emerging Technologies, 166:104795.
+Cao, Y., Tang, K., Sun, J., and Ji, Y. (2021). Day-to-day dynamic origin–destination flow estimation using
+connected vehicle trajectories and automatic vehicle identification data. Transportation Research Part
+C: Emerging Technologies, 129:103241.
+Chen, H., Wu, F., Hou, K., and Qiu, T. Z. (2022). Backpressure-based distributed dynamic route control for connected and automated vehicles. IEEE Transactions on Intelligent Transportation Systems,
+23(11):20953–20964.
+Cvijovic, Z., Zlatkovic, M., Stevanovic, A., and Song, Y. (2022). Conditional transit signal priority for
+connected transit vehicles. Transportation research record, 2676(2):490–503.
+Gregoire, J., Qian, X., Frazzoli, E., De La Fortelle, A., and Wongpiromsarn, T. (2014). Capacity-aware
+backpressure traffic signal control. IEEE Transactions on Control of Network Systems, 2(2):164–173.
+Guo, Q., Li, L., and Ban, X. J. (2019). Urban traffic signal control with connected and automated vehicles:
+A survey. Transportation research part C: emerging technologies, 101:313–334.
+Jia, S. and Wong, W. (2023). Uncertainty estimation of connected vehicle penetration rate. Transportation
+Science, 57(5):1160–1176.
+Kuchár, P., Pirnı́k, R., Janota, A., Malobickỳ, B., Kubı́k, J., and Šišmišová, D. (2023). Passenger occupancy estimation in vehicles: A review of current methods and research challenges. Sustainability,
+15(2):1332.
+Kwesiga, D. K., Guin, A., and Hunter, M. (2025). Analysis of bus dwell times from automated passenger
+count data and the impact of dwell-time variability on the performance of transit signal priority. Public
+Transport, pages 1–23.
+Li, F., Tang, K., Yao, J., and Li, K. (2017). Real-time queue length estimation for signalized intersections
+using vehicle trajectory data. Transportation Research Record, 2623(1):49–59.
+Li, L. and Jabari, S. E. (2019). Position weighted backpressure intersection control for urban networks.
+Transportation Research Part B: Methodological, 128:435–461.
+Liang, S., Leng, R., Zhang, H., and Zhao, J. (2023). Two-stage transit signal priority control method to
+improve reliability of bus operation considering stochastic process. Transportation Research Record,
+2677(2):1713–1727.
+Lin, S., De Schutter, B., Xi, Y., and Hellendoorn, H. (2012). Efficient network-wide model-based predictive control for urban traffic networks. Transportation Research Part C: Emerging Technologies,
+24:122–140.
+Liu, H. and Gayah, V. V. (2022). A novel max pressure algorithm based on traffic delay. Transportation
+Research Part C: Emerging Technologies, 143:103803.
+Liu, H. and Gayah, V. V. (2023). Total-delay-based max pressure: a max pressure algorithm considering
+delay equity. Transportation Research Record, 2677(6):324–339.
+
+Tan et al.– Transit-MP
+
+35
+
+Liu, H. and Gayah, V. V. (2024). N-mp: A network-state-based max pressure algorithm incorporating
+regional perimeter control. Transportation Research Part C: Emerging Technologies, 168:104725.
+Liu, H., Gayah, V. V., and Levin, M. W. (2024). A max pressure algorithm for traffic signals considering
+pedestrian queues. Transportation Research Part C: Emerging Technologies, 169:104865.
+Mercader, P., Uwayid, W., and Haddad, J. (2020). Max-pressure traffic controller based on travel times:
+An experimental analysis. Transportation Research Part C: Emerging Technologies, 110:275–290.
+Neely, M. (2010). Stochastic network optimization with application to communication and queueing
+systems. Springer Nature.
+Strong, D. W., Nagui, R., and Courage, K. (2006). New calculation method for existing and extended
+hcm delay estimation procedure. In Proceedings of the 87th Annual Meeting Transportation Research
+Board.
+Tan, C., Ding, Y., Yang, K., Zhu, H., and Tang, K. (2025a). Connected vehicle data-driven robust optimization for traffic signal timing: Modeling traffic flow variability and errors. IEEE Transactions on
+Intelligent Transportation Systems.
+Tan, C., Sun, D., Liu, H., Rinaldi, M., and van Lint, H. (2025b). Cv-mp: Max-pressure control in heterogeneously distributed and partially connected vehicle environments. arXiv preprint arXiv:2505.05258.
+Tan, C., Wang, Q., Liang, J., and Yang, K. (2025c). A connected vehicle-based contextual stochastic
+optimization model for real-time traffic signal timing. IEEE Transactions on Intelligent Transportation
+Systems.
+Tan, C. and Yang, K. (2024). Privacy-preserving adaptive traffic signal control in a connected vehicle
+environment. Transportation research part C: emerging technologies, 158:104453.
+Tan, C., Yao, J., Ban, X., and Tang, K. (2021a). Cumulative flow diagram estimation and prediction
+based on sampled vehicle trajectories at signalized intersections. IEEE Transactions on Intelligent
+Transportation Systems, 23(8):11325–11337.
+Tan, C., Yao, J., Tang, K., Liang, J., and Yin, G. (2025d). Privacy-preserving cycle-based arrival profile
+estimation based on cross-company connected vehicles. IEEE Transactions on Consumer Electronics.
+Tan, C., Yao, J., Tang, K., and Sun, J. (2021b). Cycle-based queue length estimation for signalized
+intersections using sparse vehicle trajectory data. IEEE Transactions on Intelligent Transportation
+Systems, 22(1):91–106.
+Tan, C., Yao, J., Zhu, H., and Tang, K. (2025e). Robust estimation of traffic arrival rates at signalized
+intersections with sparse internet of vehicles. IEEE Internet of Things Journal.
+Tan, C.-W., Park, S., Liu, H., Xu, Q., and Lau, P. (2008). Prediction of transit vehicle arrival time for
+signal priority control: Algorithm and performance. IEEE Transactions on Intelligent Transportation
+Systems, 9(4):688–696.
+Tang, K., Tan, C., Cao, Y., Yao, J., and Sun, J. (2020). A tensor decomposition method for cycle-based
+traffic volume estimation using sampled vehicle trajectories. Transportation research part C: emerging
+technologies, 118:102739.
+
+Tan et al.– Transit-MP
+
+36
+
+Varaiya, P. (2013). Max pressure control of a network of signalized intersections. Transportation Research
+Part C: Emerging Technologies, 36:177–195.
+Wang, H., Zhu, M., Hong, W., Wang, C., Tao, G., and Wang, Y. (2020). Optimizing signal timing control
+for large urban traffic networks using an adaptive linear quadratic regulator control strategy. IEEE
+Transactions on Intelligent Transportation Systems, 23(1):333–343.
+Wang, X., Jerome, Z., Wang, Z., Zhang, C., Shen, S., Kumar, V. V., Bai, F., Krajewski, P., Deneau, D.,
+Jawad, A., et al. (2024). Traffic light optimization with low penetration rate vehicle trajectory data.
+Nature communications, 15(1):1306.
+Wang, X., Yin, Y., Feng, Y., and Liu, H. X. (2022). Learning the max pressure control for urban traffic networks considering the phase switching loss. Transportation Research Part C: Emerging Technologies,
+140:103670.
+Wong, W., Shen, S., Zhao, Y., and Liu, H. X. (2019). On the estimation of connected vehicle penetration
+rate based on single-source connected vehicle data. Transportation Research Part B: Methodological,
+126:169–191.
+Wu, J., Ghosal, D., Zhang, M., and Chuah, C.-N. (2018). Delay-based traffic signal control for throughput optimality and fairness at an isolated intersection. IEEE Transactions on Vehicular Technology,
+67(2):896–909.
+Xu, T., Barman, S., and Levin, M. W. (2024a). Smoothing-mp: A novel max-pressure signal control
+considering signal coordination to smooth traffic in urban networks. Transportation Research Part C:
+Emerging Technologies, 166:104760.
+Xu, T., Barman, S., Levin, M. W., Chen, R., and Li, T. (2022). Integrating public transit signal priority
+into max-pressure signal control: Methodology and simulation study on a downtown network. Transportation Research Part C: Emerging Technologies, 138:103614.
+Xu, T., Bika, Y., and Levin, M. W. (2024b). Ped-mp: A pedestrian-friendly max-pressure signal control
+policy for city networks. Journal of Transportation Engineering, Part A: Systems, 150(7):04024028.
+Yan, H., He, F., Lin, X., Yu, J., Li, M., and Wang, Y. (2019). Network-level multiband signal coordination
+scheme based on vehicle trajectory data. Transportation Research Part C: Emerging Technologies,
+107:266–286.
+Yang, K. and Menendez, M. (2018). Queue estimation in a connected vehicle environment: A convex
+approach. IEEE Transactions on Intelligent Transportation Systems, 20(7):2480–2496.
+Yao, J., Tan, C., and Tang, K. (2019). An optimization model for arterial coordination control based on
+sampled vehicle trajectories: The stream model. Transportation research part C: emerging technologies, 109:211–232.
+Zaidi, A. A., Kulcsár, B., and Wymeersch, H. (2016). Back-pressure traffic signal control with fixed and
+adaptive routing for urban vehicular networks. IEEE transactions on intelligent transportation systems,
+17(8):2134–2143.
+Zheng, J. and Liu, H. X. (2017). Estimating traffic volumes for signalized intersections using connected
+vehicle data. Transportation Research Part C: Emerging Technologies, 79:347–362.
+
+
