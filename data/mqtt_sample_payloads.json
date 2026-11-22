@@ -1,0 +1,252 @@
+[
+  {
+    "timestamp": "2026-11-22T18:59:45Z",
+    "intersection_id": "269215746",
+    "sensors": [
+      {
+        "sensor_id": "sensor_indutivo_629660074#1_0",
+        "state": "free",
+        "vehicle_speed_kmh": 50.0
+      },
+      {
+        "sensor_id": "sensor_indutivo_629660074#1_1",
+        "state": "free",
+        "vehicle_speed_kmh": 50.0
+      },
+      {
+        "sensor_id": "sensor_indutivo_409615478_0",
+        "state": "free",
+        "vehicle_speed_kmh": 50.0
+      }
+    ],
+    "instantaneous_metrics": {
+      "queue_length_meters": 0.0,
+      "co2_grams_per_second": 0.0
+    }
+  },
+  {
+    "timestamp": "2026-11-22T18:59:47Z",
+    "intersection_id": "269215746",
+    "sensors": [
+      {
+        "sensor_id": "sensor_indutivo_629660074#1_0",
+        "state": "free",
+        "vehicle_speed_kmh": 50.0
+      },
+      {
+        "sensor_id": "sensor_indutivo_629660074#1_1",
+        "state": "free",
+        "vehicle_speed_kmh": 50.0
+      },
+      {
+        "sensor_id": "sensor_indutivo_409615478_0",
+        "state": "free",
+        "vehicle_speed_kmh": 50.0
+      }
+    ],
+    "instantaneous_metrics": {
+      "queue_length_meters": 0.0,
+      "co2_grams_per_second": 0.0
+    }
+  },
+  {
+    "timestamp": "2026-11-22T18:59:49Z",
+    "intersection_id": "269215746",
+    "sensors": [
+      {
+        "sensor_id": "sensor_indutivo_629660074#1_0",
+        "state": "free",
+        "vehicle_speed_kmh": 50.0
+      },
+      {
+        "sensor_id": "sensor_indutivo_629660074#1_1",
+        "state": "free",
+        "vehicle_speed_kmh": 50.0
+      },
+      {
+        "sensor_id": "sensor_indutivo_409615478_0",
+        "state": "occupied",
+        "vehicle_speed_kmh": 0.0
+      }
+    ],
+    "instantaneous_metrics": {
+      "queue_length_meters": 6.5,
+      "co2_grams_per_second": 1.521
+    }
+  },
+  {
+    "timestamp": "2026-11-22T18:59:51Z",
+    "intersection_id": "269215746",
+    "sensors": [
+      {
+        "sensor_id": "sensor_indutivo_629660074#1_0",
+        "state": "free",
+        "vehicle_speed_kmh": 50.0
+      },
+      {
+        "sensor_id": "sensor_indutivo_629660074#1_1",
+        "state": "free",
+        "vehicle_speed_kmh": 50.0
+      },
+      {
+        "sensor_id": "sensor_indutivo_409615478_0",
+        "state": "free",
+        "vehicle_speed_kmh": 50.0
+      }
+    ],
+    "instantaneous_metrics": {
+      "queue_length_meters": 0.0,
+      "co2_grams_per_second": 0.0
+    }
+  },
+  {
+    "timestamp": "2026-11-22T18:59:53Z",
+    "intersection_id": "269215746",
+    "sensors": [
+      {
+        "sensor_id": "sensor_indutivo_629660074#1_0",
+        "state": "free",
+        "vehicle_speed_kmh": 50.0
+      },
+      {
+        "sensor_id": "sensor_indutivo_629660074#1_1",
+        "state": "free",
+        "vehicle_speed_kmh": 50.0
+      },
+      {
+        "sensor_id": "sensor_indutivo_409615478_0",
+        "state": "free",
+        "vehicle_speed_kmh": 50.0
+      }
+    ],
+    "instantaneous_metrics": {
+      "queue_length_meters": 0.0,
+      "co2_grams_per_second": 0.0
+    }
+  },
+  {
+    "timestamp": "2026-11-22T18:59:56Z",
+    "intersection_id": "269215746",
+    "sensors": [
+      {
+        "sensor_id": "sensor_indutivo_629660074#1_0",
+        "state": "free",
+        "vehicle_speed_kmh": 50.0
+      },
+      {
+        "sensor_id": "sensor_indutivo_629660074#1_1",
+        "state": "free",
+        "vehicle_speed_kmh": 50.0
+      },
+      {
+        "sensor_id": "sensor_indutivo_409615478_0",
+        "state": "occupied",
+        "vehicle_speed_kmh": 0.0
+      }
+    ],
+    "instantaneous_metrics": {
+      "queue_length_meters": 6.5,
+      "co2_grams_per_second": 1.521
+    }
+  },
+  {
+    "timestamp": "2026-11-22T18:59:59Z",
+    "intersection_id": "269215746",
+    "sensors": [
+      {
+        "sensor_id": "sensor_indutivo_629660074#1_0",
+        "state": "free",
+        "vehicle_speed_kmh": 50.0
+      },
+      {
+        "sensor_id": "sensor_indutivo_629660074#1_1",
+        "state": "free",
+        "vehicle_speed_kmh": 50.0
+      },
+      {
+        "sensor_id": "sensor_indutivo_409615478_0",
+        "state": "occupied",
+        "vehicle_speed_kmh": 0.0
+      }
+    ],
+    "instantaneous_metrics": {
+      "queue_length_meters": 13.0,
+      "co2_grams_per_second": 3.042
+    }
+  },
+  {
+    "timestamp": "2026-11-22T19:00:02Z",
+    "intersection_id": "269215746",
+    "sensors": [
+      {
+        "sensor_id": "sensor_indutivo_629660074#1_0",
+        "state": "free",
+        "vehicle_speed_kmh": 50.0
+      },
+      {
+        "sensor_id": "sensor_indutivo_629660074#1_1",
+        "state": "free",
+        "vehicle_speed_kmh": 50.0
+      },
+      {
+        "sensor_id": "sensor_indutivo_409615478_0",
+        "state": "free",
+        "vehicle_speed_kmh": 50.0
+      }
+    ],
+    "instantaneous_metrics": {
+      "queue_length_meters": 0.0,
+      "co2_grams_per_second": 0.0
+    }
+  },
+  {
+    "timestamp": "2026-11-22T19:00:05Z",
+    "intersection_id": "269215746",
+    "sensors": [
+      {
+        "sensor_id": "sensor_indutivo_629660074#1_0",
+        "state": "free",
+        "vehicle_speed_kmh": 50.0
+      },
+      {
+        "sensor_id": "sensor_indutivo_629660074#1_1",
+        "state": "free",
+        "vehicle_speed_kmh": 50.0
+      },
+      {
+        "sensor_id": "sensor_indutivo_409615478_0",
+        "state": "occupied",
+        "vehicle_speed_kmh": 6.64
+      }
+    ],
+    "instantaneous_metrics": {
+      "queue_length_meters": 0.0,
+      "co2_grams_per_second": 3.306
+    }
+  },
+  {
+    "timestamp": "2026-11-22T19:00:08Z",
+    "intersection_id": "269215746",
+    "sensors": [
+      {
+        "sensor_id": "sensor_indutivo_629660074#1_0",
+        "state": "free",
+        "vehicle_speed_kmh": 50.0
+      },
+      {
+        "sensor_id": "sensor_indutivo_629660074#1_1",
+        "state": "free",
+        "vehicle_speed_kmh": 50.0
+      },
+      {
+        "sensor_id": "sensor_indutivo_409615478_0",
+        "state": "occupied",
+        "vehicle_speed_kmh": 0.0
+      }
+    ],
+    "instantaneous_metrics": {
+      "queue_length_meters": 13.0,
+      "co2_grams_per_second": 3.041
+    }
+  }
+]
