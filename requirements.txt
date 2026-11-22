@@ -1,0 +1,9 @@
+eclipse-sumo
+traci
+sumolib
+pyproj
+rtree
+pandas
+streamlit
+matplotlib
+paho-mqtt
