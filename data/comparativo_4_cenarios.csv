@@ -1,0 +1,16 @@
+metrica,indicador,unidade,as_is,to_be_1,to_be_2,to_be_3,delta_to_be_1_pct,delta_to_be_2_pct,delta_to_be_3_pct
+active_vehicles_mean,Veículos Ativos (média),veíc,885.7,740.0,862.5,718.7,-16.45,-2.62,-18.86
+active_passengers_mean,Passageiros Equivalentes Ativos (média),pax,18444.0,18507.3,17864.8,17962.3,0.34,-3.14,-2.61
+mean_speed_kmh,Velocidade Média Geral,km/h,24.53,23.06,28.07,26.38,-5.99,14.43,7.54
+passenger_weighted_speed_kmh,Velocidade Média Ponderada por Passageiro,km/h,18.34,18.51,22.62,22.43,0.93,23.34,22.3
+bus_mean_speed_kmh,Velocidade Média dos Ônibus URBS,km/h,17.78,18.19,22.53,22.53,2.31,26.72,26.72
+emergency_mean_speed_kmh,Velocidade Média das Ambulâncias (EVP),km/h,26.63,26.23,30.62,30.98,-1.5,14.98,16.33
+amb_avg_travel_time_s,Tempo Médio de Viagem Ambulância,s,375.0,304.5,298.2,259.0,-18.8,-20.48,-30.93
+halting_vehicles_mean,Veículos Parados em Fila (média),veíc,314.2,269.1,222.7,197.8,-14.35,-29.12,-37.05
+queue_length_m_mean,Comprimento Total de Filas (média),m,2042.1,1749.0,1447.4,1285.9,-14.35,-29.12,-37.03
+co2_total_kg,Emissão Acumulada de CO2,kg,2962.05,2872.34,3155.11,3013.06,-3.03,6.52,1.72
+nox_total_g,Emissão Acumulada de NOx,g,18992.1,19313.3,19743.2,19897.0,1.69,3.95,4.76
+pmx_total_g,Emissão Acumulada de PMx,g,535.57,497.82,537.82,492.79,-7.05,0.42,-7.99
+co2_g_per_pax,Emissão de CO2 por Passageiro,g/pax,160.6,155.2,176.61,167.74,-3.36,9.97,4.45
+co2_g_per_pax_km,Intensidade de Carbono (CO2 por pax·km),g/pax·km,53.16,50.82,47.22,45.26,-4.4,-11.17,-14.86
+noise_leq_mean_dba,Ruído Urbano Médio (Leq FHWA/CoRTN),dB(A),69.61,69.06,69.83,69.33,-0.55,0.22,-0.28

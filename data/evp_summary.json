@@ -1,0 +1,18 @@
+{
+  "as_is": {
+    "ambulances_completed": 3,
+    "amb_avg_travel_time_s": 375.0
+  },
+  "to_be_1": {
+    "ambulances_completed": 2,
+    "amb_avg_travel_time_s": 304.5
+  },
+  "to_be_2": {
+    "ambulances_completed": 5,
+    "amb_avg_travel_time_s": 298.2
+  },
+  "to_be_3": {
+    "ambulances_completed": 3,
+    "amb_avg_travel_time_s": 259.0
+  }
+}
